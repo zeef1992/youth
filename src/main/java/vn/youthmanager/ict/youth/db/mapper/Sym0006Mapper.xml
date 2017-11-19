@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0006Mapper">
+
+	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0006Result">
+		SELECT 	D.REPORT_ID reportId,
+				R.REPORT_NAME reportName,
+				D.DETAIL_REPORT_ID detailReportId,
+		        D.DETAIL_REPORT_NAME detailReportName
+		FROM QLTN_M_DETAIL_REPORT D
+		LEFT JOIN QLTN_M_REPORT R
+		ON D.REPORT_ID = R.REPORT_ID
+		WHERE 1 = 1
+		AND D.DELETE_FLAG = '0' 
+		<if test="reportId != '-2'">
+			AND D.REPORT_ID = #{reportId}
+		</if>
+		<if test="detailReportName != ''">
+			AND D.DETAIL_REPORT_ID LIKE #{detailReportName}
+		</if>
+		ORDER BY D.DETAIL_REPORT_ID
+		LIMIT #{fromRow},#{itemCount}
+	</select>
+
+	<select id="getSingleData" parameterType="vn.youthmanager.ict.common.db.model.QltnMDetailReport" resultType="vn.youthmanager.ict.common.db.model.QltnMDetailReport">
+		SELECT 	D.REPORT_ID reportId,
+				D.DETAIL_REPORT_ID detailReportId,
+		        D.DETAIL_REPORT_NAME detailReportName
+		FROM QLTN_M_DETAIL_REPORT D
+		WHERE 1 = 1
+		AND D.DELETE_FLAG = '0' 
+		AND D.REPORT_ID = #{reportId}
+		AND D.DETAIL_REPORT_ID = #{detailReportId}
+	</select>
+	<select id="searchReportName" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0006DetailResult">
+		SELECT DISTINCT(R.REPORT_NAME) reportName
+		FROM QLTN_M_DETAIL_REPORT D
+		LEFT JOIN QLTN_M_REPORT R
+		ON R.REPORT_ID = D.REPORT_ID
+		WHERE 1 = 1
+		AND D.DELETE_FLAG = '0' 
+		<if test="reportId != '-2'">
+			AND D.REPORT_ID = #{reportId}
+		</if>
+		<if test="detailReportName != ''">
+			AND D.DETAIL_REPORT_ID LIKE #{detailReportName}
+		</if>
+		ORDER BY D.DETAIL_REPORT_ID
+	</select>
+
+	<select id="getSearchDataTotalCounts" parameterType="map" resultType="java.lang.String">
+		SELECT COUNT(*)
+		FROM QLTN_M_DETAIL_REPORT D
+		LEFT JOIN QLTN_M_REPORT R
+		ON D.REPORT_ID = R.REPORT_ID
+		WHERE 1 = 1
+		<if test="reportId != '-2'">
+			AND D.REPORT_ID = #{reportId}
+		</if>
+		<if test="detailReportName != ''">
+			AND D.DETAIL_REPORT_ID LIKE #{detailReportName}
+		</if>
+		AND D.DELETE_FLAG = '0' 
+		ORDER BY D.DETAIL_REPORT_ID
+	</select>
+
+	<select id="getLastDetailReportId" parameterType="map" resultType="java.lang.String">
+		SELECT DETAIL_REPORT_ID 
+		FROM QLTN_M_DETAIL_REPORT
+		WHERE REPORT_ID != #{reportDefault}
+		ORDER BY DETAIL_REPORT_ID DESC 
+		LIMIT 0,1
+	</select>
+</mapper>

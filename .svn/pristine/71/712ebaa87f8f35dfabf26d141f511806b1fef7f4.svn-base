@@ -1,0 +1,113 @@
+/**
+ * author Nghia Nguyen
+ */
+
+$(document).ready(function(){
+	
+	$(document).on("click", "#btnProcessOfYourSelt", function() {
+		// get row index
+		var personId = $("#personId").val();
+		selectedRowIndex = $(this).attr("name");
+		$(".processOfYourSelt").load(rootPath + "/0047/?personId="+personId);
+		setTimeout(function() {
+			// reset variables
+			// draw table
+			drawResult = drawTable();
+		}, 1000);
+		
+	});
+
+	var d = new Date();
+	var yearNow = d.getYear();
+	var yearArr = [];
+	for (var i = 1970; i > 1970 && i < yearNow; i++) {
+		yearArr.push(i);
+	}
+	$(document).on("dblclick", ".setYear", function() {
+			var width = $(this).width();
+			var optionStr = "<select class = 'cbbChangeText form-control' type = 'text' style = 'width:"+width+";'><option value = "+STATUS_NO_SELECT+"></option>";
+			for (var i = 0; i < yearArr.length; i++) {
+				if (selectedYearStr == yearArr[i]) {
+					optionStr += "<option value = '"+yearArr[i]+"' selected = 'selected'>"+yearArr[i]+"</option>";
+				} else {
+					optionStr += "<option value = '"+yearArr[i]+"'>"+yearArr[i]+"</option>";
+				}
+			}
+		optionStr += "</select>";
+		$(this).html(optionStr);
+	});
+
+	$(document).on("click", "#divBodyProcess > #tblBodyProcess > tr > .filedProcess", function() {
+		var width = $(this).width();
+		if ($(this).text() != "") {
+			$(this).html("<input class = 'changeText' type = 'text' width = '"+width+"' value = '"+$(this).text()+"' />");
+		} else {
+			$(this).html("<input class = 'changeText' type = 'text' width = '"+width+"' />");
+		}
+		$(this).find(".changeText").focus();
+	});
+
+	$(document).on("focusout", "#divBodyProcess > #tblBodyProcess > tr > td.filedProcess", function() {
+		var text = $(this).find(".changeText").val();
+		$(this).text(text);
+	});
+
+	$(document).on("click", "#addProcess", function() {
+		var numberRow = $("#divBodyProcess > #tblBodyProcess > tr").attr("id");
+		// create table starts
+		var tableStringArray = [];
+		var numberRowPlus = numberRow + 1;
+		// row open tag
+		tableStringArray.push("<tr class = 'height34' id='row" + numberRow + "'>");
+		// relation
+		tableStringArray.push("<td class = 'align-center setYear '></td>");
+		// relation
+		tableStringArray.push("<td class = 'align-center setYear'></td>");
+		// relation
+		tableStringArray.push("<td class = 'align-center filedProcess'></td>");
+		// row close tag
+		tableStringArray.push("</tr>");
+		// append all created string to table
+		$("#divBodyProcess > #tblBodyProcess").append(tableStringArray.join(''));
+	});
+
+	// selected Relation
+	var selectedYearStr = "";
+	$(document).on("focusout", ".setYear", function() {
+		var text = $(this).find(".cbbChangeText").val();
+		selectedYearStr = text;
+		$(this).text(text);
+	});
+
+	function drawTable() {
+		// clear table
+		$("#divBodyProcess > #tblBodyProcess").find("tbody").remove();
+		// create table starts
+		var tableStringArray = [];
+		// add tbody open tag
+		tableStringArray.push("<tbody>");
+		for (var i = 0; i < 1; i++) {
+			// row open tag
+			tableStringArray.push("<tr class = 'height34' id='row" + i + "'>");
+			// relation
+			tableStringArray.push("<td class = 'align-center setYear '></td>");
+			// relation
+			tableStringArray.push("<td class = 'align-center setYear'></td>");
+			// relation
+			tableStringArray.push("<td class = 'align-center filed'></td>");
+			// row close tag
+			tableStringArray.push("</tr>");
+		}
+		// add tbody close tag
+		tableStringArray.push("</tbody>");
+		// append all created string to table
+		$("#divBodyProcess > #tblBodyProcess").append(tableStringArray.join(''));
+		// show search result
+		$(".cont-box").removeClass("display-none");
+		$("#divHeadProcess").removeClass("display-none");
+		// fix table header and body when scrolling only the table body
+		fixTable();
+	    // scroll to top of table
+		$("#divBodyProcess").scrollTop(0).scrollLeft(0);
+	}
+});

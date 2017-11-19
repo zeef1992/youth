@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/util
+  http://www.springframework.org/schema/util/spring-util.xsd
+  http://www.springframework.org/schema/security
+  http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	
+  	<bean id="server_setting"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="file:D:/Project/new Project/server_setting.properties" />
+	</bean>
+	<bean id="xml_path"
+		class="vn.youthmanager.ict.common.component.FilePath">
+		<property name="configPath" value="D:/Project/new Project/config.xml" />
+	</bean>
+  	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean>
+
+	<!-- 認証とアクセス制御の設定です -->
+	<sec:http auto-config="true" access-denied-page="/accessdenied">
+		<sec:intercept-url pattern="/autherror*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<sec:intercept-url pattern="/main/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+		<sec:intercept-url pattern="/changePassword/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0003/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0005/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0006/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0009/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0011/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0012/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0018/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0019/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0023/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0025/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/0033/**" access="ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_FULLY"/>
+	    <sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<!-- 認証の設定 -->
+		<sec:form-login login-page="/" username-parameter="j_username"
+			password-parameter="j_password" login-processing-url="/j_spring_security_check"
+			default-target-url="/main/" authentication-failure-url="/autherror" />
+		<sec:logout logout-url="/login" logout-success-url="/"
+			invalidate-session="true" />
+		<sec:anonymous granted-authority="ROLE_ANONYMOUS" />
+	</sec:http>
+
+	<!-- JdbcDaoImplを拡張したUserDetailsServiceの実装クラスの設定 -->
+	<bean id="myUserDetailsService" class="vn.bananavietnam.ict.common.auth.MyUserDetailsService">
+		<property name="dataSource" ref="dataSource" />
+		<!-- use ID and Password to log in -->
+		<property name="usersByUsernameQuery" value="SELECT 	SCR.USERS_ID as id,
+																SCR.USERS_ID as username,
+														        SCR.PASSWORD as password,
+																SCR.SCREEN_ID as screenid,
+																SCR.AUTHORIZATION_TYPE_ID roletype,
+														        SCR.USERS_NAME as userfullname,
+														        1 as enabled
+														FROM
+														((select 	U.USERS_ID,
+																	AC.SCREEN_ID,
+																	ATH.AUTHORIZATION_TYPE_NAME,
+																	ATH.AUTHORIZATION_TYPE_ID,
+																	U.USERS_NAME,
+														            U.DELETE_FLAG,
+														            U.PASSWORD 
+														 from (qltn_m_access_authorization AC
+														INNER JOIN qltn_m_authorization ATH
+														ON AC.ACCESS_AUTHORITY_ID = ATH.ACCESS_AUTHORITY_ID)
+														INNER JOIN qltn_m_users U
+														ON U.AUTHORIZATION_TYPE_ID = ATH.AUTHORIZATION_TYPE_ID)
+														 AS SCR) 
+														 WHERE SCR.DELETE_FLAG = '0'
+														 AND SCR.USERS_ID = ?" />
+		<property name="authoritiesByUsernameQuery" value="select USERS_ID as username, PASSWORD as password, 'ROLE_TYPE' as authority from qltn_m_users where USERS_ID = ?" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    	<property name="dataSource" ref="dataSource"/>
+  	</bean>
+
+	<!-- 認証手形発行所の設定。ログインID/PWの情報をメモリから取得する方法です。SQL文を指定してDBから取得する方法もあります。 -->
+	<sec:authentication-manager>
+		<sec:authentication-provider user-service-ref="myUserDetailsService">
+			<sec:password-encoder hash="md5" />
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+</beans>

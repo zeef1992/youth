@@ -1,0 +1,36 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<script type = "text/javascript">
+	var reportData = ${reportData};
+</script>
+<!-- HTML code -->
+<div id="wrapper">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<spring:message code="Process_of_yourself" />
+		</div>
+	</div>
+	<div class="panel-body">
+		<form class="form-horizontal">
+			<table class="table table-striped" id="divHeadReport">
+				<thead>
+				<col width="100%">
+				<tr>
+					<th class="align-center colr_53BBF4"><b><spring:message code="report_name" /></b></th>
+				</tr>
+				</thead>
+			</table>
+			<div id="divBodyReport">
+				<table id="tblBodyReport" class="table table-striped">
+					<col width="100%">
+					<tr>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>
+

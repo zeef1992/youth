@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0051Mapper">
+
+	<select id="getReportName" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0051Result">
+		SELECT 	REPORT_ID reportId,
+				REPORT_NAME reportName
+		FROM QLTN_M_REPORT
+		WHERE REPORT_ID IN 
+		<foreach item="item" index="index" collection="reportIdStr"
+             open="(" separator="," close=")">
+        #{item}
+    	</foreach>
+	</select>
+</mapper>

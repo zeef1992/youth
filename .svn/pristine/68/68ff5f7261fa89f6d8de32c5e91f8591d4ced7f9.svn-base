@@ -1,0 +1,158 @@
+package vn.youthmanager.ict.youth.controller;
+
+import java.util.List;
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import vn.youthmanager.ict.common.db.model.QltnMCity;
+import vn.youthmanager.ict.common.db.model.QltnMDistrict;
+import vn.youthmanager.ict.common.db.model.QltnMGroups;
+import vn.youthmanager.ict.common.db.model.QltnMSpecialized;
+import vn.youthmanager.ict.common.db.model.QltnMTown;
+import vn.youthmanager.ict.common.db.model.QltnMWards;
+import vn.youthmanager.ict.youth.db.model.Sym0015Result;
+import vn.youthmanager.ict.youth.db.model.Sym0040Contions;
+import vn.youthmanager.ict.youth.service.Sym0040Service;
+
+@Controller
+@RequestMapping(value = "/0040")
+public class Sym0040Controller {
+	
+	@Autowired
+	private Sym0040Service sym0040Service;
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String top(Locale locale, Model model) {
+		sym0040Service.initData(model);
+		return "youth/0040";
+	}
+
+	/**
+	 * Get data for City combobox by Country id
+	 * 
+	 * @param country : data received from client
+	 * @return City data
+	 */
+	@RequestMapping(value = "/getCityDataByCountryId", method = RequestMethod.POST)
+	public @ResponseBody List<QltnMCity> getCityDataByCountryId(@RequestParam(value = "countryId") String countryId) {
+		return sym0040Service.getCityNameByCountryId(countryId);
+	}
+
+	/**
+	 * Get data for District combobox by Country id and cityId
+	 * 
+	 * @param countryId : data received from client
+	 * @param cityId : data received from client
+	 * @return District data
+	 */
+	@RequestMapping(value = "/getDistrictDataByCityId", method = RequestMethod.POST)
+	public @ResponseBody List<QltnMDistrict> getDistrictDataByCityId(@RequestParam(value = "countryId") String countryId,
+			@RequestParam(value = "cityId") String cityId) {
+		return sym0040Service.getDistrictNameByCityId(countryId, cityId);
+	}
+
+	/**
+	 * Get data for Wards combobox by Country id and cityId and DistrictId
+	 * 
+	 * @param countryId : data received from client
+	 * @param cityId : data received from client
+	 * @param districtId : data received from client
+	 * @return Wards data
+	 */
+	@RequestMapping(value = "/getWardsDataByDistrictId", method = RequestMethod.POST)
+	public @ResponseBody List<QltnMWards> getWardsDataByDistrictId(@RequestParam(value = "countryId") String countryId,
+			@RequestParam(value = "cityId") String cityId,@RequestParam(value = "districtId") String districtId) {
+		return sym0040Service.getWardsNameByDistrictId(countryId, cityId, districtId);
+	}
+
+	/**
+	 * Get data for Town combobox by Country id and cityId and DistrictId and wadrsId
+	 * 
+	 * @param countryId : data received from client
+	 * @param cityId : data received from client
+	 * @param districtId : data received from client
+	 * @param wadrsId : data received from client
+	 * @return Town data
+	 */
+	@RequestMapping(value = "/getTownDataByWardsId", method = RequestMethod.POST)
+	public @ResponseBody List<QltnMTown> getTownDataByWardsId(@RequestParam(value = "countryId") String countryId,
+			@RequestParam(value = "cityId") String cityId, @RequestParam(value = "districtId") String districtId,
+			@RequestParam(value = "wardsId") String wardsId) {
+		return sym0040Service.getTownNameByWardsId(countryId, cityId, districtId, wardsId);
+	}
+
+	/**
+	 * Get data for Town combobox by Country id and cityId and DistrictId and wadrsId
+	 * 
+	 * @param countryId : data received from client
+	 * @param cityId : data received from client
+	 * @param districtId : data received from client
+	 * @param wadrsId : data received from client
+	 * @param townId : data received from client
+	 * @return Town data
+	 */
+	@RequestMapping(value = "/getGroupsDataByTownId", method = RequestMethod.POST)
+	public @ResponseBody List<QltnMGroups> getGroupsDataByTownId(@RequestParam(value = "countryId") String countryId,
+			@RequestParam(value = "cityId") String cityId, @RequestParam(value = "districtId") String districtId,
+			@RequestParam(value = "wardsId") String wardsId, @RequestParam(value = "townId") String townId) {
+		return sym0040Service.getGroupsDataByTownId(countryId, cityId, districtId, wardsId, townId);
+	}
+
+	/**
+	 * Get data for Specialized combobox by University id
+	 * 
+	 * @param countryId : data received from client
+	 * @return Town data
+	 */
+	@RequestMapping(value = "/getSpecializedDataByUniversityId", method = RequestMethod.POST)
+	public @ResponseBody List<QltnMSpecialized> getSpecializedDataByUniversityId(@RequestParam(value = "universityId") String universityId) {
+		return sym0040Service.getSpecializedDataByUniversityId(universityId);
+	}
+
+	/**
+	 * Change page to 0015 and transfer data
+	 * @param countryId : countryId received from client
+	 * @param cityId : city's id received from client
+	 * @param districtId : districtId id received from client
+	 * @param townId : townId id received from client
+	 * @return redirect to 0013 and data get from client
+	 */
+	@RequestMapping(value = "/changePage", method = RequestMethod.POST)
+	public String changePage(RedirectAttributes rattrs, @RequestParam(value = "cityId") String cityId,
+			@RequestParam(value = "countryId") String countryId, 
+			@RequestParam(value = "districtId") String districtId,
+			@RequestParam(value = "wardsId") String wardsId,
+			@RequestParam(value = "townId") String townId,
+			@RequestParam(value = "groupsId") String groupsId,
+			@RequestParam(value = "cateId") String cateId,
+			@RequestParam(value = "statusId") String statusId,
+			@RequestParam(value = "identityCard") String identityCard,
+			@RequestParam(value = "personName") String personName,
+			@RequestParam(value = "educationId") String educationId,
+			@RequestParam(value = "universityId") String universityId,
+			@RequestParam(value = "specializedId") String specializedId) {
+		Sym0040Contions sym0040Contions = new Sym0040Contions();
+		sym0040Contions.setCityId(cityId);
+		sym0040Contions.setCountryId(countryId);
+		sym0040Contions.setDistrictId(districtId);
+		sym0040Contions.setWardsId(wardsId);
+		sym0040Contions.setTownId(townId);
+		sym0040Contions.setGroupsId(groupsId);
+		sym0040Contions.setCateId(cateId);
+		sym0040Contions.setStatusId(statusId);
+		sym0040Contions.setIdentityCard(identityCard);
+		sym0040Contions.setPersonName(personName);
+		sym0040Contions.setEducationId(educationId);
+		sym0040Contions.setUniversityId(universityId);
+		sym0040Contions.setSpecializedId(specializedId);
+		rattrs.addFlashAttribute("Sym040PersonData", sym0040Contions);
+		return "redirect:../0041/";
+	}
+}

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0014Mapper">
+
+	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0014Result">
+		SELECT 	W.WARDS_ID wardsId,
+				W.WARDS_CODE wardsCode,
+				W.WARDS_NAME wardsName,
+				W.COUNTRY_ID countryId,
+				CO.COUNTRY_NAME countryName,
+		        W.CITY_ID cityId,
+		        CI.CITY_NAME cityName,
+		        W.DISTRICT_ID districtId,
+		        DI.DISTRICT_NAME districtName
+		FROM
+			QLTN_M_WARDS W
+			LEFT JOIN QLTN_M_COUNTRY CO ON W.COUNTRY_ID = CO.COUNTRY_ID
+		    LEFT JOIN QLTN_M_CITY CI ON W.CITY_ID = CI.CITY_ID
+									 AND W.COUNTRY_ID = CO.COUNTRY_ID
+			LEFT JOIN QLTN_M_DISTRICT DI ON W.DISTRICT_ID = DI.DISTRICT_ID
+		    							AND W.COUNTRY_ID = CO.COUNTRY_ID
+		    							AND W.CITY_ID = CI.CITY_ID
+		WHERE  	1 = 1
+		<if test="countryId != '-2'">
+			AND W.COUNTRY_ID = #{countryId}
+		</if>
+		<if test="cityId != '-2'">
+			AND W.CITY_ID = #{cityId}
+		</if>
+		<if test="districtId != '-2'">
+			AND W.DISTRICT_ID = #{districtId}
+		</if>
+		<if test="wardsCode != ''">
+			AND W.WARDS_CODE LIKE #{wardsCode}
+		</if>
+		<if test="wardsName != ''">
+			AND W.WARDS_NAME LIKE #{wardsName}
+		</if>
+		AND W.DELETE_FLAG = '0'
+		AND CI.DELETE_FLAG = '0'
+		AND CO.DELETE_FLAG = '0'
+		AND DI.DELETE_FLAG = '0'
+		ORDER BY W.WARDS_CODE
+		LIMIT #{fromRow},#{itemCount}
+	</select>
+
+	<select id="getSearchDataTotalCounts" parameterType="map" resultType="java.lang.String">
+		SELECT COUNT(*)
+		FROM
+			QLTN_M_WARDS W
+			LEFT JOIN QLTN_M_COUNTRY CO ON W.COUNTRY_ID = CO.COUNTRY_ID
+		    LEFT JOIN QLTN_M_CITY CI ON W.CITY_ID = CI.CITY_ID
+									 AND W.COUNTRY_ID = CO.COUNTRY_ID
+			LEFT JOIN QLTN_M_DISTRICT DI ON W.DISTRICT_ID = DI.DISTRICT_ID
+		    							AND W.COUNTRY_ID = CO.COUNTRY_ID
+		    							AND W.CITY_ID = CI.CITY_ID
+		WHERE  	1 = 1
+		<if test="countryId != '-2'">
+			AND W.COUNTRY_ID = #{countryId}
+		</if>
+		<if test="cityId != '-2'">
+			AND W.CITY_ID = #{cityId}
+		</if>
+		<if test="districtId != '-2'">
+			AND W.DISTRICT_ID = #{districtId}
+		</if>
+		<if test="wardsCode != ''">
+			AND W.WARDS_CODE LIKE #{wardsCode}
+		</if>
+		<if test="wardsName != ''">
+			AND W.WARDS_NAME LIKE #{wardsName}
+		</if>
+		AND W.DELETE_FLAG = '0'
+		AND CI.DELETE_FLAG = '0'
+		AND CO.DELETE_FLAG = '0'
+		AND DI.DELETE_FLAG = '0'
+	</select>
+
+	<select id="getLastIdWards" parameterType="map" resultType="java.lang.String">
+		SELECT WARDS_ID
+		FROM QLTN_M_WARDS
+		WHERE WARDS_ID != ${wardsIdDefault}
+		ORDER BY WARDS_ID DESC
+		LIMIT 0,1
+	</select>
+</mapper>

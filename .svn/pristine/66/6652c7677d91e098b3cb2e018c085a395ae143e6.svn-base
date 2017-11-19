@@ -1,0 +1,87 @@
+package vn.youthmanager.ict.youth.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import vn.youthmanager.ict.youth.dao.Sym0041Dao;
+import vn.youthmanager.ict.youth.db.model.Sym0016Conditions;
+import vn.youthmanager.ict.youth.db.model.Sym0040Contions;
+import vn.youthmanager.ict.youth.db.model.Sym0041Result;
+
+@Service
+public class Sym0041Service {
+
+	@Autowired
+	private Sym0041Dao sym0041Dao;
+
+	public void initData(Sym0040Contions sym0040Contions, Model model) {
+		// set model Attribute 
+		// category Id
+		model.addAttribute("cateId", sym0040Contions.getCateId());
+		// status Id
+		model.addAttribute("statusId", sym0040Contions.getStatusId());
+		// person Name
+		model.addAttribute("personName", sym0040Contions.getPersonName());
+		// identity Card
+		model.addAttribute("identityCard", sym0040Contions.getIdentityCard());
+		// country Id 
+		model.addAttribute("countryId", sym0040Contions.getCountryId());
+		// city Id
+		model.addAttribute("cityId", sym0040Contions.getCityId());
+		// district Id
+		model.addAttribute("districtId", sym0040Contions.getDistrictId());
+		// wards Id
+		model.addAttribute("wardsId", sym0040Contions.getWardsId());
+		// town Id 
+		model.addAttribute("townId", sym0040Contions.getTownId());
+		// groups Id
+		model.addAttribute("groupsId", sym0040Contions.getGroupsId());
+		// education Id
+		model.addAttribute("educationId", sym0040Contions.getEducationId());
+		// university Id
+		model.addAttribute("universityId", sym0040Contions.getUniversityId());
+		// specialized Id
+		model.addAttribute("specializedId", sym0040Contions.getSpecializedId());
+	}
+
+	public List<Sym0041Result> searchData(Sym0040Contions searchConditions) {
+		List<Sym0041Result> list0041 = new ArrayList<Sym0041Result>();
+		HashMap<String, Object> params = createSearchConditionParams(searchConditions);
+		return list0041;
+	}
+
+	/**
+     * Create search conditions parameters from data received from client
+     * 
+     * @param searchConditions : data received from client
+     * @return HashMap object
+     */
+    private HashMap<String, Object> createSearchConditionParams(Sym0040Contions searchConditions) {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        // country Id
+        params.put("countryId", searchConditions.getCountryId());
+        // city Id
+        params.put("cityId", searchConditions.getCityId());
+        // district Id
+        params.put("districtId", searchConditions.getDistrictId());
+        // wards Id
+        params.put("wardsId", searchConditions.getWardsId());
+        // town Id
+        params.put("townId", searchConditions.getTownId());
+        /*// wards Name
+        params.put("groupsName", searchConditions.getGroupsName().equals("") ? "" : "%" + searchConditions.getGroupsName() + "%");
+        // wards Code
+        params.put("groupsCode", searchConditions.getGroupsCode().equals("") ? "" : "%" + searchConditions.getGroupsCode() + "%");
+        // From parameter
+        params.put("fromRow", Integer.valueOf(searchConditions.getFromRow()));
+        // Number of items in a page
+        params.put("itemCount", Integer.valueOf(searchConditions.getItemCount()));*/
+
+        return params;
+    }
+}

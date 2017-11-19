@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+.wardsinfo-popup {
+	width: 650px;
+	z-index: 999;
+	display: none;
+	position:fixed;
+	background-color: #ffffff;
+}
+.goTo0015 {
+	color: red;
+	font: 14px bold;
+	cursor: pointer;
+	text-decoration: underline;
+}
+#btnSearch {
+	clear: both;
+	margin: auto;
+	width: 100px;
+}
+.height280 {
+	height: 280px;
+}

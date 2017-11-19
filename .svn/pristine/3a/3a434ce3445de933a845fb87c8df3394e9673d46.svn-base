@@ -1,0 +1,233 @@
+dialog_title = Youth Manager
+dialog_ok_button = OK
+dialog_yes_button = Yes
+dialog_no_button = No
+########################################
+# week days definition area
+########################################
+week_day_monday = Monday
+week_day_tuesday = Tuesday
+week_day_wednesday = Wednesday
+week_day_thursday = Thursday
+week_day_friday = Friday
+week_day_saturday = Saturday
+week_day_sunday = Sunday
+
+########################################
+# messages definition area
+########################################
+message_log_out_confirm = Are you sure you want to logout?
+message_error_generic = Error occurred!
+message_error_select = Please select data!
+message_search_result_out_of_memory = The system ran out of memory!
+message_search_result_no_data = Data do not exist!
+message_validate_blank_fields = Please input all necessary information!
+message_validate_wrong_format = Please input correct format!
+message_validate_password_not_match = Confirm password does not match!
+message_validate_password_not_correct = Old password is not correct! 
+message_update_result_successful = Update information successfully!
+message_update_result_failed = Update information failed!
+message_insert_result_successful = Register successfully!
+message_insert_result_duplicated = Primary key violated!
+message_insert_result_config_not_correct = Config file contains incorrect data!
+message_insert_result_failed = Register failed!
+message_delete_confirm = Are you sure you want to delete this information?
+message_delete_result_successful = Delete successfully!
+message_delete_result_failed = Delete failed!
+message_upload_wrong_file_type = Please select a JPG file!
+message_upload_result_failed = Failed to upload file!
+
+########################################
+# define text in items of screens
+########################################
+# language definition in header.jsp
+menu_change_password = Change password
+menu_display_guide = Show guide
+menu_log_out = Log out
+button_task_management = Task Management
+button_contact = Contact
+button_trace = Trace
+button_master_maintenance = Master Maintenance
+
+########################################
+# common definition
+########################################
+# Enable/Disable Flag
+delete_flag = Enable/Disable status
+status_enabled = Enabled
+status_disabled = Disabled
+view = View
+edit = Edit
+delete = Delete
+
+# language definition in login.jsp
+user_id = User ID
+password = Password
+button_login = Login
+
+# language definition in Bnn0001BananaMenu.jsp
+title_banana_menu = System Management
+area_info = Area Information
+bananakind_info = Banana Kind Information
+status_info = Status Information
+
+# language definition in Bnn0002ChangePassword.jsp
+old_password = Old password
+new_password = New password
+new_password_confirm = Confirm new password
+button_change = Change
+
+# language definition in Bnn0003SearchUser.jsp
+necessary_items_note = Necessary items
+title_popup_user_information = User information
+title_user_information_search = Search for user information
+user_name = User Name
+authority_type = Authority Type
+checkbox_authority_system_manager = System Administrator
+checkbox_authority_business_manager = Business Manager
+checkbox_authority_farm_manager = Farm Manager
+checkbox_authority_area_manager = Area Manager
+role_type = Role Type
+button_search = Search
+search_result = Search result:
+en_dis_status = Enabled/Disabled status
+dis_status = Disable status
+status_enabled = Enabled
+status_disabled = Disabled
+note = Note
+button_pager = Go
+button_upload = Upload file
+button_register = Register
+button_add = Add
+button_back = Back
+button_access = Access Authorization Manager
+# language definition in Sym0023.jsp & 0033.jsp
+decentralization_manager = Decentralization Manager
+screen_id = Screen ID
+display_flag = Display
+add_flag = Add
+edit_flag = Edit
+delete_flag = Delete
+reference_flag = Reference
+
+# language definition in 0005.jsp
+title_report_information_search = Search For Report Information
+title_popup_report_information = Report's Informations
+report_name = Report Name
+report_id = Report ID
+
+# language definition in 0006.jsp
+title_detail_report_information_search = Search For Detail Report Information
+title_popup_detail_report_information = Detail Report's Informations
+detail_report_name = Detail Report Name
+
+# language definition in 0009.jsp
+title_category_information_search = Search For Category Information
+title_popup_category_edit_information = Update Category's Informations
+title_popup_category_add_information = Add New Category's Informations
+cate_id = Cate Id
+cate_name = Cate Name
+
+# language definition in 0010.jsp
+title_signature_information_search = Search For Signature Information
+title_popup_signature_edit_information = Update Signature's Informations
+title_popup_signature_add_information = Add New Signature's Informations
+signature_id = Signature Id
+signature_name = Signature Name
+
+# language definition in 0011.jsp
+title_country_information_search = Search For Country Information
+title_popup_country_edit_information = Update Country's Informations
+title_popup_country_add_information = Add New Country's Informations
+country_code = Country Code
+country_name = Country Name
+
+# language definition in 0012.jsp
+title_city_information_search = Search For City Information
+title_popup_city_edit_information = Update City's Informations
+title_popup_city_add_information = Add New City's Informations
+city_code = City Code
+city_name = City Name
+
+# language definition in 0013.jsp
+title_district_information_search = Search For District Information
+title_popup_district_edit_information = Update District's Informations
+title_popup_district_add_information = Add New District's Informations
+district_code = District Code
+district_name = District Name
+
+# language definition in 0014.jsp
+title_wards_information_search = Search For Wards Information
+title_popup_wards_edit_information = Update Wards's Informations
+title_popup_wards_add_information = Add New Wards's Informations
+wards_code = Wards Code
+wards_name = Wards Name
+
+# language definition in 0015.jsp
+title_town_information_search = Search For Town Information
+title_popup_town_edit_information = Update Town's Informations
+title_popup_town_add_information = Add New Town's Informations
+town_code = Town Code
+town_name = Town Name
+
+# language definition in 0016.jsp
+title_groups_information_search = Search For Groups Information
+title_popup_groups_edit_information = Update Groups's Informations
+title_popup_groups_add_information = Add New Groups's Informations
+groups_code = Groups Code
+groups_name = Groups Name
+
+# language definition in 0018.jsp
+title_university_information_search = Search For University Information
+title_popup_university_edit_information = Update University's Informations
+title_popup_university_add_information = Add New University's Informations
+university_code = University Code
+university_name = University Name
+
+# language definition in 0019.jsp
+title_specialized_information_search = Search For Specialized Information
+title_popup_specialized_edit_information = Update Specialized's Informations
+title_popup_specialized_add_information = Add New Specialized's Informations
+specialized_code = Specialized Code
+specialized_name = Specialized Name
+
+# language definition in 0022.jsp
+title_education_information_search = Search For Education Information
+title_popup_education_edit_information = Update Education's Informations
+title_popup_education_add_information = Add New Education's Informations
+education_id = Education Code
+level = Education Name
+
+# language definition in 0025.jsp
+title_criteria_information_search = Search For Criteria Information
+title_popup_criteria_edit_information = Update Criteria's Informations
+title_popup_criteria_add_information = Add New Criteria's Informations
+criteria_id = Criteria Id
+criteria_name = Criteria Name
+
+# language definition in 0040.jsp
+title_person_information_search = Condition Search For Youth
+person_id = Person ID
+person_name = Person Name
+status = Status
+fromYear = From Year
+fromTo = From To
+identity_card = Identity Card
+button_clear = Clear
+kskquan_stt = KSKQuan_STT
+lltn_stt = LLTN_STT
+name = name
+dateOfBirth = Date Of Birth
+monthOfBirth = Month Of Birth
+yearOfBirth = Year Of Birth
+placeOfBirth = Place Of Birth
+native_country = Native Country
+nation = Nation
+religion = Religion
+permanent_address = Permanent Address
+temporary_residence_address	 = Temporary Residence Address
+national = National	
+element = Element
+graduation_year = Graduation Year
+job_id = Job Id
+work_place = Work Place

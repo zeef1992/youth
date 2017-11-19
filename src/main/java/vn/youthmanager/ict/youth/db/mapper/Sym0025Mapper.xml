@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0025Mapper">
+
+	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0025Result">
+		SELECT 	R.REPORT_ID reportId,
+				R.REPORT_NAME reportName,
+				D.DETAIL_REPORT_ID detailReportId,
+				D.DETAIL_REPORT_NAME detailReportName,
+				C.CRITERA_ID criteraId,
+				C.CRITERA_NAME criteraName
+		FROM qltn_m_critera C
+		LEFT JOIN qltn_m_report R ON C.REPORT_ID = R.REPORT_ID
+		LEFT JOIN qltn_m_detail_report D ON D.DETAIL_REPORT_ID = C.DETAIL_REPORT_ID
+		where 1 =1
+		<if test="criteraName != ''">
+			AND CRITERA_NAME like #{criteraName}
+		</if>
+		<if test="reportId != '-2'">
+			AND C.REPORT_ID = #{reportId}
+		</if>
+		<if test="detailReportId != '-2'">
+			AND C.DETAIL_REPORT_ID = #{detailReportId}
+		</if>
+		AND C.DELETE_FLAG = '0'
+		ORDER BY C.CRITERA_NAME
+		LIMIT #{fromRow},#{itemCount}
+	</select>
+
+	<select id="getSearchDataTotalCounts" parameterType="map" resultType="java.lang.String">
+		SELECT 	COUNT(*)
+		FROM qltn_m_critera C
+		LEFT JOIN qltn_m_report R ON C.REPORT_ID = R.REPORT_ID
+		LEFT JOIN qltn_m_detail_report D ON D.DETAIL_REPORT_ID = C.DETAIL_REPORT_ID
+		where 1 =1
+		<if test="criteraName != ''">
+			AND CRITERA_NAME like #{criteraName}
+		</if>
+		<if test="reportId != '-2'">
+			AND C.REPORT_ID = #{reportId}
+		</if>
+		<if test="detailReportId != '-2'">
+			AND C.DETAIL_REPORT_ID = #{detailReportId}
+		</if>
+		AND C.DELETE_FLAG = '0'
+		ORDER BY C.CRITERA_NAME
+	</select>
+
+	<select id="getLastIdCritera" parameterType="map" resultType="java.lang.String">
+		SELECT CRITERA_ID
+		FROM qltn_m_critera
+		WHERE CRITERA_ID != ${criteraIdDefault}
+		ORDER BY CRITERA_ID DESC
+		LIMIT 0,1
+	</select>
+</mapper>

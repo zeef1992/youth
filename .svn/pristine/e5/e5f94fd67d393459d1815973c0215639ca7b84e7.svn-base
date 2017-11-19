@@ -1,0 +1,117 @@
+/**
+ * author Nghia Nguyen
+ */
+
+$(document).ready(function(){
+	
+	$(document).on("click", "#btnNumberOfRelation", function() {
+		// get row index
+		var numberOfRelation = $("#txtNumberOfRelation").val();
+		selectedRowIndex = $(this).attr("name");
+		$(".relationContent").load(rootPath + "/0045/?numberOfRelation="+numberOfRelation);
+		setTimeout(function() {
+			// reset variables
+			// draw table
+			drawResult = drawTable(numberOfRelation);
+		}, 1000);
+		
+	});
+
+	var relationArr = ['Cha', 'Mẹ', 'Anh', 'Chị', 'Em', 'Vợ', 'Con'];
+	$(document).on("dblclick", "tbody > tr > .relation", function() {
+			var width = $(this).width();
+			var optionStr = "<select class = 'cbbChangeText form-control' type = 'text' style = 'width:"+width+";'><option value = "+STATUS_NO_SELECT+"></option>";
+			for (var i = 0; i < relationArr.length; i++) {
+				if (selectedRelationStr == relationArr[i]) {
+					optionStr += "<option value = '"+relationArr[i]+"' selected = 'selected'>"+relationArr[i]+"</option>";
+				} else {
+					optionStr += "<option value = '"+relationArr[i]+"'>"+relationArr[i]+"</option>";
+				}
+			}
+		optionStr += "</select>";
+		$(this).html(optionStr);
+	});
+
+	$(document).on("click", "tbody > tr > .filed", function() {
+		var width = $(this).width();
+		if ($(this).text() != "") {
+			$(this).html("<input class = 'changeText' type = 'text' width = '"+width+"' value = '"+$(this).text()+"' />");
+		} else {
+			$(this).html("<input class = 'changeText' type = 'text' width = '"+width+"' />");
+		}
+		$(this).find(".changeText").focus();
+	});
+
+	$(document).on("focusout", "tbody > tr > td.filed", function() {
+		var text = $(this).find(".changeText").val();
+		$(this).text(text);
+	});
+
+	$(document).on("click", "#addNewRelation", function() {
+		var numberOfRelation = $("#txtNumberOfRelation").val();
+		// create table starts
+		var tableStringArray = [];
+		var numberOfRelationPlus = numberOfRelation + 1;
+		// row open tag
+		tableStringArray.push("<tr class = 'height34' id='row" + numberOfRelationPlus + "'>");
+		// relation
+		tableStringArray.push("<td class = 'align-center relation '></td>");
+		// relation
+		tableStringArray.push("<td class = 'align-center filed'></td>");
+		// relation
+		tableStringArray.push("<td class = 'align-center filed'></td>");
+		// relation
+		tableStringArray.push("<td class = 'align-center filed'></td>");
+		// relation
+		tableStringArray.push("<td class = 'align-center filed'></td>");
+		// row close tag
+		tableStringArray.push("</tr>");
+		// append all created string to table
+		$("#divBody > #tblBody").append(tableStringArray.join(''));
+	});
+	// selected Relation
+	var selectedRelationStr = "";
+	$(document).on("focusout", "tbody > tr > .relation", function() {
+		var text = $(this).find(".cbbChangeText").val();
+		selectedRelationStr = text;
+		$(this).text(text);
+	});
+
+	function drawTable(numberOfRelation) {
+		if (numberOfRelation > 0) {
+			// clear table
+			$("#divBody > #tblBody").find("tbody").remove();
+			// create table starts
+			var tableStringArray = [];
+			// add tbody open tag
+			tableStringArray.push("<tbody>");
+			for (var i = 0; i < numberOfRelation; i++) {
+				// row open tag
+				tableStringArray.push("<tr class = 'height34' id='row" + i + "'>");
+				// relation
+				tableStringArray.push("<td class = 'align-center relation '></td>");
+				// relation
+				tableStringArray.push("<td class = 'align-center filed'></td>");
+				// relation
+				tableStringArray.push("<td class = 'align-center filed'></td>");
+				// relation
+				tableStringArray.push("<td class = 'align-center filed'></td>");
+				// relation
+				tableStringArray.push("<td class = 'align-center filed'></td>");
+				// row close tag
+				tableStringArray.push("</tr>");
+			}
+			// add tbody close tag
+			tableStringArray.push("</tbody>");
+			// append all created string to table
+			$("#divBody > #tblBody").append(tableStringArray.join(''));
+			// show search result
+			$(".cont-box").removeClass("display-none");
+			$("#divHead").removeClass("display-none");
+			// fix table header and body when scrolling only the table body
+			fixTable();
+		    // scroll to top of table
+			$("#divBody").scrollTop(0).scrollLeft(0);
+		}
+	}
+});

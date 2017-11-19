@@ -1,0 +1,33 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+
+<header>
+	<div class="container">
+		<div id="logo"></div>
+		<div id="title"></div>
+		<div id="menu">
+			<div class="col-sm-12">
+				<button type="button" class="btn btn-default">Menu Hệ Thống</button>
+				<button type="button" class="btn btn-default">Tổng Thanh
+					Niên</button>
+				<button type="button" class="btn btn-default">Danh Sách
+					Biểu Mẫu</button>
+				<button type="button" class="btn btn-default">Thiết Lập</button>
+
+			</div>
+		</div>
+		<div class="dropdown">
+			<button class="btn btn-primary dropdown-toggle" type="button"
+				data-toggle="dropdown">
+				Administrator <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a href="#">Đổi Mật Khẩu</a></li>
+				<li><a href="#">Thiết Lập Quyền</a></li>
+				<li><a href="#">Đăng Xuất</a></li>
+			</ul>
+		</div>
+	</div>
+</header>

@@ -1,0 +1,67 @@
+/**
+ * author Nghia Nguyen
+ */
+
+$(document).ready(function(){
+
+	$(document).on("click", ".criteria_row", function() {
+		// get row index
+		var reportCriteria = $(this).attr("reportId");
+		var detailReportCriteria = $(this).attr("detailreportId");
+		alert(reportCriteria + " " + detailReportCriteria);
+
+		// display criteria info popup
+		$("#overlay2").show();
+		$.ajax({
+			url: "../0051/getCriteria",
+			type: "POST",
+			data: { "reportId": reportCriteria,
+					"detailReportId" : detailReportCriteria
+			},
+			success: function(returnJsonData) {
+				if (checkSessionTimeout(returnJsonData) == 1) return;
+				if (returnJsonData.length == 0) {
+					// display error message
+					jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				}
+					// clear table
+					$("#divBodyCriteria > #tblBodyCriteria").find("tbody").remove();
+					// create table starts
+					var tableStringArray = [];
+					// add tbody open tag
+					tableStringArray.push("<tbody>");
+					for (var i = 0; i < returnJsonData.length; i++) {
+						// row open tag
+						tableStringArray.push("<tr class = 'height34' id='row" + i + "'>");
+						// DetailReportName
+						tableStringArray.push("<td reportId = '"+returnJsonData[i].reportId+"' criteriaId = '"+returnJsonData[i].criteraId+"' class = 'criteria_row_selected align-center'>"+returnJsonData[i].criteraName+"</td>");
+						// row close tag
+						tableStringArray.push("</tr>");
+					}
+					// add tbody close tag
+					tableStringArray.push("</tbody>");
+					// append all created string to table
+					$("#divBodyCriteria > #tblBodyCriteria").append(tableStringArray.join(''));
+					// show search result
+					$(".cont-box").removeClass("display-none");
+					$("#divHeadCriteria").removeClass("display-none");
+					// fix table header and body when scrolling only the table body
+					fixTable();
+				    // scroll to top of table
+					$("#divBodyCriteria").scrollTop(0).scrollLeft(0);
+			}
+		});
+		showPopup($("#popupWrapper2"));
+	});
+
+	$(document).on("click", ".criteria_row_selected", function() { 
+		var selectedReportId = $(this).attr("criteriaId");
+		// if row selected has't class bg_FCBE00 then add Class bg_FCBE00
+		if (!$(this).hasClass("bg_FCBE00")) {
+			$(this).addClass("bg_FCBE00");
+		} else { // else remove class bg_FCBE00
+			$(this).removeClass("bg_FCBE00");
+		}
+	});
+
+});

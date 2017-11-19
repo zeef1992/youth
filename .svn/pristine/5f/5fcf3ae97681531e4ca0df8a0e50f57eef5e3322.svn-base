@@ -1,0 +1,17 @@
+package vn.youthmanager.ict.youth.dao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import vn.youthmanager.ict.common.db.mapper.QltnMReportMapper;
+
+@Component
+public class Sym0049Dao {
+
+	@Autowired
+	private QltnMReportMapper qltnMReportMapper;
+
+	public QltnMReportMapper getQltnMReportMapper() {
+		return qltnMReportMapper;
+	}
+}

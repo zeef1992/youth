@@ -1,0 +1,22 @@
+package vn.youthmanager.ict.youth.dao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import vn.youthmanager.ict.youth.db.mapper.Sym0041Mapper;
+
+/**
+ * 
+ * @author nylf1992
+ *
+ */
+@Component
+public class Sym0041Dao {
+
+	@Autowired
+	private Sym0041Mapper sym0041Mapper;
+
+	public Sym0041Mapper getSym0041Mapper() {
+		return sym0041Mapper;
+	}	
+}

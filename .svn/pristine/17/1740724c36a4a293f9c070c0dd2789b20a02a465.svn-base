@@ -1,0 +1,471 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+
+<!DOCTYPE html>
+<tiles:insertDefinition name="defaultTemplate">
+	<tiles:putAttribute name="body">
+		<!-- HTML code -->
+		<div id="wrapper">
+			<div class="panel panel-default">
+			  <div class="panel-heading">Menu Quản Lý Hệ Thống
+			  	
+			  </div>
+			  <div class="panel-body">
+			  <div class="dropdown">
+					<button class="btn btn-primary dropdown-toggle" type="button"
+						data-toggle="dropdown">
+						ALL <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="#">Mẫu Báo Cáo & Thanh Niên</a></li>
+						<li><a href="#">Hệ Thống TP/P.</a></li>
+						<li><a href="#">Hệ Thống Quản Lý Trình Độ</a></li>
+					</ul>
+				</div>
+			  	<div class="col-sm-12">
+			  	<div class="clearfix mt_10"></div>
+			  		<div class="row">
+			  			<div id="user" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Manager</div>
+								  <div class="panel-body">
+								  	<div class="col-sm-12">
+								  		<div class="col-sm-5">
+								  			<button type="button" class="btn btn-default btn-lg center">
+												<img alt="User" src="${pageContext.request.contextPath}/resources/img/image_user.jpg">
+											</button>
+								  		</div>
+								  		<div class="col-sm-7">
+								  			  <span class="label label-success">Tìm Kiếm Manager</span><br>
+											  <span class="label label-success">Thêm mới thông tin Manager</span><br>
+											  <span class="label label-success">Chỉnh sữa thông tin Manager</span><br>
+											  <span class="label label-success">Xóa thông tin Manager</span><br>
+								  		</div>
+								  	</div>
+								</div>
+							</div>
+				  		</div>
+				  		<div id="authorization" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Thiết Lập Quyền Hạn Cho Manager</div>
+							  	<div class="panel-body">
+								  	<div class="col-sm-12">
+									  		<div class="col-sm-5">
+									  			<button type="button" class="btn btn-default btn-lg center">
+													<img alt="User" src="${pageContext.request.contextPath}/resources/img/database-settings-icon.png">
+												</button>
+									  		</div>
+									  		<div class="col-sm-7">
+									  			  <span class="label label-success">Tìm Kiếm Thông Tin Màn Hình</span><br>
+												  <span class="label label-success">Thêm Mới Quyền Hạn Manager</span><br>
+												  <span class="label label-success">Chỉnh Sữa Quyền Hạn Manager</span><br>
+												  <span class="label label-success">Xóa Quyền Hạn Manager</span><br>
+									  		</div>
+									</div>
+								</div>
+							</div>
+				  		</div>
+				  		<div id="persons" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Thanh Niên</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+									  	<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/Kdm-user-male-icon.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Thông Tin Thanh Niên</span><br>
+										<span class="label label-success">Thêm Mới Thanh Niên</span><br>
+										<span class="label label-success">Chỉnh Sữa Thanh Niên</span><br>
+										<span class="label label-success">Xóa Thanh Niên</span><br>
+										<span class="label label-success">Xuất thông tin chi tiết Thanh Niên</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+			  		</div>
+			  		<div class="row">
+			  			<div id="category" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Thiết Lập Dạng Thanh Niên</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/category-icon.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Thông Tin Thanh Niên</span><br>
+										<span class="label label-success">Thêm Mới Thanh Niên</span><br>
+										<span class="label label-success">Chỉnh Sữa Thanh Niên</span><br>
+										<span class="label label-success">Xóa Thanh Niên</span><br>
+										<span class="label label-success">Xuất thông tin chi tiết Thanh Niên</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div  id="report"  class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Biểu Mẫu Báo Cáo</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/medical-report-icon.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Biểu Mẫu Báo Cáo</span><br>
+										<span class="label label-success">Thêm Mới Biểu Mẫu Báo Cáo</span><br>
+										<span class="label label-success">Chỉnh Sữa Biểu Mẫu Báo Cáo</span><br>
+										<span class="label label-success">Xóa Biểu Mẫu Báo Cáo</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="note_report" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Ghi Chú Cho Từng Biểu Mẫu</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/Notepad-Bloc-notes-icon.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Ghi Chú</span><br>
+										<span class="label label-success">Thêm Mới Ghi Chú</span><br>
+										<span class="label label-success">Chỉnh Sữa Ghi Chú</span><br>
+										<span class="label label-success">Xóa Ghi Chú</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+			  		</div>
+			  		<div class="row">
+			  			<div id="detail_report" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Chi Tiết Mục Lục Của Biểu Mẫu</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/Actions-view-list-details-icon.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Mục Lục Của Biểu Mẫu</span><br>
+										<span class="label label-success">Thêm Mới Mục Lục Của Biểu Mẫu</span><br>
+										<span class="label label-success">Chỉnh Sữa Mục Lục Của Biểu Mẫu</span><br>
+										<span class="label label-success">Xóa Mục Lục Của Biểu Mẫu</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="criteria" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Tiêu Chí Cho Biểu Mẫu</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/Mimetypes-application-x-qet-element-icon.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Tiêu Chí</span><br>
+										<span class="label label-success">Thêm Mới Tiêu Chí</span><br>
+										<span class="label label-success">Chỉnh Sữa Tiêu Chí</span><br>
+										<span class="label label-success">Xóa Mục Tiêu Chí</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="signature" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Chữ Ký</div>
+							  <div class="panel-body">
+								<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/contract.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Tiêu Chí</span><br>
+										<span class="label label-success">Thêm Mới Tiêu Chí</span><br>
+										<span class="label label-success">Chỉnh Sữa Tiêu Chí</span><br>
+										<span class="label label-success">Xóa Mục Tiêu Chí</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+			  		</div>
+			  		
+			  		<div class="row">
+			  			<div id="nation" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Thông Tin Quốc Tịch</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/Country-icon.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Thông Tin Quốc Tịch</span><br>
+										<span class="label label-success">Thêm Mới Thông Tin Quốc Tịch</span><br>
+										<span class="label label-success">Chỉnh Sữa Thông Tin Quốc Tịch</span><br>
+										<span class="label label-success">Xóa Mục Thông Tin Quốc Tịch</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="city" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Tỉnh/Thành Phố</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/flats.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Tỉnh/Thành Phố</span><br>
+										<span class="label label-success">Thêm Mới Tỉnh/Thành Phố</span><br>
+										<span class="label label-success">Chỉnh Sữa Tỉnh/Thành Phố</span><br>
+										<span class="label label-success">Xóa Mục Tỉnh/Thành Phố</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="district" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Quận/Huyện</div>
+							  <div class="panel-body">
+								<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/Map_District_Plain_Red.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Quận/Huyện</span><br>
+										<span class="label label-success">Thêm Mới Quận/Huyện</span><br>
+										<span class="label label-success">Chỉnh Sữa Quận/Huyện</span><br>
+										<span class="label label-success">Xóa Mục Quận/Huyện</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+			  		</div>
+			  		<div class="row">
+			  			<div id="ward" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Phường/Xã</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/placeholder.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Phường/Xã</span><br>
+										<span class="label label-success">Thêm Mới Phường/Xã</span><br>
+										<span class="label label-success">Chỉnh Sữa Phường/Xã</span><br>
+										<span class="label label-success">Xóa Phường/Xã</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="town" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Khu Phố</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/placeholder_ward.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Khu Phố</span><br>
+										<span class="label label-success">Thêm Mới Khu Phố</span><br>
+										<span class="label label-success">Chỉnh Sữa Khu Phố</span><br>
+										<span class="label label-success">Xóa Mục Khu Phố</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="groups" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Tổ Dân Phố</div>
+							  <div class="panel-body">
+								<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/network.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Tổ Dân Phố</span><br>
+										<span class="label label-success">Thêm Mới Tổ Dân Phố</span><br>
+										<span class="label label-success">Chỉnh Sữa Tổ Dân Phố</span><br>
+										<span class="label label-success">Xóa Mục Tổ Dân Phố</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+			  		</div>
+			  		<div id="education" class="row">
+			  			<div class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Thống Kê Trình Độ Học Vấn</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/mortarboard.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Trình Độ Học Vấn</span><br>
+										<span class="label label-success">Thêm Mới Trình Độ Học Vấn</span><br>
+										<span class="label label-success">Chỉnh Sữa Trình Độ Học Vấn</span><br>
+										<span class="label label-success">Xóa Trình Độ Học Vấn</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="university" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Thống Kê Đại Học/Cao Đẳng/Trung Cấp</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/university.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Đại Học</span><br>
+										<span class="label label-success">Thêm Mới Đại Học</span><br>
+										<span class="label label-success">Chỉnh Sữa Đại Học</span><br>
+										<span class="label label-success">Xóa Đại Học</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="speciall" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Thống Kê Chuyên Ngành</div>
+							  <div class="panel-body">
+								<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/engineer.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Chuyên Ngành</span><br>
+										<span class="label label-success">Thêm Mới Chuyên Ngành</span><br>
+										<span class="label label-success">Chỉnh Sữa Chuyên Ngành</span><br>
+										<span class="label label-success">Xóa Mục Chuyên Ngành</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+			  		</div>
+			  		<div id="family_relative" class="row">
+			  			<div class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Thân Nhân Thanh Niên</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/grandparents-with-child.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Thân Nhân Thanh Niên</span><br>
+										<span class="label label-success">Thêm Mới Thân Nhân Thanh Niên</span><br>
+										<span class="label label-success">Chỉnh Sữa Thân Nhân Thanh Niên</span><br>
+										<span class="label label-success">Xóa Thân Nhân Thanh Niên</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="job" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Quản Lý Công Việc</div>
+							  <div class="panel-body">
+							  	<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/farmer.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Công Việc</span><br>
+										<span class="label label-success">Thêm Mới Công Việc</span><br>
+										<span class="label label-success">Chỉnh Sữa Công Việc</span><br>
+										<span class="label label-success">Xóa Công Việc</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+				  		<div id="local" class="col-sm-4">
+				  			<div class="panel panel-default">
+							  <div class="panel-heading">Thiết Lập Vùng Sinh Sống</div>
+							  <div class="panel-body">
+								<div class="col-sm-12">
+									  <div class="col-sm-5">
+										<button type="button" class="btn btn-default btn-lg center">
+											<img alt="User" src="${pageContext.request.contextPath}/resources/img/map-grid-with-placeholder-interface-symbol.png">
+										</button>
+									  </div>
+									  <div class="col-sm-7">
+									  	<span class="label label-success">Tìm Kiếm Vùng Sinh Sống</span><br>
+										<span class="label label-success">Thêm Mới Vùng Sinh Sống</span><br>
+										<span class="label label-success">Chỉnh Sữa Vùng Sinh Sống</span><br>
+										<span class="label label-success">Xóa Mục Vùng Sinh Sống</span><br>
+									 </div>
+								</div>
+							</div>
+							</div>
+				  		</div>
+			  		</div>
+			  	</div>
+			  </div>
+			</div>
+		</div>
+	</tiles:putAttribute>
+</tiles:insertDefinition>

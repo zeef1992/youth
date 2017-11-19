@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+	<screen-item id = "0001">
+		<screen_id>1</screen_id>
+		<screen_name>0001</screen_name>
+	</screen-item>
+	<screen-item id = "0002">
+		<screen_id>2</screen_id>
+		<screen_name>0003</screen_name>
+	</screen-item>
+	<screen-item id = "0003">
+		<screen_id>3</screen_id>
+		<screen_name>0004</screen_name>
+	</screen-item>
+	<screen-item id = "0004">
+		<screen_id>4</screen_id>
+		<screen_name>0005</screen_name>
+	</screen-item>
+	<screen-item id = "0005">
+		<screen_id>5</screen_id>
+		<screen_name>0006</screen_name>
+	</screen-item>
+	<screen-item id = "0006">
+		<screen_id>6</screen_id>
+		<screen_name>0007</screen_name>
+	</screen-item>
+	<screen-item id = "0007">
+		<screen_id>7</screen_id>
+		<screen_name>0008</screen_name>
+	</screen-item>
+	<screen-item id = "0008">
+		<screen_id>8</screen_id>
+		<screen_name>0009</screen_name>
+	</screen-item>
+	<screen-item id = "0009">
+		<screen_id>9</screen_id>
+		<screen_name>0010</screen_name>
+	</screen-item>
+</screen>

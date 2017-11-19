@@ -1,0 +1,44 @@
+package vn.youthmanager.ict.youth.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import vn.youthmanager.ict.common.cnst.Constants;
+import vn.youthmanager.ict.common.db.model.QltnMReport;
+import vn.youthmanager.ict.common.db.model.QltnMReportExample;
+import vn.youthmanager.ict.youth.dao.Sym0049Dao;
+
+@Service
+public class Sym0049Service {
+
+	@Autowired
+	private Sym0049Dao sym0049Dao;
+
+	ObjectMapper mapper = new ObjectMapper();
+
+	public void initData(Model model) {
+		List<QltnMReport> reportData = new ArrayList<QltnMReport>();
+		// get all data of report with delete flag = 0
+		try {
+			QltnMReportExample qltnMReportExample = new QltnMReportExample();
+			QltnMReportExample.Criteria qltnMReportCriteria = qltnMReportExample.createCriteria();
+			qltnMReportCriteria.andDeleteFlagEqualTo(Constants.DELETE_FLAG_OFF);
+			reportData = sym0049Dao.getQltnMReportMapper().selectByExample(qltnMReportExample);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			reportData = new ArrayList<QltnMReport>();
+		}
+		try {
+			model.addAttribute("reportData", mapper.writeValueAsString(reportData));
+		} catch (Exception ex) {
+			model.addAttribute("reportData", "''");
+		}
+
+	}
+}

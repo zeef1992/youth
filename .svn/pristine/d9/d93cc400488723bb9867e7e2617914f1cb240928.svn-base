@@ -1,0 +1,306 @@
+package vn.youthmanager.ict.youth.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+
+import vn.youthmanager.ict.common.cnst.Constants;
+import vn.youthmanager.ict.common.cnst.LoggerMessage;
+import vn.youthmanager.ict.common.db.model.QltnMReport;
+import vn.youthmanager.ict.common.util.Util;
+import vn.youthmanager.ict.youth.dao.Sym0005Dao;
+import vn.youthmanager.ict.youth.db.model.Sym0005Conditions;
+import vn.youthmanager.ict.youth.db.model.Sym0005Result;
+
+@Service
+public class Sym0005Service {
+
+private static Logger logger = Logger.getLogger(Sym0003Service.class);
+	
+	@Autowired
+	private Sym0005Dao sym0005Dao;
+	
+	// Variables definition
+    PlatformTransactionManager txManager;
+    @Autowired
+    private ApplicationContext appContext;
+    
+
+    /**
+     * Search user in DB based on search conditions received from client
+     * 
+     * @param searchConditions : data received from client
+     * @return List of users data
+     */
+	public List<Sym0005Result> searchData(Sym0005Conditions searchConditions) {
+		List<Sym0005Result> bnn0005ResultList = new ArrayList<Sym0005Result>();
+        HashMap<String, Object> params = createSearchConditionParams(searchConditions);
+        try {
+            logger.info(LoggerMessage.SEARCHING_STRATED);
+            // search starts
+            bnn0005ResultList = sym0005Dao.getSym0005Mapper().searchData(params);
+            logger.info(LoggerMessage.EXECUTION_FINISHED);
+            if (bnn0005ResultList.size() > 0) {
+                // "real" total from search result
+                String searchDataTotalCounts = sym0005Dao.getSym0005Mapper().getSearchDataTotalCounts(params);
+                bnn0005ResultList.get(0).setSearchDataTotalCounts(searchDataTotalCounts);
+                // handle user input data
+                convertSanitize(bnn0005ResultList);
+                logger.info(LoggerMessage.SEARCHING_FINISHED);
+                logger.info("  ==> " + searchDataTotalCounts + " item(s)");
+            } else {
+                logger.info(LoggerMessage.SEARCHING_FINISHED);
+                logger.info(LoggerMessage.ZERO_ITEM);
+            }
+        } catch (OutOfMemoryError ex) {
+            ex.printStackTrace();
+            Sym0005Result tempObj = new Sym0005Result();
+            tempObj.setSearchDataTotalCounts("-1");
+            bnn0005ResultList.add(tempObj);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            bnn0005ResultList = null;
+        }
+        return bnn0005ResultList;
+	}
+	
+	/**
+     * Create search conditions parameters from data received from client
+     * 
+     * @param searchConditions : data received from client
+     * @return HashMap object
+     */
+    private HashMap<String, Object> createSearchConditionParams(Sym0005Conditions searchConditions) {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        // report Name
+        params.put("reportName", searchConditions.getReportName().equals("") ? "" : "%" + searchConditions.getReportName() + "%");
+        // From parameter
+        params.put("fromRow", Integer.valueOf(searchConditions.getFromRow()));
+        // Number of items in a page
+        params.put("itemCount", Integer.valueOf(searchConditions.getItemCount()));
+
+        return params;
+    }
+	
+    
+	/**
+     * Handle user input data
+     * 
+     * @param inputData : search result data list
+     */
+    private void convertSanitize(List<Sym0005Result> inputData) {
+        for (int i = 0; i < inputData.size(); i++) {
+        	Sym0005Result currentData = inputData.get(i);
+            // User name
+            currentData.setReportName(Util.convertSanitize(currentData.getReportName()));
+        }
+    }
+    
+    /**
+     * Update user's information to DB
+     * 
+     * @param userData : data received from client
+     * @return String : update successfully: 1/update failed: -1
+     */
+    public String updateData(QltnMReport reportData) {
+        // variable definition
+        String returnValue = Constants.UPDATE_RESULT_SUCCESSFUL;
+        // update starts
+        try {
+        	// check logged in user id
+            if (Util.getUserInfo().getID() == null) {
+            	logger.error(LoggerMessage.ERROR_MESSAGE+ "Could not get logged in user's id");
+                returnValue = Constants.UPDATE_RESULT_FAILED;
+                return returnValue;
+            }
+            // check for Report input
+            if (!checkInputBlankFields(reportData)) {
+            	// blank field(s)
+            	logger.error(LoggerMessage.ERROR_MESSAGE +"Blank fields");
+                returnValue = Constants.VALIDATE_BLANK_FIELDS;
+                return returnValue;
+            }
+            // transaction starts
+            DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+            def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+            txManager = (PlatformTransactionManager) appContext.getBean("transactionManager");
+            TransactionStatus status = txManager.getTransaction(def);
+            try {
+            	QltnMReport reportObj = new QltnMReport();
+            	// Report Id
+            	reportObj.setReportId(reportData.getReportId());
+                // Report Name
+            	reportObj.setReportName(reportData.getReportName());
+                // delete flag
+                reportObj.setDeleteFlag(reportData.getDeleteFlag());
+
+                int result = sym0005Dao.getQltnMReportMapper().updateByPrimaryKeySelective(reportObj);
+                if (result > 0) { // update successfully
+                    // register to DB
+                    txManager.commit(status);
+                } else {
+                    returnValue = Constants.UPDATE_RESULT_FAILED;
+                    txManager.rollback(status);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.error(LoggerMessage.ERROR_MESSAGE + ex.getMessage());
+                returnValue = Constants.UPDATE_RESULT_FAILED;
+                txManager.rollback(status);
+            } 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error(LoggerMessage.ERROR_MESSAGE + ex.getMessage());
+            returnValue = Constants.UPDATE_RESULT_FAILED;
+        }
+        return returnValue;
+    }
+
+    /**
+     * Insert user's information to DB
+     * 
+     * @param userData : data received from client
+     * @return String : insert successfully: 1/insert failed: -1
+     */
+    public String insertData(QltnMReport reportData) {
+        // variable definition
+        String returnValue = Constants.INSERT_RESULT_SUCCESSFUL;
+        // insert starts
+        try {
+        	// check logged in user id
+        	if (Util.getUserInfo().getID() == null) {
+            	logger.error("Error message: Could not get logged in user's id");
+                returnValue = Constants.INSERT_RESULT_FAILED;
+                return returnValue;
+            }
+        	// check for user input
+            if (!checkInputBlankFields(reportData)) {
+            	// blank field(s)
+            	logger.error("Error message: Blank fields");
+                returnValue = Constants.VALIDATE_BLANK_FIELDS;
+                return returnValue;
+            }
+        	// transaction starts
+            DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+            def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+            txManager = (PlatformTransactionManager) appContext.getBean("transactionManager");
+            TransactionStatus status = txManager.getTransaction(def);
+            try {
+            	HashMap<String, Object> params = new HashMap<String, Object>();
+            	params.put("reportDefault", Constants.DEFAULT_PARAMS);
+            	int idNumber = Integer.parseInt(sym0005Dao.getSym0005Mapper().getLastIdReport(params).substring(1));
+            	if (idNumber < Constants.REPORT_DEFAULT) {
+            		idNumber = idNumber + 1;
+            		String reportId = Constants.REPORT_CHARATER + String.format("%0" + Constants.MAX_LENGHT_ID + "d", idNumber);
+            		QltnMReport reportObj = new QltnMReport();
+            		// Report Id 
+            		reportObj.setReportId(reportId);
+                    // Report Name
+                    reportObj.setReportName(reportData.getReportName());
+                    // create user id
+                    reportObj.setCreateUserId(Util.getUserInfo().getID());
+                    // update user id
+                    reportObj.setUpdateUserId(Util.getUserInfo().getID());
+                    // delete flag
+                    reportObj.setDeleteFlag(reportData.getDeleteFlag());
+
+                    int result = sym0005Dao.getQltnMReportMapper().insert(reportObj);
+                    if (result > 0) { // insert successfully
+                        // register to DB
+                        txManager.commit(status);
+                    } else {
+                        returnValue = Constants.INSERT_RESULT_FAILED;
+                        txManager.rollback(status);
+                    }
+            	}
+            } catch (DuplicateKeyException ex) {
+                ex.printStackTrace();
+                logger.error("Error message: " + ex.getMessage());
+                returnValue = Constants.INSERT_RESULT_DUPLICATED;
+                txManager.rollback(status);
+            }  catch (Exception ex) {
+                ex.printStackTrace();
+                logger.error("Error message: " + ex.getMessage());
+                returnValue = Constants.INSERT_RESULT_FAILED;
+                txManager.rollback(status);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error("Error message: " + ex.getMessage());
+            returnValue = Constants.INSERT_RESULT_FAILED;
+        }
+        return returnValue;
+    }
+    /**
+     * Delete report from DB
+     * 
+     * @param usersId : user's id to delete
+     * @return String : delete successfully: 1/delete failed: -1
+     */
+    public String deleteData(String reportId) {
+    	// variable definition
+        String returnValue = Constants.DELETE_RESULT_SUCCESSFUL;
+        // delete starts
+        try {
+        	// transaction starts
+            DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+            def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+            txManager = (PlatformTransactionManager) appContext.getBean("transactionManager");
+            TransactionStatus status = txManager.getTransaction(def);
+            try {
+                int result = sym0005Dao.getQltnMReportMapper().deleteByPrimaryKey(reportId);
+                if (result > 0) { // delete successfully
+                    // register to DB
+                    txManager.commit(status);
+                } else {
+                    returnValue = Constants.DELETE_RESULT_FAILED;
+                    txManager.rollback(status);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.error("Error message: " + ex.getMessage());
+                returnValue = Constants.DELETE_RESULT_FAILED;
+                txManager.rollback(status);
+            } 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error("Error message: " + ex.getMessage());
+            returnValue = Constants.DELETE_RESULT_FAILED;
+        }
+        return returnValue;
+	}
+
+    /**
+     * Get user information based on user's id
+     * 
+     * @param usersId : user's id received from client
+     * @return user data
+     */
+	public QltnMReport getSingleData(String usersId) {
+		return sym0005Dao.getQltnMReportMapper().selectByPrimaryKey(usersId);
+	}
+
+    /**
+     * Check input: blank fields
+     * 
+     * @param userData : data received from client
+     * @return boolean : all fields have value: true/blank fields exist: false
+     */
+ 	private boolean checkInputBlankFields(QltnMReport reportData) {
+ 		if (reportData.getReportName().equals("")) {
+ 			return false;
+ 		} else {
+ 			return true;
+ 		}
+ 	}
+}

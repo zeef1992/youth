@@ -1,0 +1,31 @@
+package vn.youthmanager.ict.youth.controller;
+
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import vn.youthmanager.ict.youth.service.Sym0049Service;
+
+@Controller
+@RequestMapping(value = "/0049")
+public class Sym0049Controller {
+
+	@Autowired
+	private Sym0049Service sym0049Service;
+
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public String topPost(Locale locale, Model model) {
+		sym0049Service.initData(model);
+		return "youth/0049";
+	}
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String topGet(Locale locale, Model model) {
+		sym0049Service.initData(model);
+		return "youth/0049";
+	}
+}

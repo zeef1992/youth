@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0033Mapper">
+
+	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.common.db.model.QltnMAccessAuthorization">
+		select 
+			DISTINCT(SCREEN_ID) screenId,
+		    SCREEN_DISPLAY_ENABLE_FLAG screenDisplayEnableFlag,
+		    ADDABLE_FLAG addableFlag,
+		    UPDATABLE_FLAG updatableFlag,
+		    DELETABLE_FLAG deletableFlag,
+		    REFERENCE_FLAG referenceFlag
+		from
+		qltn_m_access_authorization
+		where DELETE_FLAG = '0'
+		and SCREEN_ID IN
+		 <foreach item="item" index="index" collection="screenStr" open="(" separator="," close=")">
+	      #{item}
+	     </foreach>
+	</select>
+</mapper>

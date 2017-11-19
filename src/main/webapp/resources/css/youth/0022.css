@@ -1,0 +1,8 @@
+@CHARSET "ISO-8859-1";
+.educationinfo-popup {
+	width: 650px;
+	z-index: 999;
+	display: none;
+	position:fixed;
+	background-color: #ffffff;
+}

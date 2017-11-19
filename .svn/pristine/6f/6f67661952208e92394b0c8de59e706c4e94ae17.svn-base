@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.LoginMapper">
+
+	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.common.db.model.QltnMUsers">
+		SELECT 
+			USERS_ID usersId,
+			AUTHORIZATION_ID authorizationId,
+			USERS_NAME usersName,
+			PASSWORD password	
+		FROM QLTN_M_USERS
+		WHERE 1 =1
+		<if test="usersName != ''">
+			AND USERS_ID = #{usersName}
+		</if>
+		<if test="password != ''">
+			AND USERS_ID = #{password}
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0003Mapper">
+
+	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0003Result">
+		SELECT USERS_ID usersId,
+			USERS_NAME usersName
+		FROM QLTN_M_USERS
+		WHERE 1 = 1
+		<if test="usersId != ''">
+			AND USERS_ID LIKE #{usersId}
+		</if>
+		<if test="usersName != ''">
+			AND USERS_NAME LIKE #{usersName}
+		</if>
+		ORDER BY USERS_ID
+		LIMIT #{fromRow},#{itemCount}
+	</select>
+
+	<select id="getSearchDataTotalCounts" parameterType="map" resultType="java.lang.String">
+		SELECT COUNT(*)
+		FROM QLTN_M_USERS
+		WHERE 1 = 1
+		<if test="usersId != ''">
+			AND USERS_ID LIKE #{usersId}
+		</if>
+		<if test="usersName != ''">
+			AND USERS_NAME LIKE #{usersName}
+		</if>
+		ORDER BY USERS_ID
+	</select>
+</mapper>

@@ -1,0 +1,94 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+
+<!-- Constants -->
+<script type="text/javascript">
+
+	var DIALOG_TITLE = '<spring:message code="dialog_title" />';
+	var DIALOG_OK_BUTTON = '<spring:message code="dialog_ok_button" />';
+	var DIALOG_YES_BUTTON = '<spring:message code="dialog_yes_button" />';
+	var DIALOG_NO_BUTTON = '<spring:message code="dialog_no_button" />';
+	// role name value based on languages
+	var ROLE_SYSTEM_MANAGER = '<spring:message code="checkbox_authority_system_manager" />';
+	var ROLE_BUSINESS_MANAGER = '<spring:message code="checkbox_authority_business_manager" />';
+	var ROLE_FARM_MANAGER = '<spring:message code="checkbox_authority_farm_manager" />';
+	var ROLE_AREA_MANAGER = '<spring:message code="checkbox_authority_area_manager" />';
+	// enable/disable status value based on languages
+	var STATUS_ENABLED = '<spring:message code="status_enabled" />';
+	var STATUS_DISABLED = '<spring:message code="status_disabled" />';
+	// alert message based on languages
+	var ERROR_MESSAGE = '<spring:message code="message_error_generic" />';
+	var ERROR_SELECT = '<spring:message code="message_error_select" />';
+	var SEARCH_RESULT_OUT_OF_MEMORY_MESSAGE = '<spring:message code="message_search_result_out_of_memory" />';
+	var SEARCH_RESULT_NO_DATA_MESSAGE = '<spring:message code="message_search_result_no_data" />';
+	var VALIDATE_BLANK_FIELDS_MESSAGE = '<spring:message code="message_validate_blank_fields" />';
+	var VALIDATE_WRONG_FORMAT_MESSAGE = '<spring:message code="message_validate_wrong_format" />';
+	var VALIDATE_PASSWORD_NOT_MATCH_MESSAGE = '<spring:message code="message_validate_password_not_match" />';
+	var VALIDATE_PASSWORD_NOT_CORRECT_MESSAGE = '<spring:message code="message_validate_password_not_correct" />';
+	var UPDATE_RESULT_SUCCESSFUL_MESSAGE = '<spring:message code="message_update_result_successful" />';
+	var UPDATE_RESULT_FAILED_MESSAGE = '<spring:message code="message_update_result_failed" />';
+	var INSERT_RESULT_SUCCESSFUL_MESSAGE = '<spring:message code="message_insert_result_successful" />';
+	var INSERT_RESULT_DUPLICATED_MESSAGE = '<spring:message code="message_insert_result_duplicated" />';
+	var INSERT_RESULT_CONFIG_NOT_CORRECT_MESSAGE = '<spring:message code="message_insert_result_config_not_correct" />';
+	var INSERT_RESULT_FAILED_MESSAGE = '<spring:message code="message_insert_result_failed" />';
+	var DELETE_CONFIRM_MESSAGE = '<spring:message code="message_delete_confirm" />';
+	var DELETE_RESULT_SUCCESSFUL_MESSAGE = '<spring:message code="message_delete_result_successful" />';
+	var DELETE_RESULT_FAILED_MESSAGE = '<spring:message code="message_delete_result_failed" />';
+	var UPLOAD_IMAGE_WRONG_FILE_TYPED_MESSAGE = '<spring:message code="message_upload_wrong_file_type" />';
+	var UPLOAD_IMAGE_RESULT_FAILED_MESSAGE = '<spring:message code="message_upload_result_failed" />';
+	// day of week based on languages
+	var DAY_OF_WEEK = "";
+	var currentDay = new Date().getDay();
+	if (currentDay == 0) { // Sunday
+		DAY_OF_WEEK = '<spring:message code="week_day_sunday" />';
+	} else if (currentDay == 1) { // Monday
+		DAY_OF_WEEK = '<spring:message code="week_day_monday" />';
+	} else if (currentDay == 2) { // Tuesday
+		DAY_OF_WEEK = '<spring:message code="week_day_tuesday" />';
+	} else if (currentDay == 3) { // Wednesday
+		DAY_OF_WEEK = '<spring:message code="week_day_wednesday" />';
+	} else if (currentDay == 4) { // Thursday
+		DAY_OF_WEEK = '<spring:message code="week_day_thursday" />';
+	} else if (currentDay == 5) { // Friday
+		DAY_OF_WEEK = '<spring:message code="week_day_friday" />';
+	} else if (currentDay == 6) { // Saturday
+		DAY_OF_WEEK = '<spring:message code="week_day_saturday" />';
+	}
+</script>
+
+<header>
+	<div class="container">
+		<div id="logo"></div>
+		<div id="title"></div>
+		<div id="menu">
+			<div class="col-sm-12">
+				<button type="button" class="btn btn-default">Menu Hệ Thống</button>
+				<button type="button" class="btn btn-default">Tổng Thanh
+					Niên</button>
+				<button type="button" class="btn btn-default">Danh Sách
+					Biểu Mẫu</button>
+				<button type="button" class="btn btn-default">Thiết Lập</button>
+				
+			</div>
+		</div>
+		<div class="dropdown">
+			<button class="btn btn-primary dropdown-toggle" type="button"
+				data-toggle="dropdown">
+				<security:authentication property="principal.USERFULLNAME" />
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a
+					href="${pageContext.request.contextPath}/changePassword/"><spring:message
+							code="menu_change_password" /></a></li>
+				<li><a href="#"><spring:message code="menu_display_guide" /></a></li>
+				<li><a href="${pageContext.request.contextPath}/login"
+					onclick="javascript:return confirm('<spring:message code="message_log_out_confirm" />');">
+						<spring:message code="menu_log_out" />
+				</a></li>
+			</ul>
+		</div>
+	</div>
+</header>

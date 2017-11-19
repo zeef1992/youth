@@ -1,0 +1,13 @@
+@CHARSET "ISO-8859-1";
+.universityinfo-popup {
+	width: 650px;
+	z-index: 999;
+	display: none;
+	position:fixed;
+	background-color: #ffffff;
+}
+.goTo0018 {
+	color: #3276B1;
+	text-decoration: underline;
+	cursor: pointer;
+}

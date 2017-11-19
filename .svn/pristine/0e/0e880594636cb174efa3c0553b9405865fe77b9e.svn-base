@@ -1,0 +1,274 @@
+@CHARSET "UTF-8";
+body {
+	background: #DCDDDF url(http://cssdeck.com/uploads/media/items/7/7AF2Qzt.png);
+	color: #000;
+	font: 14px Arial;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+}
+/**************************************************
+					Reset
+**************************************************/
+h1{ font-size:28px;}
+h2{ font-size:26px;}
+h3{ font-size:18px;}
+h4{ font-size:16px;}
+h5{ font-size:14px;}
+h6{ font-size:12px;}
+h1,h2,h3,h4,h5,h6{ color:#563D64;}
+small{ font-size:10px;}
+b, strong{ font-weight:bold;}
+a{ text-decoration: none; }
+a:hover{ text-decoration: underline; }
+.left { float:left; }
+.right { float:right; }
+.alignleft { float: left; margin-right: 15px; }
+.alignright { float: right; margin-left: 15px; }
+.clearfix:after,
+/**************************************************
+					header
+**************************************************/
+header {
+	width: 100%;
+	height: 80px;
+	background: #FFF;
+	border-bottom: 1px solid #88b627;
+}
+header .jumbotron {
+	width: 98%;
+	margin: auto;
+	height: 80px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+}
+header .container #logo {
+	background-image: url("../../img/logo.png");
+	width: 64px;
+	height: 64px;
+	float: left;
+	line-height: 80px;
+}
+header .container #title {
+	background-image: url("../../img/NameSystem.png");
+	width: 320px;
+	height: 64px;
+	float: left;
+	line-height: 60px;
+}
+header .container #menu {
+	width: 65%;
+	height: 80px;
+	marin-left: 20px;
+	float: right;
+	line-height: 80px;
+}
+
+header .container .dropdown {
+	width: 120px;
+	float: right;
+	position: absolute;
+	right: 50px;
+	top: 25px;
+}
+/**************************************************
+					footer
+**************************************************/
+footer {
+	width: 100%;
+	height: 25px;
+	position: relative;
+	border-top: 1px solid #88b627;
+	margin-bottom: -10px;
+	margin-left: 0px;
+	background: #FFF;
+}	
+footer p {
+	text-align: center;
+	font-weight: bold;
+}
+/**************************************************
+					Wrapper
+**************************************************/
+#wrapper {
+	width: 100%;
+	margin: 10px auto;
+	margin-bottom: 10px;
+	position: relative;
+	background: #FFF;
+	border-radius: 3px;
+	border: 1px solid #88b627;
+	padding: 10px 10px;
+}
+/**************************************************
+					Panel
+**************************************************/
+.panel .panel-heading {
+	text-align: center;
+	font-weight: bold;
+	color: #428bca !important;
+}
+.panel .center {
+	margin: auto;
+}
+/**************************************************
+					clearFix
+**************************************************/
+.clearfix {
+	clear: both;	
+	height: 0px;
+}
+/**************************************************
+					Margin
+**************************************************/
+.mt_10 {
+	margin-top: 10px;
+}
+/**************************************************
+					Height
+**************************************************/
+.height400 {
+	height: 290px!important;
+}
+.height150 {
+	height: 150px!important;
+}
+/**************************************************
+					Button
+**************************************************/
+.enabled {
+	width: 16px;
+	height: 16px;
+	margin: auto;
+	background: url("../../img/enabled.png") no-repeat center center;
+}
+.disabled {
+	width: 16px;
+	height: 16px;
+	margin: auto;
+	background: url("../../img/disabled.png") no-repeat center center;
+}
+.cancel {
+	width: 16px;
+	height: 16px;
+	float: right;
+	background: url("../../img/Delete-icon.png") no-repeat left center;
+}
+.register {
+	width: 24px;
+	height: 24px;
+	margin: 0px 10px;
+	float: right;
+	background: url("../../img/Create.png") no-repeat left center;
+}
+.search {
+	width: 24px;
+	height: 24px;
+	margin: 0px 10px;
+	float: right;
+	background: url("../../img/search-icon.png") no-repeat left center;
+}
+.clear-icon {
+	width: 32px;
+	height: 32px;
+	margin: 10px 10px;
+	line-height: 50px;
+	float: right;
+	background: url("../../img/clear-icon.png") no-repeat left center;
+}
+.actions-list-add-user-icon {
+	width: 32px;
+	height: 32px;
+	margin: 10px 10px;
+	line-height: 50px;
+	float: right;
+	background: url("../../img/Actions-list-add-user-icon.png") no-repeat left center;
+}
+.documents-icon {
+	width: 32px;
+	height: 32px;
+	margin: 10px 10px;
+	line-height: 50px;
+	float: right;
+	background: url("../../img/Documents-icon.png") no-repeat left center;
+}
+.devices_printer {
+	width: 32px;
+	height: 32px;
+	margin: 10px 10px;
+	line-height: 50px;
+	float: right;
+	background: url("../../img/Devices-printer-icon.png") no-repeat left center;
+}
+.add_new_relation {
+	width: 24px;
+	height: 24px;
+	margin: 0px 10px;
+	float: right;
+	background: url("../../img/Actions-contact-new-icon.png") no-repeat left center;
+}
+.edit {
+	width: 24px;
+	height: 24px;
+}
+.view {
+	width: 24px;
+	height: 24px;
+}
+.delete {
+	width: 24px;
+	height: 24px;
+}
+.back {
+	width: 24px;
+	height: 24px;
+	margin: 0px 10px;
+	float: right;
+	background: url("../../img/Redo.png") no-repeat left center;
+}
+.excel {
+	width: 24px;
+	height: 24px;
+	margin: 0px 10px;
+	float: right;
+	background: url("../../img/application-vnd-ms-excel.png") no-repeat left center;
+}
+/**************************************************
+					color
+**************************************************/
+.green_text {
+	color: #B1EB00;
+}
+.colr_FF432E {
+	color: #FF432E;
+}
+.colr_53BBF4 {
+	color: #53BBF4;
+}
+.colr_FF85CB {
+	color: #FF85CB
+}
+.font_weight{
+	font-weight: bold;
+}
+
+/**************************************************
+					Width
+**************************************************/
+.width170pc {
+	width: 170%!important;
+}
+.overflow-x {
+	overflow-x: auto!important;
+}
+.overflow-y {
+	overflow-y: auto!important;
+}
+.margin_bottom5 {
+	margin-bottom: 5px;
+}
+.bg_FCBE00 {
+	background-color: #FCBE00!important;
+	color: #fff;
+}

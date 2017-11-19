@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0043Mapper">
+	<select id="getLastIdPerson" parameterType="map" resultType="java.lang.String">
+		SELECT PERSON_ID
+		FROM qltn.qltn_m_person
+		WHERE DELETE_FLAG = '0'
+		ORDER BY PERSON_ID DESC
+		LIMIT 0,1
+	</select>
+	<select id="getLastIdNoteReport" parameterType="map" resultType="java.lang.String">
+		SELECT NOTE_REPORT_ID
+		FROM qltn.qltn_m_note_report
+		WHERE DELETE_FLAG = '0'
+	        AND REPORT_ID = ${reportId}
+	        AND DETAIL_REPORT_ID = ${detailReportId}
+	        AND PERSON_ID = ${personId}
+		ORDER BY NOTE_REPORT_ID DESC
+		LIMIT 0,1
+	</select>
+	<select id="getLastIdProcessPerson" parameterType="map" resultType="java.lang.String">
+		SELECT PROCESS_PERSON_ID
+		FROM qltn.qltn_m_process_person
+		WHERE DELETE_FLAG = '0'
+	        AND PERSON_ID = ${personId}
+		ORDER BY PROCESS_PERSON_ID DESC
+		LIMIT 0,1
+	</select>
+	<select id="getLastIdFamilyRelatives" parameterType="map" resultType="java.lang.String">
+		SELECT FAMILY_PERSON_ID
+		FROM qltn.qltn_m_family_relatives
+		WHERE DELETE_FLAG = '0'
+	        AND FAMILY_PERSON_ID = ${personId}
+		ORDER BY FAMILY_PERSON_ID DESC
+		LIMIT 0,1
+	</select>
+	<select id="getProcessEdit" parameterType="map" resultType="vn.youthmanager.ict.common.db.model.QltnMProcessPerson">
+		SELECT 	PROCESS_PERSON_ID processPersonId,
+				FROM_YEAR fromYear,
+				TO_YEAR toYear,
+				CONTENT content
+		FROM qltn.qltn_m_process_person where person_id = ${personId};
+	</select>
+</mapper>

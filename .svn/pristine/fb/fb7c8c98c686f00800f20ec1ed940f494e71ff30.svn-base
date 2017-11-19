@@ -1,0 +1,23 @@
+@CHARSET "ISO-8859-1";
+.userinfo-popup {
+	width: 650px;
+	z-index: 999;
+	display: none;
+	position:fixed;
+	background-color: #ffffff;
+}
+.userinfo-popup1 {
+	width: 650px;
+	z-index: 999;
+	display: none;
+	position:fixed;
+	background-color: #ffffff;
+}
+.accessAuthorizationinfo-popup {
+	width: 650px;
+	height: 390px;
+	z-index: 999;
+	display: none;
+	position:fixed;
+	background-color: #ffffff;
+}

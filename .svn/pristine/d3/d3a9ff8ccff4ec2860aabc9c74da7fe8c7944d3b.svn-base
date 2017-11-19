@@ -1,0 +1,23 @@
+package vn.youthmanager.ict.youth.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import vn.youthmanager.ict.youth.db.model.Sym0040Contions;
+
+@Controller
+@RequestMapping(value = "/0041")
+public class Sym0041Controller {
+
+	@Autowired
+	private Sym0041Service sym0041Service;
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String top(Model model, @ModelAttribute("Sym040PersonData") Sym0040Contions sym0040Contions) {
+		return "youth/0041";
+	}
+}

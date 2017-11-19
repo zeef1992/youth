@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0022Mapper">
+
+	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0022Result">
+		SELECT 	EDUCATION_ID educationId,
+				LEVEL level
+		FROM QLTN_M_EDUCATIONAL
+		WHERE 1 = 1
+		<if test="level != ''">
+			AND LEVEL LIKE #{level}
+		</if>
+		AND DELETE_FLAG = '0'
+		ORDER BY EDUCATION_ID
+		LIMIT #{fromRow},#{itemCount}
+	</select>
+
+	<select id="getSearchDataTotalCounts" parameterType="map" resultType="java.lang.String">
+		SELECT COUNT(*)
+		FROM QLTN_M_EDUCATIONAL
+		WHERE 1 = 1
+		<if test="level != ''">
+			AND LEVEL LIKE #{level}
+		</if>
+		AND DELETE_FLAG = '0'
+		ORDER BY EDUCATION_ID
+	</select>
+
+	<select id="getLastIdEducation" parameterType="map" resultType="java.lang.String">
+		SELECT EDUCATION_ID
+		FROM QLTN_M_EDUCATIONAL
+		WHERE EDUCATION_ID != ${educationIdDefault}
+		ORDER BY EDUCATION_ID DESC
+		LIMIT 0,1
+	</select>
+</mapper>

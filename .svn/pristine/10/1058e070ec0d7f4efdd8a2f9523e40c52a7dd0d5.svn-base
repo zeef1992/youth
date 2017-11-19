@@ -1,0 +1,59 @@
+/**
+ * author Nghia Nguyen
+ */
+
+$(document).ready(function(){
+	// show popup info click event process
+	$(document).on("click", "#btnSetNoteReport", function() {
+		// get row index
+		selectedRowIndex = $(this).attr("name");
+		$(".noteReport_popup").load(rootPath + "/0049/");
+		
+		if (reportData != '') {
+			setTimeout(function() {
+				// reset variables
+				// draw table
+				drawResult = drawTableReport();
+			}, 1000);
+			showPopup($("#popupWrapper"));
+		} else {
+			// display error message
+			jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+		}
+		
+	});
+
+	function drawTableReport() {
+		if (reportData != '') {
+			// clear table
+			$("#divBodyReport > #tblBodyReport").find("tbody").remove();
+			// create table starts
+			var tableStringArray = [];
+			// add tbody open tag
+			tableStringArray.push("<tbody>");
+			for (var i = 0; i < 1; i++) {
+				// row open tag
+				tableStringArray.push("<tr class = 'height34' id='row" + i + "'>");
+				// relation
+				tableStringArray.push("<td></td>");
+				// relation
+				tableStringArray.push("<td></td>");
+				// relation
+				tableStringArray.push("<td></td>");
+				// row close tag
+				tableStringArray.push("</tr>");
+			}
+			// add tbody close tag
+			tableStringArray.push("</tbody>");
+			// append all created string to table
+			$("#divBodyReport > #tblBodyReport").append(tableStringArray.join(''));
+			// show search result
+			$(".cont-box").removeClass("display-none");
+			$("#divHeadReport").removeClass("display-none");
+			// fix table header and body when scrolling only the table body
+			fixTable();
+		    // scroll to top of table
+			$("#divBodyReport").scrollTop(0).scrollLeft(0);
+		}
+	}
+});

@@ -1,0 +1,155 @@
+/**
+ * author Nghia Nguyen
+ */
+
+$(document).ready(function(){
+	var reportSelectedStr = "";
+	var reportSelectedName = "";
+	var arrayReportIdArr = [];
+	var arrayReportNameArr = [];
+	// show popup info click event process
+	$(document).on("click", "#btnSetNoteReport", function() {
+		reportSelectedStr = "";
+		reportSelectedName = "";
+		// get row index
+		selectedRowIndex = $(this).attr("name");
+		$(".report_popup").load(rootPath + "/0049/");
+		
+		if (reportData != '') {
+			setTimeout(function() {
+				// reset variables
+				// draw table
+				drawResult = drawTableReport();
+			}, 1000);
+			showPopup($("#popupWrapper"));
+		} else {
+			// display error message
+			jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+		}
+	});
+
+	$(document).on("click", ".row_reportId", function() { 
+		var selectedReportId = $(this).attr("name");
+		// if row selected has't class bg_FCBE00 then add Class bg_FCBE00
+		if (!$(this).hasClass("bg_FCBE00")) {
+			$(this).addClass("bg_FCBE00");
+		} else { // else remove class bg_FCBE00
+			$(this).removeClass("bg_FCBE00");
+		}
+	});
+
+	$(document).on("click", "#btnDetailReport", function() { 
+		reportSelectedStr = "";
+		reportSelectedName = "";
+		// check all tr has row_reportId do has class bg_FCBE00
+		$(".row_reportId").each(function(){
+			// if it has then reportSelectedStr + id of report
+			if ($(this).hasClass("bg_FCBE00")) {
+				reportSelectedStr += $(this).attr("id") + ",";
+				reportSelectedName += $(this).text() ;
+			}
+		});
+		// catch reportSelectedStr 
+		reportSelectedStr = reportSelectedStr.substring(0, reportSelectedStr.length-1);
+		reportSelectedName = reportSelectedName.substring(0, reportSelectedStr.length-1);
+		$(".noteReport_popup").load(rootPath + "/0051/?reportIdStr=" + reportSelectedStr);
+		
+		
+		showPopup($("#popupWrapper1"));
+		arrayReportIdArr =  reportSelectedStr.split(",");
+		$(".loader").removeClass("display-none");
+		setTimeout(function() {
+			// reset variables
+			// draw table
+			//drawResult = drawTableReport();
+			drawTableDetailReport(arrayReportIdArr, "");
+		}, 1000);
+	});
+
+	function drawTableReport() {
+		if (reportData != '') {
+			// clear table
+			$("#divBodyReport > #tblBodyReport").find("tbody").remove();
+			// create table starts
+			var tableStringArray = [];
+			// add tbody open tag
+			tableStringArray.push("<tbody>");
+			for (var i = 0; i < reportData.length; i++) {
+				// row open tag
+				tableStringArray.push("<tr class = 'height34' id='row" + i + "'>");
+				// reportName
+				tableStringArray.push("<td id = '"+reportData[i].reportId+"' class = 'row_reportId algin-center' name = '"+i+"'>"+reportData[i].reportName+"</td>");
+				// row close tag
+				tableStringArray.push("</tr>");
+			}
+			// add tbody close tag
+			tableStringArray.push("</tbody>");
+			// append all created string to table
+			$("#divBodyReport > #tblBodyReport").append(tableStringArray.join(''));
+			// show search result
+			$(".cont-box").removeClass("display-none");
+			$("#divHeadReport").removeClass("display-none");
+			// fix table header and body when scrolling only the table body
+			fixTable();
+		    // scroll to top of table
+			$("#divBodyReport").scrollTop(0).scrollLeft(0);
+		}
+	}
+
+	$(document).on("click","#tabs > ul > li", function(){
+		var reportIdPopup = $(this).attr("aria-labelledby");
+		$(".loader").removeClass("display-none");
+		setTimeout(function() {
+			// reset variables
+			// draw table
+			drawTableDetailReport(arrayReportIdArr, reportIdPopup);
+		}, 1000);
+	});
+
+	function drawTableDetailReport(arrayDetailReportIdArr, reportIdPopup) {
+		
+		if (reportIdPopup == "") {
+			reportIdPopup = arrayDetailReportIdArr[0];
+		}
+		$.ajax({
+			url: "../0051/getDetailReport",
+			type: "POST",
+			data: { "reportId": reportIdPopup },
+			success: function(returnJsonData) {
+				if (checkSessionTimeout(returnJsonData) == 1) return;
+				if (returnJsonData.length == 0) {
+					// display error message
+					jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				}
+					// clear table
+					$("#divBodyDetailReport > #tblBodyDetailReport").find("tbody").remove();
+					// create table starts
+					var tableStringArray = [];
+					// add tbody open tag
+					tableStringArray.push("<tbody>");
+					for (var i = 0; i < returnJsonData.length; i++) {
+						// row open tag
+						tableStringArray.push("<tr class = 'height34' id='row" + i + "'>");
+						// DetailReportName
+						tableStringArray.push("<td id = '"+returnJsonData[i].detailReportId+"' class = 'row_DetailReportId algin-center' name = '"+i+"'>"+returnJsonData[i].detailReportName+"</td>");
+						// DetailReportName
+						tableStringArray.push("<td reportId = '"+returnJsonData[i].reportId+"' detailReportId = '"+returnJsonData[i].detailReportId+"' class = 'criteria_row'>Chọn Tiêu Chí:</td>");
+						// row close tag
+						tableStringArray.push("</tr>");
+					}
+					// add tbody close tag
+					tableStringArray.push("</tbody>");
+					// append all created string to table
+					$("#divBodyDetailReport > #tblBodyDetailReport").append(tableStringArray.join(''));
+					// show search result
+					$(".cont-box").removeClass("display-none");
+					$("#divHeadDetailReport").removeClass("display-none");
+					// fix table header and body when scrolling only the table body
+					fixTable();
+				    // scroll to top of table
+					$("#divBodyDetailReport").scrollTop(0).scrollLeft(0);
+			}
+		});
+		$(".loader").addClass("display-none");
+	}
+});

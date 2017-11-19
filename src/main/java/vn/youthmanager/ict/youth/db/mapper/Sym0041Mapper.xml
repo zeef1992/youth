@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0041Mapper">
+
+	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0041Result">
+	Select 	P.PERSON_ID personId,
+			P.PERSON_NAME personName,
+			P.DATE_OF_BIRTH dateOfBirth,
+			P.MONTH_OF_BIRTH monthOfBirth,
+			P.YEAR_OF_BIRTH yearOfBirth,
+			P.PHONE phone,
+			P.KSKQUAN_STT kskquanStt,
+			P.LLTN_STT lltnStt,
+			P.IDENTITY_CARD identityCard,
+			P.PLACE_OF_BIRTH placeOfBirth,
+			P.NATION nation,
+			P.RELIGION religion,
+			P.PERMANENT_ADDRESS permanentAddress,
+			P.TEMPORARY_RESIDENCE_ADDRESS temporaryResidenceAddress,
+			P.NATIONAL national,
+			P.ELEMENT element,
+			P.GRADUATION_YEAR graduationYear,
+			P.JOB_ID jobId,
+			P.WORK_PLACE workPlace,
+			P.CATE_ID cateId,
+			G.CATE_NAME cateName,
+			P.STATUS_ID statusId,
+			S.STATUS_NAME statusName,
+			P.NATIVE_COUNTRY nativeCountry,
+			C.COUNTRY_NAME countryName,
+			P.CITY_ID cityId,
+			CI.CITY_NAME cityName,
+			P.DISTRICT_ID districtId,
+			DI.DISTRICT_NAME districtName,
+			P.WARDS_ID wardsId,
+			W.WARDS_NAME wardsName,
+			P.TOWN_ID townId,
+			T.TOWN_NAME townName,
+			P.GROUPS_ID groupsId,
+			GR.GROUPS_NAME groupsName,
+			P.EDUCATIONAL_ID educationalId,
+			E.LEVEL level,
+			P.UNIVERSITY_ID universityId,
+			U.UNIVERSITY_NAME universityName,
+			P.SPECIALIZED_ID specializedId,
+			SP.SPECIALIZED_NAME specializedName
+	from QLTN_M_PERSON P
+	LEFT JOIN QLTN_M_CATEGORY G ON G.CATE_ID = P.CATE_ID
+	LEFT JOIN QLTN_M_STATUS S ON S.STATUS_ID = P.STATUS_ID
+	LEFT JOIN QLTN_M_COUNTRY C ON C.COUNTRY_ID = P.NATIVE_COUNTRY
+	LEFT JOIN QLTN_M_CITY CI ON CI.CITY_ID = P.CITY_ID
+								AND CI.COUNTRY_ID = C.COUNTRY_ID
+	LEFT JOIN QLTN_M_DISTRICT DI ON DI.DISTRICT_ID = P.DISTRICT_ID
+								AND DI.COUNTRY_ID = C.COUNTRY_ID
+                                AND DI.CITY_ID = CI.CITY_ID
+	LEFT JOIN QLTN_M_WARDS W ON W.WARDS_ID = P.WARDS_ID
+								AND W.COUNTRY_ID = C.COUNTRY_ID
+                                AND W.CITY_ID = CI.CITY_ID
+                                AND W.DISTRICT_ID = DI.DISTRICT_ID
+	LEFT JOIN QLTN_M_TOWN T ON T.TOWN_ID = P.TOWN_ID
+								AND T.COUNTRY_ID = C.COUNTRY_ID
+                                AND T.CITY_ID = CI.CITY_ID
+                                AND T.DISTRICT_ID = DI.DISTRICT_ID
+                                AND T.WARDS_ID = W.WARDS_ID
+	LEFT JOIN QLTN_M_GROUPS GR ON GR.GROUPS_ID = P.GROUPS_ID
+								AND GR.COUNTRY_ID = C.COUNTRY_ID
+                                AND GR.CITY_ID = CI.CITY_ID
+                                AND GR.DISTRICT_ID = DI.DISTRICT_ID
+                                AND GR.WARDS_ID = W.WARDS_ID
+                                AND GR.TOWN_ID = T.TOWN_ID
+	LEFT JOIN QLTN_M_EDUCATIONAL E ON E.EDUCATION_ID = P.EDUCATIONAL_ID
+	LEFT JOIN QLTN_M_UNIVERSITY U ON U.UNIVERSITY_ID = P.UNIVERSITY_ID
+	LEFT JOIN QLTN_M_SPECIALIZED SP ON SP.SPECIALIZED_ID = P.SPECIALIZED_ID
+									AND SP.UNIVERSITY_ID = P.UNIVERSITY_ID
+	where 1=1
+	<if test="cateId != '-2'">
+		AND P.CATE_ID = #{cateId}
+	</if>
+	<if test="statusId != '-2'">
+		AND P.STATUS_ID = #{statusId}
+	</if>
+	<if test="personName != ''">
+		AND P.PERSON_NAME LIKE #{personName}
+	</if>
+	<if test="identityCard != ''">
+		AND P.IDENTITY_CARD LIKE #{identityCard}
+	</if>
+	<if test="countryId != '-2'">
+		AND P.NATIVE_COUNTRY = #{countryId}
+	</if>
+	<if test="cityId != '-2'">
+		AND P.CITY_ID= #{cityId}
+	</if>
+	<if test="districtId != '-2'">
+		AND P.DISTRICT_ID = #{districtId}
+	</if>
+	<if test="wardsId != '-2'">
+		AND P.WARDS_ID = #{wardsId}
+	</if>
+	<if test="townId != '-2'">
+		AND P.TOWN_ID = #{townId}
+	</if>
+	<if test="groupsId != '-2'">
+		AND P.GROUPS_ID = #{groupsId}
+	</if>
+	<if test="educationId != '-2'">
+		AND P.EDUCATIONAL_ID = #{educationId}
+	</if>
+	<if test="universityId != '-2'">
+		AND P.UNIVERSITY_ID = #{universityId}
+	</if>
+	<if test="specializedId != '-2'">
+		AND P.SPECIALIZED_ID= #{specializedId}
+	</if>
+	AND P.DELETE_FLAG = '0'
+	ORDER BY P.PERSON_ID
+	</select>
+
+	<select id="getSearchDataTotalCounts" parameterType="map" resultType="java.lang.String">
+		SELECT 	count(*)
+		from QLTN_M_PERSON P
+	LEFT JOIN QLTN_M_CATEGORY G ON G.CATE_ID = P.CATE_ID
+	LEFT JOIN QLTN_M_STATUS S ON S.STATUS_ID = P.STATUS_ID
+	LEFT JOIN QLTN_M_COUNTRY C ON C.COUNTRY_ID = P.NATIVE_COUNTRY
+	LEFT JOIN QLTN_M_CITY CI ON CI.CITY_ID = P.CITY_ID
+								AND CI.COUNTRY_ID = C.COUNTRY_ID
+	LEFT JOIN QLTN_M_DISTRICT DI ON DI.DISTRICT_ID = P.DISTRICT_ID
+								AND DI.COUNTRY_ID = C.COUNTRY_ID
+                                AND DI.CITY_ID = CI.CITY_ID
+	LEFT JOIN QLTN_M_WARDS W ON W.WARDS_ID = P.WARDS_ID
+								AND W.COUNTRY_ID = C.COUNTRY_ID
+                                AND W.CITY_ID = CI.CITY_ID
+                                AND W.DISTRICT_ID = DI.DISTRICT_ID
+	LEFT JOIN QLTN_M_TOWN T ON T.TOWN_ID = P.TOWN_ID
+								AND T.COUNTRY_ID = C.COUNTRY_ID
+                                AND T.CITY_ID = CI.CITY_ID
+                                AND T.DISTRICT_ID = DI.DISTRICT_ID
+                                AND T.WARDS_ID = W.WARDS_ID
+	LEFT JOIN QLTN_M_GROUPS GR ON GR.GROUPS_ID = P.GROUPS_ID
+								AND GR.COUNTRY_ID = C.COUNTRY_ID
+                                AND GR.CITY_ID = CI.CITY_ID
+                                AND GR.DISTRICT_ID = DI.DISTRICT_ID
+                                AND GR.WARDS_ID = W.WARDS_ID
+                                AND GR.TOWN_ID = T.TOWN_ID
+	LEFT JOIN QLTN_M_EDUCATIONAL E ON E.EDUCATION_ID = P.EDUCATIONAL_ID
+	LEFT JOIN QLTN_M_UNIVERSITY U ON U.UNIVERSITY_ID = P.UNIVERSITY_ID
+	LEFT JOIN QLTN_M_SPECIALIZED SP ON SP.SPECIALIZED_ID = P.SPECIALIZED_ID
+									AND SP.UNIVERSITY_ID = P.UNIVERSITY_ID
+		where 1 = 1
+		<if test="cateId != '-2'">
+			AND P.CATE_ID = #{cateId}
+		</if>
+		<if test="statusId != '-2'">
+			AND P.STATUS_ID = #{statusId}
+		</if>
+		<if test="personName != ''">
+			AND P.PERSON_NAME LIKE #{personName}
+		</if>
+		<if test="identityCard != ''">
+			AND P.IDENTITY_CARD LIKE #{identityCard}
+		</if>
+		<if test="countryId != '-2'">
+			AND P.NATIVE_COUNTRY = #{countryId}
+		</if>
+		<if test="cityId != '-2'">
+			AND P.CITY_ID= #{cityId}
+		</if>
+		<if test="districtId != '-2'">
+			AND P.DISTRICT_ID = #{districtId}
+		</if>
+		<if test="wardsId != '-2'">
+			AND P.WARDS_ID = #{wardsId}
+		</if>
+		<if test="townId != '-2'">
+			AND P.TOWN_ID = #{townId}
+		</if>
+		<if test="groupsId != '-2'">
+			AND P.GROUPS_ID = #{groupsId}
+		</if>
+		<if test="educationId != '-2'">
+			AND P.EDUCATIONAL_ID = #{educationId}
+		</if>
+		<if test="universityId != '-2'">
+			AND P.UNIVERSITY_ID = #{universityId}
+		</if>
+		<if test="specializedId != '-2'">
+			AND P.SPECIALIZED_ID= #{specializedId}
+		</if>
+		AND P.DELETE_FLAG = '0'
+	</select>
+	
+	<select id="getLastIdPerson" parameterType="map" resultType="java.lang.String">
+		SELECT PERSON_ID
+		FROM QLTN_M_PERSON
+		WHERE PERSON_ID != ${personIdDefault}
+		ORDER BY PERSON_ID DESC
+		LIMIT 0,1
+	</select>	
+	<select id="getPersonDetail" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0041Result">
+		Select 	P.PERSON_ID personId,
+				P.PERSON_NAME personName,
+				P.DATE_OF_BIRTH dateOfBirth,
+				P.MONTH_OF_BIRTH monthOfBirth,
+				P.YEAR_OF_BIRTH yearOfBirth,
+				P.PHONE phone,
+				P.KSKQUAN_STT kskquanStt,
+				P.LLTN_STT lltnStt,
+				P.IDENTITY_CARD identityCard,
+				P.PLACE_OF_BIRTH placeOfBirth,
+				P.NATION nation,
+				P.RELIGION religion,
+				P.PERMANENT_ADDRESS permanentAddress,
+				P.TEMPORARY_RESIDENCE_ADDRESS temporaryResidenceAddress,
+				P.NATIONAL national,
+				P.ELEMENT element,
+				P.GRADUATION_YEAR graduationYear,
+				P.JOB_ID jobId,
+				P.WORK_PLACE workPlace,
+				P.CATE_ID cateId,
+				G.CATE_NAME cateName,
+				P.STATUS_ID statusId,
+				S.STATUS_NAME statusName,
+				P.NATIVE_COUNTRY nativeCountry,
+				C.COUNTRY_NAME countryName,
+				P.CITY_ID cityId,
+				CI.CITY_NAME cityName,
+				P.DISTRICT_ID districtId,
+				DI.DISTRICT_NAME districtName,
+				P.WARDS_ID wardsId,
+				W.WARDS_NAME wardsName,
+				P.TOWN_ID townId,
+				T.TOWN_NAME townName,
+				P.GROUPS_ID groupsId,
+				GR.GROUPS_NAME groupsName,
+				P.EDUCATIONAL_ID educationalId,
+				E.LEVEL level,
+				P.UNIVERSITY_ID universityId,
+				U.UNIVERSITY_NAME universityName,
+				P.SPECIALIZED_ID specializedId,
+				SP.SPECIALIZED_NAME specializedName
+		from QLTN_M_PERSON P
+		LEFT JOIN QLTN_M_CATEGORY G ON G.CATE_ID = P.CATE_ID
+		LEFT JOIN QLTN_M_STATUS S ON S.STATUS_ID = P.STATUS_ID
+		LEFT JOIN QLTN_M_COUNTRY C ON C.COUNTRY_ID = P.NATIVE_COUNTRY
+		LEFT JOIN QLTN_M_CITY CI ON CI.CITY_ID = P.CITY_ID
+									AND CI.COUNTRY_ID = C.COUNTRY_ID
+		LEFT JOIN QLTN_M_DISTRICT DI ON DI.DISTRICT_ID = P.DISTRICT_ID
+									AND DI.COUNTRY_ID = C.COUNTRY_ID
+	                                AND DI.CITY_ID = CI.CITY_ID
+		LEFT JOIN QLTN_M_WARDS W ON W.WARDS_ID = P.WARDS_ID
+									AND W.COUNTRY_ID = C.COUNTRY_ID
+	                                AND W.CITY_ID = CI.CITY_ID
+	                                AND W.DISTRICT_ID = DI.DISTRICT_ID
+		LEFT JOIN QLTN_M_TOWN T ON T.TOWN_ID = P.TOWN_ID
+									AND T.COUNTRY_ID = C.COUNTRY_ID
+	                                AND T.CITY_ID = CI.CITY_ID
+	                                AND T.DISTRICT_ID = DI.DISTRICT_ID
+	                                AND T.WARDS_ID = W.WARDS_ID
+		LEFT JOIN QLTN_M_GROUPS GR ON GR.GROUPS_ID = P.GROUPS_ID
+									AND GR.COUNTRY_ID = C.COUNTRY_ID
+	                                AND GR.CITY_ID = CI.CITY_ID
+	                                AND GR.DISTRICT_ID = DI.DISTRICT_ID
+	                                AND GR.WARDS_ID = W.WARDS_ID
+	                                AND GR.TOWN_ID = T.TOWN_ID
+		LEFT JOIN QLTN_M_EDUCATIONAL E ON E.EDUCATION_ID = P.EDUCATIONAL_ID
+		LEFT JOIN QLTN_M_UNIVERSITY U ON U.UNIVERSITY_ID = P.UNIVERSITY_ID
+		LEFT JOIN QLTN_M_SPECIALIZED SP ON SP.SPECIALIZED_ID = P.SPECIALIZED_ID
+										AND SP.UNIVERSITY_ID = P.UNIVERSITY_ID
+		where 1=1
+		<if test="personId != ''">
+			AND P.PERSON_ID = #{personId}
+		</if>
+	</select>
+</mapper>

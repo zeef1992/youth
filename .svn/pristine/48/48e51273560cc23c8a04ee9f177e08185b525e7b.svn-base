@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0016Mapper">
+
+	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0016Result">
+			SELECT 
+			    G.GROUPS_ID groupsId,
+			    G.GROUPS_CODE groupsCode,
+			    G.GROUPS_NAME groupsName,
+			    T.TOWN_CODE townCode,
+			    T.TOWN_NAME townName,
+			    W.WARDS_ID wardsId,
+			    W.WARDS_NAME wardsName,
+			    W.COUNTRY_ID countryId,
+			    CO.COUNTRY_NAME countryName,
+			    W.CITY_ID cityId,
+			    CI.CITY_NAME cityName,
+			    W.DISTRICT_ID districtId,
+			    DI.DISTRICT_NAME districtName
+			FROM
+				QLTN_M_GROUPS G
+					LEFT JOIN 
+			    QLTN_M_COUNTRY CO ON G.COUNTRY_ID = CO.COUNTRY_ID
+			        LEFT JOIN
+			    QLTN_M_CITY CI ON G.CITY_ID = CI.CITY_ID
+			        AND G.COUNTRY_ID = CO.COUNTRY_ID
+			        LEFT JOIN
+			    QLTN_M_DISTRICT DI ON G.DISTRICT_ID = DI.DISTRICT_ID
+			        AND G.COUNTRY_ID = CO.COUNTRY_ID
+			        AND G.CITY_ID = CI.CITY_ID
+			        LEFT JOIN        
+				 QLTN_M_WARDS W ON G.COUNTRY_ID = CO.COUNTRY_ID
+					AND G.CITY_ID = CI.CITY_ID
+			        AND G.DISTRICT_ID = DI.DISTRICT_ID
+			        AND G.WARDS_ID = W.WARDS_ID
+					LEFT JOIN
+				QLTN_M_TOWN T ON G.COUNTRY_ID = CO.COUNTRY_ID
+					AND G.CITY_ID = CI.CITY_ID
+			        AND G.DISTRICT_ID = DI.DISTRICT_ID
+			        AND G.WARDS_ID = W.WARDS_ID
+			        AND G.TOWN_ID = T.TOWN_ID
+			WHERE
+			    1 = 1
+		<if test="countryId != '-2'">
+			AND G.COUNTRY_ID = #{countryId}
+		</if>
+		<if test="cityId != '-2'">
+			AND G.CITY_ID = #{cityId}
+		</if>
+		<if test="districtId != '-2'">
+			AND G.DISTRICT_ID = #{districtId}
+		</if>
+		<if test="wardsId != '-2'">
+			AND G.WARDS_ID = #{wardsId}
+		</if>
+		<if test="townId != '-2'">
+			AND G.TOWN_ID = #{townId}
+		</if>
+		<if test="groupsCode != ''">
+			AND G.GROUPS_CODE LIKE #{groupsCode}
+		</if>
+		<if test="groupsName != ''">
+			AND G.GROUPS_NAME LIKE #{groupsName}
+		</if>
+		AND G.DELETE_FLAG = '0'
+		AND T.DELETE_FLAG = '0'
+		AND W.DELETE_FLAG = '0'
+		AND CI.DELETE_FLAG = '0'
+		AND CO.DELETE_FLAG = '0'
+		AND DI.DELETE_FLAG = '0'
+		ORDER BY G.GROUPS_CODE
+		LIMIT #{fromRow},#{itemCount}
+	</select>
+
+	<select id="getSearchDataTotalCounts" parameterType="map" resultType="java.lang.String">
+		SELECT COUNT(*)
+		FROM
+				QLTN_M_GROUPS G
+					LEFT JOIN 
+			    QLTN_M_COUNTRY CO ON G.COUNTRY_ID = CO.COUNTRY_ID
+			        LEFT JOIN
+			    QLTN_M_CITY CI ON G.CITY_ID = CI.CITY_ID
+			        AND G.COUNTRY_ID = CO.COUNTRY_ID
+			        LEFT JOIN
+			    QLTN_M_DISTRICT DI ON G.DISTRICT_ID = DI.DISTRICT_ID
+			        AND G.COUNTRY_ID = CO.COUNTRY_ID
+			        AND G.CITY_ID = CI.CITY_ID
+			        LEFT JOIN        
+				 QLTN_M_WARDS W ON G.COUNTRY_ID = CO.COUNTRY_ID
+					AND G.CITY_ID = CI.CITY_ID
+			        AND G.DISTRICT_ID = DI.DISTRICT_ID
+			        AND G.WARDS_ID = W.WARDS_ID
+					LEFT JOIN
+				QLTN_M_TOWN T ON G.COUNTRY_ID = CO.COUNTRY_ID
+					AND G.CITY_ID = CI.CITY_ID
+			        AND G.DISTRICT_ID = DI.DISTRICT_ID
+			        AND G.WARDS_ID = W.WARDS_ID
+			        AND G.TOWN_ID = T.TOWN_ID
+			WHERE
+			    1 = 1
+		<if test="countryId != '-2'">
+			AND G.COUNTRY_ID = #{countryId}
+		</if>
+		<if test="cityId != '-2'">
+			AND G.CITY_ID = #{cityId}
+		</if>
+		<if test="districtId != '-2'">
+			AND G.DISTRICT_ID = #{districtId}
+		</if>
+		<if test="wardsId != '-2'">
+			AND G.WARDS_ID = #{wardsId}
+		</if>
+		<if test="townId != '-2'">
+			AND G.TOWN_ID = #{townId}
+		</if>
+		<if test="groupsCode != ''">
+			AND G.GROUPS_CODE LIKE #{groupsCode}
+		</if>
+		<if test="groupsName != ''">
+			AND G.GROUPS_NAME LIKE #{groupsName}
+		</if>
+		AND G.DELETE_FLAG = '0'
+		AND T.DELETE_FLAG = '0'
+		AND W.DELETE_FLAG = '0'
+		AND CI.DELETE_FLAG = '0'
+		AND CO.DELETE_FLAG = '0'
+		AND DI.DELETE_FLAG = '0'
+	</select>
+
+	<select id="getLastIdGroups" parameterType="map" resultType="java.lang.String">
+		SELECT GROUPS_ID
+		FROM QLTN_M_GROUPS
+		WHERE GROUPS_ID != ${groupsIdDefault}
+		ORDER BY GROUPS_ID DESC
+		LIMIT 0,1
+	</select>
+</mapper>

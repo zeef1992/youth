@@ -1,0 +1,236 @@
+/**
+ * @author Khoa Le
+ */
+//--------------- Constants definition ---------------
+// language abbreviations definition
+var LANGUAGE_ENGLISH = "en";
+var LANGUAGE_JAPANESE = "jp";
+var LANGUAGE_VIETNAMESE = "vi";
+// role type value
+var ROLE_TYPE_SYSTEM_MANAGER = "1";
+var ROLE_TYPE_BUSINESS_MANAGER = "2";
+var ROLE_TYPE_FARM_MANAGER = "3";
+var ROLE_TYPE_AREA_MANAGER = "4";
+// popup mode
+var MODE_VIEW = "view";
+var MODE_EDIT = "edit";
+var MODE_NEW = "new";
+// delete flag status
+var DELETE_FLAG_ON = "1";
+var DELETE_FLAG_OFF = "0";
+// when user selected nothing
+var STATUS_NO_SELECT = "-2";
+// when blank fields exist
+var VALIDATE_BLANK_FIELDS = "-2";
+// when user's id is in wrong format
+var VALIDATE_WRONG_FORMAT = "-3";
+// when new password and new password confirm do not match
+var VALIDATE_PASSWORD_NOT_MATCH = "-4";
+// when current password is not correct
+var VALIDATE_PASSWORD_NOT_CORRECT = "-5";
+// when updating to DB successfully
+var UPDATE_RESULT_SUCCESSFUL = "1";
+// when updating to DB failed
+var UPDATE_RESULT_FAILED = "-1";
+// when inserting to DB successfully
+var INSERT_RESULT_SUCCESSFUL = "1";
+// when inserting to DB with duplicated id
+var INSERT_RESULT_DUPLICATED = "0";
+// when inserting to DB with wrong config
+var INSERT_RESULT_CONFIG_NOT_CORRECT = "-6";
+// when inserting to DB failed
+var INSERT_RESULT_FAILED = "-1";
+// when deleting from DB successfully
+var DELETE_RESULT_SUCCESSFUL = "1";
+// when deleting from DB failed
+var DELETE_RESULT_FAILED = "-1";
+// when uploading file to server successfully
+var UPLOAD_RESULT_SUCCESSFUL = "1";
+// when uploading file to server failed
+var UPLOAD_RESULT_FAILED = "-1";
+
+// Prevent the backspace key from navigating back.
+$(document).unbind("keydown").bind("keydown", function (event) {
+    if (event.keyCode === 8) {
+        var doPrevent = true;
+        var types = ["text", "password", "file", "search", "email", "number", "date", "color", "datetime", "datetime-local", "month", "range", "search", "tel", "time", "url", "week"];
+        var d = $(event.srcElement || event.target);
+        var disabled = d.prop("readonly") || d.prop("disabled");
+        if (!disabled) {
+            if (d[0].isContentEditable) {
+                doPrevent = false;
+            } else if (d.is("input")) {
+                var type = d.attr("type");
+                if (type) {
+                    type = type.toLowerCase();
+                }
+                if (types.indexOf(type) > -1) {
+                    doPrevent = false;
+                }
+            } else if (d.is("textarea")) {
+                doPrevent = false;
+            }
+        }
+        if (doPrevent) {
+            event.preventDefault();
+            return false;
+        }
+    }
+});
+
+// Click event processing for language changing
+$(document).on("click", ".language", function() {
+	// get current url
+	var currentLocation = getCurrentUrlWithoutLanguage();
+	// get selected locale
+	var selectedLocale = $(this).attr("name");
+	// change url
+	window.location = currentLocation + "?language=" + selectedLocale;
+});
+
+// Fix table header and body when scrolling only the table body
+function fixTable() {
+	// get height of table body and table container
+	var tblBodyHeight = $("#tblBody").height();
+	var divBodyHeight = $("#divBody").height();
+	// if the table body is longer than the table container
+	if (tblBodyHeight > divBodyHeight) {
+		// add y scroll bar
+		$("#divBody").css("overflow-y", "scroll");
+		if (isMobile()) {
+			// Mobile version
+		} else {
+			// ceiling the width of divBody to avoid misaligning the borders
+			$("#divBody").width(Math.ceil($("#divBody").width()));
+			// PC version
+			// when the table body has many rows, scroll bar will appear
+			// set the size of body to minus the scroll bar, scroll bar size: 17px
+			$("#divHead").width($("#divBody").width() - 17);
+			$("#divFooter").width($("#divBody").width() - 17);
+			// set size when user resizes window
+			$(window).resize(function() {
+				$("#divHead").width($("#divBody").width() - 17);
+				$("#divFooter").width($("#divBody").width() - 17);
+			});
+		}
+	} else {
+		// table body is shorter than the table container
+		// hide y scroll bar
+		$("#divBody").css("overflow-y", "hidden");
+		// when the table body has few rows, scroll bar will disappear
+		// set the size of body to plus the scroll bar, scroll bar size: 17px
+		$("#divHead").width($("#divBody").width());
+		$("#divFooter").width($("#divBody").width() + 17);
+		// set size when user resizes window
+		$(window).resize(function() {
+			$("#divHead").width($("#divBody").width());
+			$("#divFooter").width($("#divBody").width() + 17);
+		});
+	}
+	// fix table not repainting on Chrome
+	$("#divBody").html($("#divBody").html());
+}
+
+// calculate table height to fit page
+function calculateTableHeight() {
+	// get all the necessary height of controls
+	var windowHeight = $(window).height();
+	var headerHeight = $(".header").height();
+	var headerGroupButtonHeight = $(".header-group-button").height();
+	var titleHeight = $(".title").height();
+	var searchConditionHeight = $(".tbl-box").height();
+	var searchTableBodyTopMargin = $(".text-title").height() + $("#divHead").height();
+	var pagerHeight = $(".tblPager").height();
+	var footerHeight = $(".footer").height();
+	var estimatedSafeHeight = 30;
+	// calculate table body height
+	return windowHeight - headerHeight - headerGroupButtonHeight - titleHeight - searchConditionHeight
+				- searchTableBodyTopMargin - pagerHeight - footerHeight - estimatedSafeHeight;
+}
+
+// Check session is timeout
+function checkSessionTimeout(object) {
+	if (object.constructor === "string".constructor) {
+		if (object.indexOf("login") > -1 && object.indexOf("j_username") > -1 && object.indexOf("j_password") > -1) {
+			// return to login page
+			window.location.href = getContextPath() + "/login";
+			return 1;
+		}
+	}
+	return 0;
+}
+
+// Check current language function
+function checkCurrentLanguage() {
+	var currentUrl = window.location.href;
+	if (currentUrl.indexOf("?language=" + LANGUAGE_ENGLISH) > 0) {
+		return LANGUAGE_ENGLISH;
+	} else if (currentUrl.indexOf("?language=" + LANGUAGE_VIETNAMESE) > 0) {
+		return LANGUAGE_VIETNAMESE;
+	} else {
+		return LANGUAGE_JAPANESE;
+	}
+}
+
+// Display dialog
+function showPopup(element) {
+	$("#overlay").show();
+	element.css("top", Math.max(0, (($(window).height() - element.outerHeight()) / 2) + 
+            $(window).scrollTop()) + "px");
+	element.css("left", Math.max(0, (($(window).width() - element.outerWidth()) / 2) + 
+            $(window).scrollLeft()) + "px");
+	element.show();
+}
+// Hide dialog
+function hidePopup(element) {
+	element.hide();
+	$("#overlay").hide();
+}
+
+// Display dialog level 2
+function showPopup2(element) {
+	$("#overlay2").show();
+	element.css("top", Math.max(0, (($(window).height() - element.outerHeight()) / 2) + 
+            $(window).scrollTop()) + "px");
+	element.css("left", Math.max(0, (($(window).width() - element.outerWidth()) / 2) + 
+            $(window).scrollLeft()) + "px");
+	element.show();
+}
+// Hide dialog level 2
+function hidePopup2(element) {
+	element.hide();
+	$("#overlay2").hide();
+}
+
+// Check for OS function
+function isMobile() {
+	if (/iPad|iPhone|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+		// Mobile
+		return true;
+	} else {
+		// PC
+		return false;
+	}
+}
+
+// Get current date
+function getCurrentDate() {
+	var currentdate = new Date();
+	return currentdate.getDate() + "/" + (currentdate.getMonth() + 1)  + "/" + currentdate.getFullYear();
+}
+
+// Get current time
+function getCurrentTime() {
+	var currentdate = new Date();
+	return currentdate.getHours() + ":" + currentdate.getMinutes() + ":"  + currentdate.getSeconds();
+}
+
+// Get uppermost path of application
+function getContextPath() {
+	return window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
+}
+
+// Get the URL without the "?language=xx" string
+function getCurrentUrlWithoutLanguage() {
+	return window.location.href.substring(0, window.location.pathname.indexOf("?"));
+}
