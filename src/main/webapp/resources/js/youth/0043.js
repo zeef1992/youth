@@ -60,7 +60,7 @@ $(document).ready(function(){
 						}
 					}
 					$("#cbbYearOfBirth").append(optionStr);
-
+   
 					// cbbMonthOfBirth
 					optionStr = "<option value='"+ STATUS_NO_SELECT +"'></option>";
 					for (var i = 1; i <= 12; i++) {
