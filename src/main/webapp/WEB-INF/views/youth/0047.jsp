@@ -40,6 +40,7 @@
 					</div>
 					<div><label class="control-label" style="text-align: left;">Tôi xin cam đoan bản khai sơ yếu lý lịch trên đúng sự thật, nếu có điều gì không đúng tôi chịu trách nhiệm trước pháp luật về lời khai của mình.</label></div>
 					<button id="btnComfirmProcessYourselt" class="btn btn-success" type="button"><spring:message code="dialog_ok_button" /></button>
+					<button id="btnEditProcessYourselt" class="btn btn-success" type="button">Chĩnh Sữa</button>
 					<input type = "hidden" id= "numberOfRelation" value = "${numberOfRelation}" /> 
 					<input type = "hidden" id= "personId" value = "${personId}" /> 
 				</form>

@@ -41,4 +41,13 @@
 				CONTENT content
 		FROM qltn.qltn_m_process_person where person_id = ${personId};
 	</select>
+	<select id="getRelationShipOfPersonEdit" parameterType="map" resultType="vn.youthmanager.ict.common.db.model.QltnMFamilyRelatives">
+		SELECT 	FAMILY_PERSON_ID familyPersonId,
+				RELATION relation,
+		        STATUS status,
+		        BIRTH_DAY birthDay,
+		        JOB job,
+		        WORK_PLACE workPlace
+		FROM qltn.qltn_m_family_relatives where PERSON_ID = ${personId};
+	</select>
 </mapper>

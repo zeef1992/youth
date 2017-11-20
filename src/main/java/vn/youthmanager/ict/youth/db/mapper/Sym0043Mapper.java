@@ -1,9 +1,9 @@
 package vn.youthmanager.ict.youth.db.mapper;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
+import vn.youthmanager.ict.common.db.model.QltnMFamilyRelatives;
 import vn.youthmanager.ict.common.db.model.QltnMProcessPerson;
 
 public interface Sym0043Mapper {
@@ -17,4 +17,6 @@ public interface Sym0043Mapper {
 	String getLastIdFamilyRelatives(Map<String, Object> params);
 	
 	ArrayList<QltnMProcessPerson> getProcessEdit(Map<String, Object> params);
+	
+	ArrayList<QltnMFamilyRelatives> getRelationShipOfPersonEdit(Map<String, Object> params);
 }

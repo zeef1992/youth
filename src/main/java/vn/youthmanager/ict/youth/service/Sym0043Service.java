@@ -555,4 +555,18 @@ public class Sym0043Service {
 		}
 		return qltnMProcessPersonsList;
 	}
+
+	public ArrayList<QltnMFamilyRelatives> getRelationShipOfPersonEdit(String personId) {
+		ArrayList<QltnMFamilyRelatives> qltnMProcessPersonsList = new ArrayList<QltnMFamilyRelatives>();
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("personId", "'" +personId + "'");
+		try {
+			qltnMProcessPersonsList = sym0043Dao.getSym0043Mapper().getRelationShipOfPersonEdit(params);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			qltnMProcessPersonsList = null;
+			logger.error("Error message: " + ex.getMessage());
+		}
+		return qltnMProcessPersonsList;
+	}
 }

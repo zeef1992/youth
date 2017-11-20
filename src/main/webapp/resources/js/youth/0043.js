@@ -16,6 +16,7 @@ $(document).ready(function(){
 		$("#lblNumberOfRelation").addClass("display-none");
 		$("#txtNumberOfRelation").addClass("display-none");
 		$("#update").addClass("display-none");
+		$("#btnEditProcessYourselt").css({"display":"none"});
 		$("#addNew").removeClass("display-none");
 	} else {
 		var personId = $("#personIdEdit").val();
@@ -194,6 +195,7 @@ $(document).ready(function(){
 					$("#txtNumberOfRelation").css({"display": "none"});
 					$("#btnNumberOfRelation").css({"display": "none"});
 					getProcessPerson(personId);
+					getRelationShipOfPerson(personId);
 				} else {
 					
 				}
@@ -215,6 +217,18 @@ $(document).ready(function(){
 			// draw table
 			drawResult = drawTableProcessEdit();
 			$("#divBodyProcess").width($("#divHeadProcess").width() + 2);
+		}, 1000);
+	}
+
+	// Get Relationship of person
+	function getRelationShipOfPerson(PersonId) {
+		$(".relationContentEdit").load(rootPath + "/0045/?numberOfRelation=0");
+		setTimeout(function() {
+			// reset variables
+			// draw table
+			drawResult = drawTable0045Edit();
+			$("#divBody").width($("#divHead").width() + 2);
+			
 		}, 1000);
 	}
 	// Get data for combobox country
@@ -1261,6 +1275,7 @@ $(document).ready(function(){
 			
 		}, 1000);
 		$(this).addClass("display-none");
+		
 		$("#lblNumberOfRelation").addClass("display-none");
 		$("#txtNumberOfRelation").addClass("display-none");
 		$("#divBody").width($("#divHead").width() + 2);
@@ -1443,6 +1458,7 @@ $(document).ready(function(){
 			}, 1000);
 			// display-none button
 			$(this).addClass("display-none");
+			$("#btnEditProcessYourselt").css({"display":"none"});
 			$("#divBodyProcess").width($("#divHeadProcess").width() + 2);
 		}
 	});
@@ -1602,4 +1618,52 @@ $(document).ready(function(){
 		$("#divBodyProcess").scrollTop(0).scrollLeft(0);
 	}
 
+	// function 
+	function drawTable0045Edit() {
+			// clear table
+			$("#divBody > #tblBody").find("tbody").remove();
+			// create table starts
+			var tableStringArray = [];
+			// add tbody open tag
+			tableStringArray.push("<tbody>");
+			$.ajax({
+				type: "POST",
+				url: "getRelationShipOfPersonEdit",
+				data: { "PersonId": personId },
+				async: false,
+				success: function(returnedJsonData) {
+					for (var i = 0; i < returnedJsonData.length; i++) {
+						// row open tag
+						tableStringArray.push("<tr class = 'height34' id='row" + returnedJsonData[i].processPersonId + "'>");
+						// relation
+						tableStringArray.push("<td class = 'align-center relation '>" + returnedJsonData[i].relation + "</td>");
+						// relation
+						tableStringArray.push("<td class = 'align-center filed'>" + returnedJsonData[i].status + "</td>");
+						// relation
+						tableStringArray.push("<td class = 'align-center filed'>" + returnedJsonData[i].birthDay + "</td>");
+						// relation
+						tableStringArray.push("<td class = 'align-center filed'>" + returnedJsonData[i].job + "</td>");
+						// relation
+						tableStringArray.push("<td class = 'align-center filed'>" + returnedJsonData[i].workPlace + "</td>");
+						// row close tag
+						tableStringArray.push("</tr>");
+					}
+					// add tbody close tag
+					tableStringArray.push("</tbody>");
+					// append all created string to table
+					$("#divBody > #tblBody").append(tableStringArray.join(''));
+					// show search result
+					$(".cont-box").removeClass("display-none");
+					$("#divHead").removeClass("display-none");
+					// fix table header and body when scrolling only the table body
+					fixTable();
+				    // scroll to top of table
+					$("#divBody").scrollTop(0).scrollLeft(0);
+				}, 
+				error: function(e) {
+					// display error message
+					alert(ERROR_MESSAGE);
+				}
+			});
+	}
 });

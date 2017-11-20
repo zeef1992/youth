@@ -353,9 +353,8 @@
 									</div>
 								</div>
 								<div class = "row">
-									<div class = "relationContent">
-									
-									</div>
+									<div class = "relationContent"></div>
+									<div class = "relationContentEdit"></div>
 								</div>
 								<div class = "row">
 									<div class = "contentBox">

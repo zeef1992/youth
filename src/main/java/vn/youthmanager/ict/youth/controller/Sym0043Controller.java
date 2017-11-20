@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import vn.youthmanager.ict.common.db.model.QltnMCity;
 import vn.youthmanager.ict.common.db.model.QltnMDistrict;
+import vn.youthmanager.ict.common.db.model.QltnMFamilyRelatives;
 import vn.youthmanager.ict.common.db.model.QltnMGroups;
 import vn.youthmanager.ict.common.db.model.QltnMPerson;
 import vn.youthmanager.ict.common.db.model.QltnMProcessPerson;
@@ -161,5 +162,10 @@ public class Sym0043Controller {
 	@RequestMapping(value = "/getProcessEdit", method = RequestMethod.POST)
 	public @ResponseBody List<QltnMProcessPerson> getProcessEdit(@RequestParam(value = "PersonId") String PersonId) {
 		return sym0043Service.getProcessEdit(PersonId);
+	}
+
+	@RequestMapping(value = "/getRelationShipOfPersonEdit", method = RequestMethod.POST)
+	public @ResponseBody List<QltnMFamilyRelatives> getRelationShipOfPersonEdit(@RequestParam(value = "PersonId") String PersonId) {
+		return sym0043Service.getRelationShipOfPersonEdit(PersonId);
 	}
 }

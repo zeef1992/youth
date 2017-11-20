@@ -48,6 +48,7 @@
 						</table>
 					</div>
 					<button id="btnComfirmRelation" class="btn btn-success" type="button"><spring:message code="dialog_ok_button" /></button>
+					<button id="btnEditRelation" class="btn btn-success" type="button">Chĩnh Sữa</button>
 					<input type = "hidden" id= "numberOfRelation" value = "${numberOfRelation}" /> 
 					<input type = "hidden" id= "personId" value = "${personId}" /> 
 				</form>
