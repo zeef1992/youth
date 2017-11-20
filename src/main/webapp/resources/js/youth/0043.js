@@ -1530,7 +1530,7 @@ $(document).ready(function(){
 		// create table starts
 		var tableStringArray = [];
 		// add tbody open tag
-		tableStringArray.push("<tbody>");
+		tableStringArray.push("<tbody>");     
 		$.ajax({
 			type: "POST",
 			url: "getProcessEdit",
