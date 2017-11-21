@@ -1441,6 +1441,7 @@ $(document).ready(function(){
 		// display-none btnNumberOfRelation
 		if (processYoursellStr != '') {
 			$(this).data('clicked', true);
+			$(this).parent().find("#btnEditProcessYourselt").removeClass("display-none");
 			$("#btnNumberOfRelation").removeClass("display-none");
 			$("#lblNumberOfRelation").removeClass("display-none");
 			$("#txtNumberOfRelation").removeClass("display-none");
@@ -1471,6 +1472,7 @@ $(document).ready(function(){
 	for (var i = 1970; i >= 1970 && i <= yearNow; i++) {
 		yearArr.push(i);
 	}
+	
 	$(document).on("dblclick", ".setYear", function() {
 		if (!btnComfirmProcessYourseltClicked) {
 			var width = $(this).width();
@@ -1499,30 +1501,32 @@ $(document).ready(function(){
 		}
 	});
 
-	$(document).on("focusout", "#divBodyProcess > #tblBodyProcess > tbody > tr > td.filedProcess", function() {
+	/*$(document).on("focusout", "#divBodyProcess > #tblBodyProcess > tbody > tr > td.filedProcess", function() {
 		if (!btnComfirmProcessYourseltClicked) {
 			var text = $(this).find(".changeText").val();
 			$(this).text(text);
 		}
-	});
+	});*/
 
 	$(document).on("click", "#addProcess", function() {
-		var numberRow = $("#divBodyProcess > #tblBodyProcess > tr").attr("id");
-		// create table starts
-		var tableStringArray = [];
-		var numberRowPlus = numberRow + 1;
-		// row open tag
-		tableStringArray.push("<tr class = 'height34' id='row" + numberRow + "'>");
-		// relation
-		tableStringArray.push("<td class = 'align-center setYear '></td>");
-		// relation
-		tableStringArray.push("<td class = 'align-center setYear'></td>");
-		// relation
-		tableStringArray.push("<td class = 'align-center filedProcess'></td>");
-		// row close tag
-		tableStringArray.push("</tr>");
-		// append all created string to table
-		$("#divBodyProcess > #tblBodyProcess").append(tableStringArray.join(''));
+		if (!btnComfirmProcessYourseltClicked) {
+			var numberRow = $("#divBodyProcess > #tblBodyProcess > tr").attr("id");
+			// create table starts
+			var tableStringArray = [];
+			var numberRowPlus = numberRow + 1;
+			// row open tag
+			tableStringArray.push("<tr class = 'height34' id='row" + numberRow + "'>");
+			// relation
+			tableStringArray.push("<td class = 'align-center setYear '></td>");
+			// relation
+			tableStringArray.push("<td class = 'align-center setYear'></td>");
+			// relation
+			tableStringArray.push("<td class = 'align-center filedProcess'></td>");
+			// row close tag
+			tableStringArray.push("</tr>");
+			// append all created string to table
+			$("#divBodyProcess > #tblBodyProcess").append(tableStringArray.join(''));
+		}
 	});
 
 	// selected Relation
@@ -1541,7 +1545,11 @@ $(document).ready(function(){
 		    $(currentDiv).next("td").click();
 		}
 	});
-
+	$(document).on('click', '#btnEditProcessYourselt', function(e) {
+		btnComfirmProcessYourseltClicked = false;
+		$(this).addClass('display-none');
+		$(this).parent().find("#btnComfirmProcessYourselt").removeClass("display-none");
+	});
 	function drawTableProcessEdit() {
 		// clear table
 		$("#divBodyProcess > #tblBodyProcess").find("tbody").remove();
@@ -1661,6 +1669,7 @@ $(document).ready(function(){
 					fixTable();
 				    // scroll to top of table
 					$("#divBody").scrollTop(0).scrollLeft(0);
+					btnComfirmRelationClicked = true;
 				}, 
 				error: function(e) {
 					// display error message
