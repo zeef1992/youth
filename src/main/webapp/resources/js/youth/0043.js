@@ -10,8 +10,8 @@ $(document).ready(function(){
 	var MODE_EDIT = "modeEdit";
 	var MODE_NEW = "modeNew";    
 	var relationStr0043 = "";
-	if (MODE == MODE_NEW) {
-		initComboboxData();
+	if (MODE == MODE_NEW) {  
+		initComboboxData();   
 		$("#btnNumberOfRelation").addClass("display-none");
 		$("#lblNumberOfRelation").addClass("display-none");
 		$("#txtNumberOfRelation").addClass("display-none");
