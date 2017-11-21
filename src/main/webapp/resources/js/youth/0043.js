@@ -1160,7 +1160,7 @@ $(document).ready(function(){
 			// reset Name = ""
 			criteriaSelectedName = "";
 			for (var i = 0; i < criteriaSelectedStrArr.length; i++) {
-				criteriaSelectedName += "<button criteriaIdBtn = '"+ criteriaSelectedStrArr[i] +"' class = 'btn btn-default btn-delete margin-right5' onClick = 'return false;'>" + criteriaSelectedNameArr[i] + "</button>";
+				criteriaSelectedName += "<button criteriaIdBtn = '"+ criteriaSelectedStrArr[i] +"' class = 'btn btn-info margin-right5' onClick = 'return false;'>" + criteriaSelectedNameArr[i] + "</button>";
 			}
 			$("#divBodyDetailReport > #tblBodyDetailReport").find("tbody").find("#" + rowSelected).find("td").eq(1).html(criteriaSelectedName);
 			$("#overlay2").hide();
@@ -1501,12 +1501,12 @@ $(document).ready(function(){
 		}
 	});
 
-	/*$(document).on("focusout", "#divBodyProcess > #tblBodyProcess > tbody > tr > td.filedProcess", function() {
+	$(document).on("focusout", "#divBodyProcess > #tblBodyProcess > tbody > tr > td.filedProcess", function() {
 		if (!btnComfirmProcessYourseltClicked) {
 			var text = $(this).find(".changeText").val();
 			$(this).text(text);
 		}
-	});*/
+	});
 
 	$(document).on("click", "#addProcess", function() {
 		if (!btnComfirmProcessYourseltClicked) {
