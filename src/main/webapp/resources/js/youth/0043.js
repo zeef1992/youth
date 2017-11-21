@@ -8,7 +8,7 @@ $(document).ready(function(){
 	var MODE = $("#modeScreen").val();
 	// default mode.
 	var MODE_EDIT = "modeEdit";
-	var MODE_NEW = "modeNew";
+	var MODE_NEW = "modeNew";    
 	var relationStr0043 = "";
 	if (MODE == MODE_NEW) {
 		initComboboxData();
