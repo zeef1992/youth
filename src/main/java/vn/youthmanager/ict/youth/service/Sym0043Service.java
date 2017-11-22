@@ -47,6 +47,39 @@ public class Sym0043Service {
 		this.appContext = appContext;
 	}
 
+	// count so lan insert relationship của thanh niên
+	private int countRelation = 0;
+	
+	// count so lan insert process person 
+	private int countProcessPerson;
+	
+	// count so lan insert note report
+	private int countNoteReport;
+	
+	public int getCountNoteReport() {
+		return countNoteReport;
+	}
+
+	public void setCountNoteReport(int countNoteReport) {
+		this.countNoteReport = countNoteReport;
+	}
+
+	public int getCountProcessPerson() {
+		return countProcessPerson;
+	}
+
+	public void setCountProcessPerson(int countProcessPerson) {
+		this.countProcessPerson = countProcessPerson;
+	}
+
+	public int getCountRelation() {
+		return countRelation;
+	}
+
+	public void setCountRelation(int countRelation) {
+		this.countRelation = countRelation;
+	}
+
 	/**
 	 * insertData Person
 	 * 
@@ -264,6 +297,8 @@ public class Sym0043Service {
 					int result = 0;
 					try {
 						if (i == 0) {
+							// set về = 0
+							setCountNoteReport(0);
 							// insert DB first item.
 							result = insertDataNoteReport(criteriaList.get(i), idNumberStr);
 							if (result > 0) {
@@ -301,6 +336,7 @@ public class Sym0043Service {
 					// convert noteReportStr to String Array
 					String processYoursellStrArr[] = processYoursellStr.split(",");
 					List<String> processYourseltArr = Arrays.asList(processYoursellStrArr);
+					setCountProcessPerson(0);
 					for (int i = 0; i < processYourseltArr.size(); i++) {
 						String item = processYourseltArr.get(i);
 						int result = 0;
@@ -340,6 +376,7 @@ public class Sym0043Service {
 					// convert noteReportStr to String Array
 					String relationStrArr[] = relationStr.split(",");
 					List<String> familyRelativesArr = Arrays.asList(relationStrArr);
+					setCountRelation(0);
 					for (int i = 0; i < familyRelativesArr.size(); i++) {
 						String item = familyRelativesArr.get(i);
 						int result = 0;
@@ -408,12 +445,14 @@ public class Sym0043Service {
 		params.put("personId", "'" + idNumberStr + "'" );
 		params.put("reportId", "'" + detailnoteReportArr[0] + "'");
 		params.put("detailReportId", "'" +  detailnoteReportArr[1] + "'");
-		// select max id in QLTN_M_NOTE_REPORT
-		String idMaxNoteReport = sym0043Dao.getSym0043Mapper().getLastIdNoteReport(params);
 		int idNumber = 0;
-		if (idMaxNoteReport != null) {
-			idNumber = Integer.parseInt(idMaxNoteReport.substring(2));
+		if (getCountNoteReport() < 1) {
+			idNumber = 0;
+		} else {
+			idNumber = getCountNoteReport();
 		}
+		// tang so lan insert note report của thanh niên
+		setCountNoteReport(getCountNoteReport() + 1) ;
 
 		if (idNumber <= Constants.PERSON_DEFAULT_ID) {
 			idNumber = idNumber + 1;
@@ -454,12 +493,14 @@ public class Sym0043Service {
 				.split(":");
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("personId", "'" + idNumberStr + "'" );
-		// select max id in QLTN_M_NOTE_REPORT
-		String idMaxProcessYourselt = sym0043Dao.getSym0043Mapper().getLastIdProcessPerson(params);
 		int idNumber = 0;
-		if (idMaxProcessYourselt != null) {
-			idNumber = Integer.parseInt(idMaxProcessYourselt.substring(2));
+		if (getCountProcessPerson() < 1) {
+			idNumber = 0;
+		} else {
+			idNumber = getCountProcessPerson();
 		}
+		// tang so lan insert Process của thanh niên
+		setCountProcessPerson(getCountProcessPerson() + 1) ;
 
 		if (idNumber <= Constants.PERSON_DEFAULT_ID) {
 			idNumber = idNumber + 1;
@@ -492,7 +533,6 @@ public class Sym0043Service {
 	 * @return
 	 */
 	public int insertRelativePerson(String relationStr, String idNumberStr) {
-
 		int result = 0;
 		QltnMFamilyRelatives familyRelativesPersonObj = new QltnMFamilyRelatives();
 		// convert String to String Array
@@ -501,12 +541,14 @@ public class Sym0043Service {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("personId", "'" + idNumberStr + "'" );
 		// select max id in QLTN_M_NOTE_REPORT
-		String idMaxFamilyRelatives = sym0043Dao.getSym0043Mapper().getLastIdFamilyRelatives(params);
 		int idNumber = 0;
-		if (idMaxFamilyRelatives != null) {
-			idNumber = Integer.parseInt(idMaxFamilyRelatives.substring(2));
+		if (getCountRelation() < 1) {
+			idNumber = 0;
+		} else {
+			idNumber = getCountRelation();
 		}
-
+		// tang so lan insert relationship của thanh niên
+		setCountRelation(getCountRelation() + 1) ;
 		if (idNumber <= Constants.PERSON_DEFAULT_ID) {
 			idNumber = idNumber + 1;
 			String familyPersonId = Constants.FAMILY_RELATION_PERSON_CHARATER + String.format("%03d", idNumber);

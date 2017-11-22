@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		<div id="tabs">
+		<div id="tabs" style="margin-top: -30px; height: 230px;">
 		  <ul>
 		  <c:forEach var="value" items="${list0051}">
 		  	<li><a id = "${value.reportId}" href='#tabs-${value.reportId}'>${value.reportName}</a></li>

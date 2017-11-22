@@ -78,11 +78,6 @@
 								<div class = "clear height10"></div>
 								<div class = "row">
 									<div class = "contentBox">
-										<div class = "contentBox_title">I. BẢN THÂN</div>
-									</div>
-								</div>
-								<div class = "row">
-									<div class = "contentBox">
 										<div class = "col-sm-8">
 											<div class="form-group">
 												<label class="control-label col-sm-3 align-right" for="txtPersonName"><spring:message code="person_name" />:</label>
@@ -255,11 +250,6 @@
 									</div>
 								</div>
 								<div class = "row">
-									<div class = "contentBox">
-										<div class = "contentBox_title">II. QUẢN LÝ</div>
-									</div>
-								</div>
-								<div class = "row">
 									<div class="col-sm-4">
 										<div class="form-group">
 											<label class="control-label col-sm-5" for="cbbCate"><spring:message code="country_name" /> :</label>
@@ -311,12 +301,6 @@
 										</div>
 									</div>
 								</div>
-								
-								<div class = "row">
-									<div class = "contentBox">
-										<div class = "contentBox_title">III. QUÁ TRÌNH ĐÀO TẠO & LÀM VIỆC</div>
-									</div>
-								</div>
 								<div class = "row">
 									<div class = "contentBox">
 										<div class = "col-sm-2"></div>
@@ -330,12 +314,6 @@
 								<div class = "row">
 									<div class = "processOfYourSelt"></div>
 									<div class = "processOfYourSeltEdit"></div>
-								</div>
-								
-								<div class = "row">
-									<div class = "contentBox">
-										<div class = "contentBox_title">IV. QUAN HỆ GIA ĐÌNH</div>
-									</div>
 								</div>
 								<div class = "row">
 									<div class = "contentBox">
@@ -358,11 +336,6 @@
 								</div>
 								<div class = "row">
 									<div class = "contentBox">
-										<div class = "contentBox_title">V. THIẾT LẬP GHI CHÚ CHO MẪU BÁO CÁO</div>
-									</div>
-								</div>
-								<div class = "row">
-									<div class = "contentBox">
 										<div class = "col-sm-2"></div>
 										<div class = "col-sm-4">
 											<div class="form-group"></div>
@@ -378,16 +351,7 @@
 									</div>
 								</div>
 								<div class = "row">
-									<div id="popupWrapper1" class="noteReport_popup">
-											
-									</div>
-									</div>
-								</div>
-								<div class = "row">
-									<div id="popupWrapper1" class="noteReportComplete_popup">
-											
-									</div>
-									</div>
+									<div class="noteReport_popup"></div>
 								</div>
 								<div class = "row">
 									<div id="popupWrapper2" class="criteria_popup">

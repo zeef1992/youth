@@ -960,6 +960,7 @@ $(document).ready(function(){
 		reportSelectedName = reportSelectedName.substring(0, reportSelectedStr.length-1);
 		$(".noteReport_popup").load(rootPath + "/0051/?reportIdStr=" + reportSelectedStr);
 		$("#popupWrapper").hide();
+		$("#overlay").hide();
 		showPopup($("#popupWrapper1"));
 		arrayReportIdArr =  reportSelectedStr.split(",");
 		$(".loader").removeClass("display-none");
