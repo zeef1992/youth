@@ -5,7 +5,12 @@
  */
 
 $(document).ready(function(){
-	
+	$("#wrapper").scroll(function() {
+		var test = document.getElementById("wrapper").scrollHeight;
+		if (test >= 50) {
+			alert("ok")
+		}
+	});
 	// check mode Screen
 	var MODE = $("#modeScreen").val();
 	// default mode.

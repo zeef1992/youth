@@ -163,7 +163,7 @@ a:hover{ text-decoration: underline; }
 	width: 98%;
 	margin: 20px 0px;
 	height: 530px;
-	overflow-y: scroll;
+	/* overflow-y: scroll; */
 	position: relative;
 }
 #wrapper > #content > #left > .content > ul > li{
@@ -258,6 +258,7 @@ div.tab button.active {
 	background: url("../../img/disabled.png") no-repeat center center;
 }
 .cancel {
+	margin-top: -15px;
 	width: 16px;
 	height: 16px;
 	float: right;
@@ -781,9 +782,7 @@ div.tab button.active {
 	color: orange!important;
 }
 #update {
-	font-size: 18px;
 	display: block;
-	margin: 20px 0px;
 	width: 100%;
 	text-align: center;
 	color: orange!important;
