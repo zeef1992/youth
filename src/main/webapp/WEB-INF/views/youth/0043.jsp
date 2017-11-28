@@ -333,6 +333,7 @@
 								<div class = "row">
 									<div class = "relationContent"></div>
 									<div class = "relationContentEdit"></div>
+									<div class = "noteReportEdit"></div>
 								</div>
 								<div class = "row">
 									<div class = "contentBox">
@@ -351,7 +352,8 @@
 									</div>
 								</div>
 								<div class = "row">
-									<div class="noteReport_popup"></div>
+									<div id="popupWrapper1" class="noteReport_popup"></div>
+									
 								</div>
 								<div class = "row">
 									<div id="popupWrapper2" class="criteria_popup">

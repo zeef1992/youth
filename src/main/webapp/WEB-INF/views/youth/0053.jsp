@@ -3,30 +3,35 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <ul class="nav nav-tabs">
-	<li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-	<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
-	<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-	<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+	<c:forEach var="value" items="${list0053}">
+		<li><a id="${value.reportId}" href='#tabs-${value.reportId}'>${value.reportName}</a></li>
+	</c:forEach>
 </ul>
 <div class="tab-content">
-	<div id="home" class="tab-pane fade in active">
-		<h3>HOME</h3>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-			do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-	</div>
-	<div id="menu1" class="tab-pane fade">
-		<h3>Menu 1</h3>
-		<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-			laboris nisi ut aliquip ex ea commodo consequat.</p>
-	</div>
-	<div id="menu2" class="tab-pane fade">
-		<h3>Menu 2</h3>
-		<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-			accusantium doloremque laudantium, totam rem aperiam.</p>
-	</div>
-	<div id="menu3" class="tab-pane fade">
-		<h3>Menu 3</h3>
-		<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto
-			beatae vitae dicta sunt explicabo.</p>
-	</div>
+	<c:forEach var="value" items="${list0053}">
+		<div id="tabs-${value.reportId}" class="tab-pane">
+			<table class="table table-striped" id="divHeadDetailReport">
+				<thead>
+				<col width="30%">
+				<col width="">
+				<tr>
+					<th class="align-center colr_53BBF4"><b><spring:message
+								code="detail_report_name" /></b></th>
+					<th class="align-center colr_53BBF4"><b><spring:message
+								code="criteria_name" /></b></th>
+				</tr>
+				</thead>
+			</table>
+			<div id="divBodyDetailReport" class="height400 overflow-y">
+				<table id="tblBodyDetailReport" class="table table-striped">
+					<col width="30%">
+					<col width="">
+					<tr>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</c:forEach>
 </div>

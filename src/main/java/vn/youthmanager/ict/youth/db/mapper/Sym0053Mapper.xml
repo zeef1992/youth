@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0053Mapper">
+
+	<select id="getNoteReport" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0053Result">
+		select 	distinct(NR.REPORT_ID) reportId,
+		        R.REPORT_NAME reportName
+		from QLTN_M_NOTE_REPORT NR
+		left join qltn_m_report R on NR.REPORT_ID = R.REPORT_ID
+		where PERSON_ID = #{personId}
+	</select>
+</mapper>

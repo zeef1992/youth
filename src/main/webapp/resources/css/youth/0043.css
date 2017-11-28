@@ -78,9 +78,13 @@
 	background-color: #ffffff;
 }
 .noteReport_popup {
-	width: 100%;
+	width: 950px;
+	z-index: 999;
 	display: none;
-	position: relative;
+	top: 15%!important;
+	left: 20%!important;
+	height: 330px;
+	position: fixed;
 	background-color: #ffffff;
 }
 .criteria_popup {

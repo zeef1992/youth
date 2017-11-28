@@ -203,6 +203,7 @@ $(document).ready(function(){
 					$("#btnNumberOfRelation").css({"display": "none"});
 					getProcessPerson(personId);
 					getRelationShipOfPerson(personId);
+					getDataNoteReport(personId);
 				} else {
 					
 				}
@@ -236,6 +237,18 @@ $(document).ready(function(){
 			drawResult = drawTable0045Edit();
 			$("#divBody").width($("#divHead").width() + 2);
 			
+		}, 1000);
+	}
+
+	// get data report, detail report, criteria
+	function getDataNoteReport(personId) {
+		$(".noteReportEdit").load(rootPath + "/0053/?personId="+personId);
+		$(".loader").removeClass("display-none");
+		setTimeout(function() {
+			// reset variables
+			// draw table
+			//drawResult = drawTableReport();
+			drawTableDetailReport(arrayReportIdArr, "");
 		}, 1000);
 	}
 	// Get data for combobox country
