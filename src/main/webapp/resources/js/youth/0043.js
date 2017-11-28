@@ -248,7 +248,7 @@ $(document).ready(function(){
 			// reset variables
 			// draw table
 			//drawResult = drawTableReport();
-			drawTableDetailReport(arrayReportIdArr, "");
+			drawTableNoteReport("");
 		}, 1000);
 	}
 	// Get data for combobox country
@@ -1007,6 +1007,55 @@ $(document).ready(function(){
 		}, 1000);
 	});
 
+	// getDetaiReport
+	function drawTableNoteReport(reportId) {
+		if (list0053.length > 0) {
+			if (reportId == "") {
+				reportId = list0053[0].reportId;
+			}
+			$.ajax({
+				url: "../0051/getDetailReport",
+				type: "POST",
+				data: { "reportId": reportId },
+				success: function(returnJsonData) {
+					if (checkSessionTimeout(returnJsonData) == 1) return;
+					if (returnJsonData.length == 0) {
+						// display error message
+						jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+					}
+						// clear table
+						$("#tabs-" +reportId+ " > #divBodyDetailReport > #tblBodyDetailReport").find("tbody").remove();
+						// create table starts
+						var tableStringArray = [];
+						// add tbody open tag
+						tableStringArray.push("<tbody>");
+						for (var i = 0; i < returnJsonData.length; i++) {
+							// row open tag
+							tableStringArray.push("<tr class = 'height34' id='row" + i + "'>");
+							// DetailReportName
+							tableStringArray.push("<td id = '"+returnJsonData[i].detailReportId+"' criteriaId = '' class = 'row_DetailReportId algin-center' name = '"+i+"'>"+returnJsonData[i].detailReportName+"</td>");
+							// DetailReportName
+							tableStringArray.push("<td reportId = '"+returnJsonData[i].reportId+"' detailReportId = '"+returnJsonData[i].detailReportId+"' class = 'criteria_row'>Chọn Tiêu Chí:</td>");
+							// row close tag
+							tableStringArray.push("</tr>");
+						}
+						// add tbody close tag
+						tableStringArray.push("</tbody>");
+						// append all created string to table
+						$("#tabs-" +reportId+ " > #divBodyDetailReport > #tblBodyDetailReport").append(tableStringArray.join(''));
+						// show search result
+						$(".cont-box").removeClass("display-none");
+						$("#tabs-" +reportId+ " > #divHeadDetailReport").removeClass("display-none");
+						// fix table header and body when scrolling only the table body
+						fixTable();
+					    // scroll to top of table
+						$("#tabs-" +reportId+ " > #divBodyDetailReport").scrollTop(0).scrollLeft(0);
+				}
+			});
+			$(".loader").addClass("display-none");
+			$("#overlay").hide();
+		}
+	}
 	function drawTableDetailReport(arrayDetailReportIdArr, reportIdPopup) {
 		
 		if (reportIdPopup == "") {

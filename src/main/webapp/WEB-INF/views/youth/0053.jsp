@@ -2,6 +2,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<script type = "text/javascript">
+	var list0053 = ${listJs0053};
+</script>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<spring:message code="title_create_relationship_of_person" />
+		<div title="Quay Lại" id="addNewRelation"
+			class="add_new_relation cursor-pointer"></div>
+	</div>
+</div>
 <ul class="nav nav-tabs">
 	<c:forEach var="value" items="${list0053}">
 		<li><a id="${value.reportId}" href='#tabs-${value.reportId}'>${value.reportName}</a></li>
