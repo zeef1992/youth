@@ -3760,9 +3760,11 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 
 .nav-tabs>li>a {
 	margin-right: 2px;
-	line-height: 1.428571429;
-	border: 1px solid transparent;
-	border-radius: 4px 4px 0 0
+    line-height: 1.428571429;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    background: #778899;
+    color: #FFF;
 }
 
 .nav-tabs>li>a:hover {

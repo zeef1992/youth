@@ -1035,7 +1035,7 @@ $(document).ready(function(){
 							// DetailReportName
 							tableStringArray.push("<td id = '"+returnJsonData[i].detailReportId+"' criteriaId = '' class = 'row_DetailReportId algin-center' name = '"+i+"'>"+returnJsonData[i].detailReportName+"</td>");
 							// DetailReportName
-							tableStringArray.push("<td reportId = '"+returnJsonData[i].reportId+"' detailReportId = '"+returnJsonData[i].detailReportId+"' class = 'criteria_row'>Chọn Tiêu Chí:</td>");
+							tableStringArray.push("<td reportId = '"+returnJsonData[i].reportId+"' detailReportId = '"+returnJsonData[i].detailReportId+"' class = 'criteria_row'></td>");
 							// row close tag
 							tableStringArray.push("</tr>");
 						}
@@ -1053,6 +1053,7 @@ $(document).ready(function(){
 				}
 			});
 			$(".loader").addClass("display-none");
+			$(".tab-content>.tab-pane").css({"display":"block"});
 			$("#overlay").hide();
 		}
 	}
