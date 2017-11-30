@@ -273,12 +273,12 @@ div.tab button.active {
     height: 30px;
     padding: 5px 10px;
     color: #FFF;
-    border-radius: 5px 5px;
+    /* border-radius: 5px 5px; */
     position: absolute;
     bottom: -570px;
     left: 22%;
     box-shadow: 1px 1px 1px 1px;
-    background: url(../../img/menu_bg.PNG) repeat-x;
+    /* background: url(../../img/menu_bg.PNG) repeat-x; */
 }
 .search {
 	width: 24px;
@@ -344,12 +344,12 @@ div.tab button.active {
 	height: 30px;
     padding: 5px 10px;
     color: #FFF;
-    border-radius: 5px 5px;
+    /* border-radius: 5px 5px; */
     position: absolute;
     bottom: -570px;
     left: 380px;
     box-shadow: 1px 1px 1px 1px;
-    background: url(../../img/menu_bg.PNG) repeat-x;
+    /* background: url(../../img/menu_bg.PNG) repeat-x; */
 }
 .excel {
 	width: 24px;

@@ -53,8 +53,8 @@
 			<div class="panel-body">
 			<div title="Quay Lại" class="back cursor-pointer"></div>
 					<div>
-							<button type="button" id="btnRegister" class="register">Đăng Ký</button>
-							<button type="button" class="back">Quay Lại</button>
+							<button type="button" id="btnRegister" class="register btn btn-success">Đăng Ký</button>
+							<button type="button" class="back btn btn-success">Quay Lại</button>
 						</div>
 					<div title="Tìm Kiếm" class="search cursor-pointer" id="btnSearchIcon"></div>
 					<div title=" Xuất Excel" class="excel cursor-pointer"></div>

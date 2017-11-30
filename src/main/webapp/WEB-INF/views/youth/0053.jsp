@@ -8,8 +8,6 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<spring:message code="title_create_relationship_of_person" />
-		<div title="Quay Lại" id="addNewRelation"
-			class="add_new_relation cursor-pointer"></div>
 	</div>
 </div>
 <ul class="nav nav-tabs">
