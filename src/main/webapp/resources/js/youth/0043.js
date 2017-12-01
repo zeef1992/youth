@@ -243,11 +243,11 @@ $(document).ready(function(){
 	// get data report, detail report, criteria
 	function getDataNoteReport(personId) {
 		$(".noteReportEdit").load(rootPath + "/0053/?personId="+personId);
+		
 		$(".loader").removeClass("display-none");
 		setTimeout(function() {
 			// reset variables
 			// draw table
-			//drawResult = drawTableReport();
 			drawTableNoteReport("");
 		}, 1000);
 	}
@@ -1010,6 +1010,9 @@ $(document).ready(function(){
 	// getDetaiReport
 	function drawTableNoteReport(reportId) {
 		if (list0053.length > 0) {
+			for (var i = 0; i < list0053.length; i++) {
+				$("#tabs-" + list0053[i].reportId).addClass("display-none");
+			}
 			if (reportId == "") {
 				reportId = list0053[0].reportId;
 			}
@@ -1035,7 +1038,7 @@ $(document).ready(function(){
 							// DetailReportName
 							tableStringArray.push("<td id = '"+returnJsonData[i].detailReportId+"' criteriaId = '' class = 'row_DetailReportId algin-center' name = '"+i+"'>"+returnJsonData[i].detailReportName+"</td>");
 							// DetailReportName
-							tableStringArray.push("<td reportId = '"+returnJsonData[i].reportId+"' detailReportId = '"+returnJsonData[i].detailReportId+"' class = 'criteria_row'></td>");
+							tableStringArray.push("<td class='criteriaEdit' reportId = '"+returnJsonData[i].reportId+"' detailReportId = '"+returnJsonData[i].detailReportId+"'>"+getDetailCriteria(reportId, returnJsonData[i].detailReportId)+"</td>");
 							// row close tag
 							tableStringArray.push("</tr>");
 						}
@@ -1045,6 +1048,8 @@ $(document).ready(function(){
 						$("#tabs-" +reportId+ " > #divBodyDetailReport > #tblBodyDetailReport").append(tableStringArray.join(''));
 						// show search result
 						$(".cont-box").removeClass("display-none");
+						$("#tabs-" + reportId).removeClass("display-none");
+						$(".noteReportEdit > ul > li >" + reportId).parent().css({"background-color": "red"})
 						$("#tabs-" +reportId+ " > #divHeadDetailReport").removeClass("display-none");
 						// fix table header and body when scrolling only the table body
 						fixTable();
@@ -1056,6 +1061,22 @@ $(document).ready(function(){
 			$(".tab-content>.tab-pane").css({"display":"block"});
 			$("#overlay").hide();
 		}
+	}
+
+	$(document).on("click", "#btnEditNoteReport", function(){
+		$(".criteriaEdit").addClass("criteria_row");
+	});
+	/**
+	 * get tiêu chí đã chọn của thanh niên
+	 */
+	function getDetailCriteria(reportId, detailReportId) {
+		var criteriaButton = "";
+		// loop
+		for (var i = 0; i < list0053.length; i++) {
+			if (list0053[i].reportId == reportId && list0053[i].detailReportId == detailReportId)
+				criteriaButton +="<button criteriaIdBtn = '"+ list0053[i].criteraId +"' class = 'btn btn-info margin-right5' onClick = 'return false;'>" + list0053[i].criteraName + "</button>";
+		}
+		return criteriaButton;
 	}
 	function drawTableDetailReport(arrayDetailReportIdArr, reportIdPopup) {
 		
@@ -1163,6 +1184,14 @@ $(document).ready(function(){
 		
 	});
 
+	$(document).on("click", ".noteReportEdit > ul > li", function() {
+		var reportIdPopup = $(this).find("a").attr("id");
+		setTimeout(function() {
+				// reset variables
+				// draw table
+				drawTableNoteReport(reportIdPopup);
+			}, 1000);
+	})
 	$(document).on("click","#tabs > ul > li", function(){
 		
 		var reportIdPopup = $(this).attr("aria-labelledby");
@@ -1198,12 +1227,17 @@ $(document).ready(function(){
 	var criteriaSelectedStrArr = "";
 	
 	$(document).on("click", "#btnSelectCriteria", function() {
+		var tabReport = $(".ui-tabs-active").attr("aria-controls");
+		if (tabReport == null || tabReport == 'undefined') {
+			tabReport = $(".criteriaEdit").attr("reportId");
+			tabReport = "tabs-" + tabReport;
+		}
 		criteriaSelectedStr = "";
 		criteriaSelectedName = "";
 		// check all tr has row_reportId do has class bg_FCBE00
 		$(".criteria_row_selected").each(function(){
 			// if it has then reportSelectedStr + id of report
-			if ($(this).hasClass("bg_FCBE00")) {
+			if ($(".criteria_row_selected").hasClass("bg_FCBE00")) {
 				criteriaSelectedStr += $(this).attr("criteriaId") + ",";
 				
 				criteriaSelectedName += $(this).text() + ",";
@@ -1231,8 +1265,11 @@ $(document).ready(function(){
 			for (var i = 0; i < criteriaSelectedStrArr.length; i++) {
 				criteriaSelectedName += "<button criteriaIdBtn = '"+ criteriaSelectedStrArr[i] +"' class = 'btn btn-info margin-right5' onClick = 'return false;'>" + criteriaSelectedNameArr[i] + "</button>";
 			}
-			$("#divBodyDetailReport > #tblBodyDetailReport").find("tbody").find("#" + rowSelected).find("td").eq(1).html(criteriaSelectedName);
+			$("#"+tabReport+" > #divBodyDetailReport > #tblBodyDetailReport").find("tbody").find("#" + rowSelected).find("td").eq(1).html(criteriaSelectedName);
 			$("#overlay2").hide();
+			if (MODE == MODE_EDIT) {
+				$("#overlay").hide();
+			}
 			$("#popupWrapper2").hide();
 		} else {
 			// display error message

@@ -13,7 +13,7 @@
 			<div class="panel-body">
 				<form class="form-horizontal">
 					<div><label class="control-label">Ghi rõ họ tên, năm sinh, nghề nghiệp, nơi công tác của bố mẹ đẻ, anh chị em ruột, vợ (hoặc chồng), con</label></div>
-					<table class="table table-striped table-bordered table-hover table-condensed" id="divHead" style = "width: 99%!important">
+					<table class="table table-striped table-bordered table-hover table-condensed" id="divHead">
 						<thead>
 								<col width="15%">
 								<col width="20%">
@@ -29,7 +29,7 @@
 							</tr>
 						</thead>
 					</table>
-					<div id="divBody" style = "width: 100%!important; margin-top: -6px;">
+					<div id="divBody">
 						<table id="tblBody" class="table table-striped table-bordered table-hover table-condensed">
 							<col width="15%">
 							<col width="20%">

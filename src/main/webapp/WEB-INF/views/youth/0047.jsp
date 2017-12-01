@@ -14,7 +14,7 @@
 			</div>
 			<div class="panel-body">
 				<form class="form-horizontal">
-					<table class="table table-striped table-bordered table-hover table-condensed" id="divHeadProcess" style = "width: 99%!important">
+					<table class="table table-striped table-bordered table-hover table-condensed" id="divHeadProcess">
 						<thead>
 								<col width="10%">
 								<col width="10%">
@@ -26,8 +26,8 @@
 							</tr>
 						</thead>
 					</table>
-					<div id="divBodyProcess" style = "width: 100%!important; margin-top: -6px;">
-						<table id="tblBodyProcess" class="table table-striped table-bordered table-hover table-condensed" style = "width: 100%!important">
+					<div id="divBodyProcess">
+						<table id="tblBodyProcess" class="table table-striped table-bordered table-hover table-condensed">
 							<col width="10%">
 							<col width="10%">
 							<col width="">

@@ -365,7 +365,7 @@
 											</div>
 										</div>
 										<div class="panel-body">
-											<table class="table table-striped" id="divHeadCriteria">
+											<table class="table table-striped table-bordered table-hover table-condensed" id="divHeadCriteria">
 												<thead>
 												<col width="100%">
 												<tr>
@@ -374,7 +374,7 @@
 												</thead>
 											</table>
 											<div id="divBodyCriteria" class = "height150 overflow-y">
-												<table id="tblBodyCriteria" class="table table-striped">
+												<table id="tblBodyCriteria" class="table table-striped table-bordered table-hover table-condensed">
 													<col width="100%">
 													<tr>
 														<td></td>

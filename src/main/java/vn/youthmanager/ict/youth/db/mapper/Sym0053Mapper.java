@@ -8,4 +8,6 @@ import vn.youthmanager.ict.youth.db.model.Sym0053Result;
 public interface Sym0053Mapper {
 
 	List<Sym0053Result> getNoteReport(Map<String, Object> params);
+
+	List<Sym0053Result> getCriteria(Map<String, Object> params);
 }

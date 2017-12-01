@@ -9,4 +9,18 @@
 		left join qltn_m_report R on NR.REPORT_ID = R.REPORT_ID
 		where PERSON_ID = #{personId}
 	</select>
+	<select id="getCriteria" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0053Result">
+		select 	distinct(NR.REPORT_ID) reportId,
+				R.REPORT_NAME reportName,
+				NR.NOTE_REPORT_ID noteReportId,
+				NR.DETAIL_REPORT_ID detailReportId,
+				NR.CRITERA_ID criteraId,
+		        C.CRITERA_NAME criteraName
+		       	
+		from QLTN_M_NOTE_REPORT NR
+		left join qltn_m_report R on NR.REPORT_ID = R.REPORT_ID
+		left join qltn_m_detail_report DR on NR.REPORT_ID = DR.REPORT_ID and NR.DETAIL_REPORT_ID = DR.DETAIL_REPORT_ID
+        left join QLTN_M_CRITERA C ON C.CRITERA_ID = NR.CRITERA_ID
+		where PERSON_ID = #{personId}
+	</select>
 </mapper>

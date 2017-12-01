@@ -24,8 +24,9 @@ public class Sym0053Service {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("personId", personId);
 		List<Sym0053Result> list0053 = sym0053Dao.getSym0053Mapper().getNoteReport(params);
+		List<Sym0053Result> list0053NoteReport = sym0053Dao.getSym0053Mapper().getCriteria(params);
 		try {
-			model.addAttribute("listJs0053", mapper.writeValueAsString(list0053));
+			model.addAttribute("listJs0053", mapper.writeValueAsString(list0053NoteReport));
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
