@@ -8,6 +8,15 @@
 		ORDER BY PERSON_ID DESC
 		LIMIT 0,1
 	</select>
+	<select id="getLastSTTPerson" parameterType="map" resultType="vn.youthmanager.ict.common.db.model.QltnMPerson">
+		SELECT 	KSKQUAN_STT kskquanStt,
+				LLTN_STT lltnStt
+		FROM qltn.qltn_m_person
+		WHERE DELETE_FLAG = '0'
+		AND PERSON_ID != 'PE99999'
+		ORDER BY PERSON_ID DESC
+		LIMIT 0,1
+	</select>
 	<select id="getLastIdNoteReport" parameterType="map" resultType="java.lang.String">
 		SELECT NOTE_REPORT_ID
 		FROM qltn.qltn_m_note_report

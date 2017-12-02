@@ -10,11 +10,13 @@
 		Note Report
 	</div>
 </div>
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs" id = "ReportEdit">
 	<c:forEach var="value" items="${list0053}">
 		<li><a id="${value.reportId}" href='#tabs-${value.reportId}'>${value.reportName}</a></li>
 	</c:forEach>
 </ul>
+<button type="button" id="addNewReport" class = "btn btn-info" style="float: right; margin-top: -30px;">Thêm Mẫu Báo Cáo</button>
+<div id="addNewReportContent"></div>
 <div class = "clear heigth10"></div>
 <div class="tab-content" style="margin-top: 10px;">
 	<c:forEach var="value" items="${list0053}">

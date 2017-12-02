@@ -64,13 +64,13 @@
 										<div class="form-group">
 											<label class="control-label col-sm-6" id = "lblKskQuanStt" for="txtKskQuanStt"><spring:message code="kskquan_stt" /> :</label>
 											<div class="col-sm-6">
-												<input type="text" class="form-control" id="txtKskQuanStt" placeholder="<spring:message code="kskquan_stt" />" />
+												<input readonly="true" type="text" class="form-control" id="txtKskQuanStt" placeholder="<spring:message code="kskquan_stt" />" value = "${lastKskquanStt}" />
 											</div>
 											<div class = "clear height10"></div>
 											<label class="control-label col-sm-6" id = "lblLltnStt" for="txtLltnStt"><spring:message code="lltn_stt" /> :</label>
 											
 											<div class="col-sm-6">
-												<input type="text" class="form-control" id="txtLltnStt" placeholder="<spring:message code="lltn_stt" />" />
+												<input readonly="true" type="text" class="form-control" id="txtLltnStt" placeholder="<spring:message code="lltn_stt" />" value = "${lastLltnStt}" />
 											</div>
 										</div>
 									</div>

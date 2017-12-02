@@ -25,6 +25,7 @@ import vn.youthmanager.ict.common.db.model.QltnMDistrictExample;
 import vn.youthmanager.ict.common.db.model.QltnMEducational;
 import vn.youthmanager.ict.common.db.model.QltnMGroups;
 import vn.youthmanager.ict.common.db.model.QltnMGroupsExample;
+import vn.youthmanager.ict.common.db.model.QltnMPerson;
 import vn.youthmanager.ict.common.db.model.QltnMReport;
 import vn.youthmanager.ict.common.db.model.QltnMReportExample;
 import vn.youthmanager.ict.common.db.model.QltnMSpecialized;
@@ -39,6 +40,7 @@ import vn.youthmanager.ict.common.db.model.QltnMWardsExample;
 import vn.youthmanager.ict.common.util.Util;
 import vn.youthmanager.ict.youth.dao.Sym0040Dao;
 import vn.youthmanager.ict.youth.dao.Sym0041Dao;
+import vn.youthmanager.ict.youth.dao.Sym0043Dao;
 import vn.youthmanager.ict.youth.db.model.Sym0041Result;
 
 @Service
@@ -55,12 +57,25 @@ public class Sym0040Service {
     
     @Autowired
     private Sym0041Dao sym0041Dao;
+
+    @Autowired
+    private Sym0043Dao sym0043Dao;
     /**
      * initData.
      * 
      * @param model
      */
 	public void initData(Model model) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		ArrayList<QltnMPerson> listSttPerson = new ArrayList<QltnMPerson>();
+		listSttPerson = sym0043Dao.getSym0043Mapper().getLastSTTPerson(params);
+		if (listSttPerson.size() > 0) {
+			model.addAttribute("lastKskquanStt", Integer.parseInt(listSttPerson.get(0).getKskquanStt()) + 1);
+			model.addAttribute("lastLltnStt", Integer.parseInt(listSttPerson.get(0).getLltnStt()) + 1);
+		} else {
+			model.addAttribute("lastKskquanStt", 1);
+			model.addAttribute("lastLltnStt", 1);
+		}
 		List<QltnMReport> reportData = new ArrayList<QltnMReport>();
 		// get all data of report with delete flag = 0
 		try {

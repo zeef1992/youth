@@ -1237,14 +1237,10 @@ $(document).ready(function(){
 		// check all tr has row_reportId do has class bg_FCBE00
 		$(".criteria_row_selected").each(function(){
 			// if it has then reportSelectedStr + id of report
-			if ($(".criteria_row_selected").hasClass("bg_FCBE00")) {
+			if ($(this).hasClass("bg_FCBE00")) {
 				criteriaSelectedStr += $(this).attr("criteriaId") + ",";
 				
 				criteriaSelectedName += $(this).text() + ",";
-			} else {
-				// display error message
-				jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
-				return false;
 			}
 		});
 		if (criteriaSelectedStr != '' || criteriaSelectedName != '') {
@@ -1273,7 +1269,7 @@ $(document).ready(function(){
 			$("#popupWrapper2").hide();
 		} else {
 			// display error message
-			jWarning(ERROR_SELECT, DIALOG_TITLE, DIALOG_OK_BUTTON);
+			jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
 			return false;
 		}
 	});
@@ -1783,4 +1779,21 @@ $(document).ready(function(){
 				}
 			});
 	}
+
+	/*
+	 * Event thêm mẫu báo khi edit
+	 */
+	$(document).on("click","#addNewReport", function(){
+			if (reportData != "") {
+				var optionStr = "<select id = 'newTabMenu' class='form-control' style = 'width: 150px; float: right; margin-top: -30px; margin-right: 130px;'><option value='"+ STATUS_NO_SELECT +"'></option>";
+				for (var i = 0; i < reportData.length; i++) {
+					optionStr += "<option value='" + reportData[i].reportId + "'>" + reportData[i].reportName + "</option>";
+				}
+				optionStr +="</select>";
+				$("#addNewReportContent").append(optionStr);
+			}
+	});
+	$(document).bind('change','#newTabMenu', function() {
+		
+	})
 });

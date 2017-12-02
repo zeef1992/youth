@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import vn.youthmanager.ict.common.db.model.QltnMFamilyRelatives;
+import vn.youthmanager.ict.common.db.model.QltnMPerson;
 import vn.youthmanager.ict.common.db.model.QltnMProcessPerson;
 
 public interface Sym0043Mapper {
@@ -19,4 +20,6 @@ public interface Sym0043Mapper {
 	ArrayList<QltnMProcessPerson> getProcessEdit(Map<String, Object> params);
 	
 	ArrayList<QltnMFamilyRelatives> getRelationShipOfPersonEdit(Map<String, Object> params);
+
+	ArrayList<QltnMPerson> getLastSTTPerson(Map<String, Object> params);
 }
