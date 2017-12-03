@@ -1227,6 +1227,8 @@ $(document).ready(function(){
 	var criteriaSelectedStrArr = "";
 	
 	$(document).on("click", "#btnSelectCriteria", function() {
+		criteriaSelectedNameArr = [];
+		criteriaSelectedStrArr = [];
 		var tabReport = $(".ui-tabs-active").attr("aria-controls");
 		if (tabReport == null || tabReport == 'undefined') {
 			
@@ -1785,7 +1787,7 @@ $(document).ready(function(){
 	/*
 	 * Event thêm mẫu báo khi edit
 	 */
-	$(document).on("click","#addNewReport", function(){
+	/*$(document).on("click","#addNewReport", function(){
 			if (reportData != "") {
 				var optionStr = "<select id = 'newTabMenu' class='form-control' style = 'width: 150px; float: right; margin-top: -30px; margin-right: 130px;'><option value='"+ STATUS_NO_SELECT +"'></option>";
 				for (var i = 0; i < reportData.length; i++) {
@@ -1875,5 +1877,4 @@ $(document).ready(function(){
 			$("#tabs-"+reportId).addClass("display-none");
 		}
 		
-	});
 });
