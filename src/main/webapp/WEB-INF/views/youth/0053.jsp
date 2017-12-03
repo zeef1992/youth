@@ -45,5 +45,5 @@
 			</div>
 		</div>
 	</c:forEach>
-	<button id="btnEditNoteReport" class="btn btn-success" type="button">Chĩnh Sữa</button>
 </div>
+<button id="btnEditNoteReport" class="btn btn-success" type="button">Chĩnh Sữa</button>

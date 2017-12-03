@@ -1229,8 +1229,10 @@ $(document).ready(function(){
 	$(document).on("click", "#btnSelectCriteria", function() {
 		var tabReport = $(".ui-tabs-active").attr("aria-controls");
 		if (tabReport == null || tabReport == 'undefined') {
+			
 			tabReport = $(".criteriaEdit").attr("reportId");
-			tabReport = "tabs-" + tabReport;
+			
+			tabReport = "tabs-" + reportCriteria;
 		}
 		criteriaSelectedStr = "";
 		criteriaSelectedName = "";
@@ -1793,7 +1795,85 @@ $(document).ready(function(){
 				$("#addNewReportContent").append(optionStr);
 			}
 	});
+	var addReportId = "";
 	$(document).bind('change','#newTabMenu', function() {
+		var reportId = $("#newTabMenu").find("option:selected").val();
+		addReportId = reportId;
+		var newTabMenuContent = $("#newTabMenu").find("option:selected").text();
+		// add new Tab Menu
+		var html = "<li><a id='"+reportId+"' href='#tabs-"+reportId+"'>"+newTabMenuContent+"</a></li>";
+		$("#ReportEdit").append(html);
+		html = '<div id="tabs-'+reportId+'" class="tab-pane">' + 
+				'<table class="table table-striped table-bordered table-hover table-condensed" id="divHeadDetailReport">' + 
+			'<thead>' + 
+			'<col width="30%">' + 
+			'<col width="">' +
+			'<tr>' + 
+				'<th class="align-center "><b>Nội Dung Chi Tiết Biểu Mẫu</b></th>' +
+				'<th class="align-center "><b>Nội dung tiêu chí</b></th>' +
+			'</tr>' +
+			'</thead>' +
+		'</table>' +
+		'<div id="divBodyDetailReport" class="height400 overflow-y">' +
+			'<table id="tblBodyDetailReport" class="table table-striped table-bordered table-hover table-condensed">' +
+				'<col width="30%">' +
+				'<col width="">' +
+				'<tr>' +
+					'<td></td>' +
+					'<td></td>' +
+				'</tr>' +
+			'</table>' +
+		'</div>' +
+	'</div>';
+		$(".noteReportEdit > .tab-content").append(html);
+		$.ajax({
+			url: "../0051/getDetailReport",
+			type: "POST",
+			data: { "reportId": reportId },
+			success: function(returnJsonData) {
+				if (checkSessionTimeout(returnJsonData) == 1) return;
+				if (returnJsonData.length == 0) {
+					// display error message
+					jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				}
+					// clear table
+					$("#tabs-" +reportId+ " > #divBodyDetailReport > #tblBodyDetailReport").find("tbody").remove();
+					// create table starts
+					var tableStringArray = [];
+					// add tbody open tag
+					tableStringArray.push("<tbody>");
+					for (var i = 0; i < returnJsonData.length; i++) {
+						// row open tag
+						tableStringArray.push("<tr class = 'height34' id='row" + i + "'>");
+						// DetailReportName
+						tableStringArray.push("<td id = '"+returnJsonData[i].detailReportId+"' criteriaId = '' class = 'row_DetailReportId algin-center' name = '"+i+"'>"+returnJsonData[i].detailReportName+"</td>");
+						// DetailReportName
+						tableStringArray.push("<td class='criteriaEdit' reportId = '"+returnJsonData[i].reportId+"' detailReportId = '"+returnJsonData[i].detailReportId+"'>"+getDetailCriteria(reportId, returnJsonData[i].detailReportId)+"</td>");
+						// row close tag
+						tableStringArray.push("</tr>");
+					}
+					// add tbody close tag
+					tableStringArray.push("</tbody>");
+					// append all created string to table
+					$("#tabs-" +reportId+ " > #divBodyDetailReport > #tblBodyDetailReport").append(tableStringArray.join(''));
+					// show search result
+					$(".cont-box").removeClass("display-none");
+					$("#tabs-" + reportId).removeClass("display-none");
+					$(".noteReportEdit > ul > li >" + reportId).parent().css({"background-color": "red"})
+					$("#tabs-" +reportId+ " > #divHeadDetailReport").removeClass("display-none");
+					// fix table header and body when scrolling only the table body
+					fixTable();
+				    // scroll to top of table
+					$("#tabs-" +reportId+ " > #divBodyDetailReport").scrollTop(0).scrollLeft(0);
+			}
+		});
+	});
+
+	$(document).on("click","#ReportEdit > li", function(){
+		var reportId = $(this).find("a").attr("id");
+		if (addReportId != reportId) {
+			$("#tabs-"+reportId).addClass("display-none");
+		}
 		
-	})
+	});
 });
