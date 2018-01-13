@@ -3,19 +3,21 @@
 <mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0011Mapper">
 
 	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0011Result">
-		SELECT 	COUNTRY_ID COUNTRYId,
-				COUNTRY_CODE countryCode,
-		        COUNTRY_NAME countryName
-		FROM QLTN_M_COUNTRY
+		SELECT 	C.COUNTRY_ID COUNTRYId,
+				C.COUNTRY_CODE countryCode,
+		        C.COUNTRY_NAME countryName,
+		        (Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = C.CREATE_USER_ID ) as createUserId,
+				(Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = C.UPDATE_USER_ID ) as updateUserId
+		FROM QLTN_M_COUNTRY C
 		WHERE 1= 1
 		<if test="countryCode != ''">
-			AND COUNTRY_CODE LIKE #{countryCode}
+			AND C.COUNTRY_CODE LIKE #{countryCode}
 		</if>
 		<if test="countryName != ''">
-			AND COUNTRY_NAME LIKE #{countryName}
+			AND C.COUNTRY_NAME LIKE #{countryName}
 		</if>
-		AND DELETE_FLAG = '0'
-		ORDER BY COUNTRY_CODE
+		AND C.DELETE_FLAG = '0'
+		ORDER BY C.COUNTRY_CODE
 		LIMIT #{fromRow},#{itemCount}
 	</select>
 

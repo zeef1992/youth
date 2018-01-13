@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import vn.youthmanager.ict.common.db.model.QltnMCritera;
 import vn.youthmanager.ict.common.db.model.QltnMDetailReport;
+import vn.youthmanager.ict.common.db.model.QltnMNoteReport;
 import vn.youthmanager.ict.youth.service.Sym0051Service;
 
 @Controller
@@ -60,4 +61,10 @@ public class Sym0051Controller {
 		return sym0051Service.getCriteria(reportId, detailReportId);
 	}
 
+	@RequestMapping(value = "/checkCriteriaOfPerson", method = RequestMethod.POST)
+	public @ResponseBody List<QltnMNoteReport> checkCriteriaOfPerson(@RequestParam(value = "personId") String personId,
+			@RequestParam(value = "reportId") String reportId,
+			@RequestParam(value = "detailReportId") String detailReportId) {
+		return sym0051Service.checkCriteriaOfPerson(personId, reportId, detailReportId);
+	}
 }

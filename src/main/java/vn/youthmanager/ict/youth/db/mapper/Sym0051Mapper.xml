@@ -12,4 +12,16 @@
         #{item}
     	</foreach>
 	</select>
+	
+	<select id="checkCriteriaOfPerson" parameterType="map" resultType="vn.youthmanager.ict.common.db.model.QltnMNoteReport">
+		SELECT 	NOTE_REPORT_ID noteReportId,
+				CRITERA_ID criteraId,
+				PERSON_ID personId,
+				REPORT_ID reportId,
+				DETAIL_REPORT_ID detailReportId
+		FROM qltn_m_note_report
+		WHERE 	REPORT_ID = #{reportId}
+				AND PERSON_ID = #{personId}
+				AND DETAIL_REPORT_ID = #{detailReportId}
+	</select>
 </mapper>

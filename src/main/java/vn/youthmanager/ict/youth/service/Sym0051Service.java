@@ -13,6 +13,7 @@ import vn.youthmanager.ict.common.db.model.QltnMCritera;
 import vn.youthmanager.ict.common.db.model.QltnMCriteraExample;
 import vn.youthmanager.ict.common.db.model.QltnMDetailReport;
 import vn.youthmanager.ict.common.db.model.QltnMDetailReportExample;
+import vn.youthmanager.ict.common.db.model.QltnMNoteReport;
 import vn.youthmanager.ict.youth.dao.Sym0051Dao;
 import vn.youthmanager.ict.youth.db.model.Sym0051Result;
 
@@ -55,6 +56,7 @@ public class Sym0051Service {
 	}
 
 	public List<QltnMCritera> getCriteria(String reportId, String detailReportId) {
+		// khai bao 1 list.
 		List<QltnMCritera> criteriaData = new ArrayList<QltnMCritera>();
 		// get all data of criteria with delete flag = 0
 		try {
@@ -69,5 +71,31 @@ public class Sym0051Service {
 			criteriaData = new ArrayList<QltnMCritera>();
 		}
 		return criteriaData;
+	}
+
+	/**
+	 * checkCriteriaOfPerson.
+	 * 
+	 * check Note Report of Person have or not?
+	 * 
+	 * @param personId
+	 * @param reportId
+	 * @param detailReportId
+	 * @return
+	 */
+	public List<QltnMNoteReport> checkCriteriaOfPerson(String personId, String reportId, String detailReportId) {
+		// khai bao 1 list.
+		List<QltnMNoteReport> noteReportData = new ArrayList<QltnMNoteReport>();
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("personId", personId);
+		params.put("reportId",reportId);
+		params.put("detailReportId", detailReportId);
+		try {
+			noteReportData = sym0051Dao.getSym0051Mapper().checkCriteriaOfPerson(params);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			noteReportData = new ArrayList<QltnMNoteReport>();
+		}
+		return noteReportData;
 	}
 }

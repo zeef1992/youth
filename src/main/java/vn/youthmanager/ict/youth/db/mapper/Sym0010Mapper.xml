@@ -3,15 +3,17 @@
 <mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0010Mapper">
 
 	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0010Result">
-		SELECT 	SIGNATURE_ID signatureId,
-				SIGNATURE_NAME signatureName
-		FROM QLTN_M_SIGNATURE
+		SELECT 	S.SIGNATURE_ID signatureId,
+				S.SIGNATURE_NAME signatureName,
+		        (Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = S.CREATE_USER_ID ) as createUserId,
+				(Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = S.UPDATE_USER_ID ) as updateUserId
+		FROM QLTN_M_SIGNATURE S
 		WHERE 1 = 1
 		<if test="signatureName != ''">
-			AND SIGNATURE_NAME LIKE #{signatureName}
+			AND S.SIGNATURE_NAME LIKE #{signatureName}
 		</if>
-		AND DELETE_FLAG = '0'
-		ORDER BY SIGNATURE_ID
+		AND S.DELETE_FLAG = '0'
+		ORDER BY S.SIGNATURE_ID
 		LIMIT #{fromRow},#{itemCount}
 	</select>
 

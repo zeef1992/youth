@@ -167,19 +167,21 @@ private static Logger logger = Logger.getLogger(Sym0003Service.class);
             txManager = (PlatformTransactionManager) appContext.getBean("transactionManager");
             TransactionStatus status = txManager.getTransaction(def);
             try {
-            	QltnMCritera reportObj = new QltnMCritera();
+            	QltnMCritera criteriaObj = new QltnMCritera();
             	// report Id 
-            	reportObj.setReportId(criteriaData.getReportId());
+            	criteriaObj.setReportId(criteriaData.getReportId());
             	// detail report Id 
-            	reportObj.setDetailReportId(criteriaData.getDetailReportId());
+            	criteriaObj.setDetailReportId(criteriaData.getDetailReportId());
             	// Report Id
-            	reportObj.setCriteraId(criteriaData.getCriteraId());
+            	criteriaObj.setCriteraId(criteriaData.getCriteraId());
                 // Report Name
-            	reportObj.setCriteraName(criteriaData.getCriteraName());
+            	criteriaObj.setCriteraName(criteriaData.getCriteraName());
+                // update user id
+        		criteriaObj.setUpdateUserId(Util.getUserInfo().getID());
                 // delete flag
-                reportObj.setDeleteFlag(criteriaData.getDeleteFlag());
+        		criteriaObj.setDeleteFlag(criteriaData.getDeleteFlag());
 
-                int result = sym0025Dao.getQltnMCriteraMapper().updateByPrimaryKeySelective(reportObj);
+                int result = sym0025Dao.getQltnMCriteraMapper().updateByPrimaryKeySelective(criteriaObj);
                 if (result > 0) { // update successfully
                     // register to DB
                     txManager.commit(status);

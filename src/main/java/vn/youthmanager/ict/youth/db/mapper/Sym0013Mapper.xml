@@ -9,7 +9,9 @@
 		        CI.CITY_NAME cityName,
 		        DI.DISTRICT_ID districtId,
 		        DI.DISTRICT_CODE districtCode,
-		        DI.DISTRICT_NAME districtName
+		        DI.DISTRICT_NAME districtName,
+		        (Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = DI.CREATE_USER_ID ) as createUserId,
+				(Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = DI.UPDATE_USER_ID ) as updateUserId
 		FROM
 		    QLTN_M_DISTRICT DI
 			LEFT JOIN QLTN_M_COUNTRY CO ON DI.COUNTRY_ID = CO.COUNTRY_ID

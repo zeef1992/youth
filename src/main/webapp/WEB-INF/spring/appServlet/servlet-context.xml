@@ -70,7 +70,7 @@ http://mybatis.org/schema/mybatis-spring.xsd">
 
 	<!-- Locale Change Interceptor -->
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-	    <property name="defaultLocale" value="en" />
+	    <property name="defaultLocale" value="vi" />
 	</bean>
 	<mvc:interceptors>
 	    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">

@@ -82,6 +82,8 @@ private static Logger logger = Logger.getLogger(Sym0003Service.class);
      */
     private HashMap<String, Object> createSearchConditionParams(Sym0005Conditions searchConditions) {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        // report Id 
+        params.put("reportId", searchConditions.getReportId().equals("") ? "" : "%" + searchConditions.getReportId() + "%");
         // report Name
         params.put("reportName", searchConditions.getReportName().equals("") ? "" : "%" + searchConditions.getReportName() + "%");
         // From parameter
@@ -143,7 +145,8 @@ private static Logger logger = Logger.getLogger(Sym0003Service.class);
             	reportObj.setReportName(reportData.getReportName());
                 // delete flag
                 reportObj.setDeleteFlag(reportData.getDeleteFlag());
-
+                // update user id
+                reportObj.setUpdateUserId(Util.getUserInfo().getID());
                 int result = sym0005Dao.getQltnMReportMapper().updateByPrimaryKeySelective(reportObj);
                 if (result > 0) { // update successfully
                     // register to DB

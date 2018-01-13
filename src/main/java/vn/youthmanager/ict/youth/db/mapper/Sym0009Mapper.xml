@@ -4,7 +4,9 @@
 
 	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0009Result">
 		SELECT 	CATE_ID cateId,
-				CATE_NAME cateName
+				CATE_NAME cateName,
+		        CREATE_USER_ID createUserId,
+				UPDATE_USER_ID updateUserId
 		FROM QLTN_M_CATEGORY 
 		WHERE 1 = 1
 		<if test="cateName != ''">

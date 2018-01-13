@@ -3,15 +3,17 @@
 <mapper namespace="vn.youthmanager.ict.youth.db.mapper.Sym0022Mapper">
 
 	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0022Result">
-		SELECT 	EDUCATION_ID educationId,
-				LEVEL level
-		FROM QLTN_M_EDUCATIONAL
+		SELECT 	E.EDUCATION_ID educationId,
+				E.LEVEL level,
+		        (Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = E.CREATE_USER_ID ) as createUserId,
+				(Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = E.UPDATE_USER_ID ) as updateUserId
+		FROM QLTN_M_EDUCATIONAL E
 		WHERE 1 = 1
 		<if test="level != ''">
-			AND LEVEL LIKE #{level}
+			AND E.LEVEL LIKE #{level}
 		</if>
-		AND DELETE_FLAG = '0'
-		ORDER BY EDUCATION_ID
+		AND E.DELETE_FLAG = '0'
+		ORDER BY E.EDUCATION_ID
 		LIMIT #{fromRow},#{itemCount}
 	</select>
 

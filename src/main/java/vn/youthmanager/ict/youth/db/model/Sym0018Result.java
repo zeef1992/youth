@@ -4,6 +4,8 @@ import vn.youthmanager.ict.common.db.model.QltnMUniversity;
 
 public class Sym0018Result extends QltnMUniversity {
 
+	private String level;
+	
 	private String searchDataTotalCounts;
 
 	public String getSearchDataTotalCounts() {
@@ -12,5 +14,13 @@ public class Sym0018Result extends QltnMUniversity {
 
 	public void setSearchDataTotalCounts(String searchDataTotalCounts) {
 		this.searchDataTotalCounts = searchDataTotalCounts;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
 	}
 }

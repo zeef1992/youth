@@ -3,7 +3,6 @@ package vn.youthmanager.ict.youth.db.mapper;
 import java.util.List;
 import java.util.Map;
 
-import vn.youthmanager.ict.common.db.model.QltnMProcessPerson;
 import vn.youthmanager.ict.youth.db.model.Sym0041Result;
 
 public interface Sym0041Mapper {

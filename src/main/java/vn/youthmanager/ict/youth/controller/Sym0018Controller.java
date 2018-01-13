@@ -27,6 +27,7 @@ public class Sym0018Controller {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String top (Model model) {
+		sym0018Service.initData(model, "");
 		return "youth/0018";
 	}
 

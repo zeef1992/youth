@@ -11,7 +11,9 @@
 		        W.CITY_ID cityId,
 		        CI.CITY_NAME cityName,
 		        W.DISTRICT_ID districtId,
-		        DI.DISTRICT_NAME districtName
+		        DI.DISTRICT_NAME districtName,
+		        (Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = W.CREATE_USER_ID ) as createUserId,
+				(Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = W.UPDATE_USER_ID ) as updateUserId
 		FROM
 			QLTN_M_WARDS W
 			LEFT JOIN QLTN_M_COUNTRY CO ON W.COUNTRY_ID = CO.COUNTRY_ID

@@ -116,7 +116,7 @@ public class Sym0006Service {
         // report Id
         params.put("reportId", searchConditions.getReportId());
         // detail Report Name
-        params.put("detailReportName", searchConditions.getDetailReportName().equals("") ? "" :searchConditions.getDetailReportName());
+        params.put("detailReportName", searchConditions.getDetailReportName().equals("") ? "" :  "%" + searchConditions.getDetailReportName() + "%");
         // From parameter
         params.put("fromRow", Integer.valueOf(searchConditions.getFromRow()));
         // Number of items in a page
@@ -178,7 +178,8 @@ public class Sym0006Service {
             	detailReportObj.setDetailReportName(detailReportData.getDetailReportName());
                 // delete flag
             	detailReportObj.setDeleteFlag(detailReportData.getDeleteFlag());
-
+            	// update user id
+        		detailReportObj.setUpdateUserId(Util.getUserInfo().getID());
                 int result = sym0006Dao.getQltnMDetailReportMapper().updateByPrimaryKeySelective(detailReportObj);
                 if (result > 0) { // update successfully
                     // register to DB

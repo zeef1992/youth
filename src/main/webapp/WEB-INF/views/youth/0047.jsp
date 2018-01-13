@@ -6,43 +6,29 @@
 
 		<!-- HTML code -->
 		<div id="wrapper">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<spring:message code="Process_of_yourself" />
-					<div title="Quay Lại" id = "addProcess" class="add_new_relation cursor-pointer"></div>
-				</div>
-			</div>
-			<div class="panel-body">
 				<form class="form-horizontal">
-					<table class="table table-striped table-bordered table-hover table-condensed" id="divHeadProcess">
+					<table class="table table-bordered table-hover" id="divHeadProcess">
 						<thead>
-								<col width="10%">
-								<col width="10%">
-								<col width="">
 							<tr>
-								<th class="align-center"><b><spring:message code="fromYear" /></b></th>
-								<th class="align-center"><b><spring:message code="fromTo" /></b></th>
+								<th style="width: 10%;" class="align-center"><b><spring:message code="fromYear" /></b></th>
+								<th style="width: 10%;" class="align-center"><b><spring:message code="fromTo" /></b></th>
 								<th class="align-center"><b><spring:message code="school_workPlace" /></b></th>
 							</tr>
 						</thead>
 					</table>
 					<div id="divBodyProcess">
-						<table id="tblBodyProcess" class="table table-striped table-bordered table-hover table-condensed">
-							<col width="10%">
-							<col width="10%">
-							<col width="">
+						<table id="tblBodyProcess" class="table table-bordered table-hover" style="margin-top: -20px;">
 							<tr>
-								<td></td>
-								<td></td>
+								<td style="width: 10%;"></td>
+								<td style="width: 10%;"></td>
 								<td></td>
 							</tr>
 						</table>
 					</div>
 					<div><label class="control-label" style="text-align: left;">Tôi xin cam đoan bản khai sơ yếu lý lịch trên đúng sự thật, nếu có điều gì không đúng tôi chịu trách nhiệm trước pháp luật về lời khai của mình.</label></div>
-					<button id="btnComfirmProcessYourselt" class="btn btn-success" type="button"><spring:message code="dialog_ok_button" /></button>
-					<button id="btnEditProcessYourselt" class="btn btn-success" type="button">Chĩnh Sữa</button>
+					<%-- <button id="btnComfirmProcessYourselt" class="btn btn-success" type="button"><spring:message code="dialog_ok_button" /></button>
+					<button id="btnEditProcessYourselt" class="btn btn-success" type="button">Chĩnh Sữa</button> --%>
 					<input type = "hidden" id= "numberOfRelation" value = "${numberOfRelation}" /> 
 					<input type = "hidden" id= "personId" value = "${personId}" /> 
 				</form>
-			</div>
 		</div>

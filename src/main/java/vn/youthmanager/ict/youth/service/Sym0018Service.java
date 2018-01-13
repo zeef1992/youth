@@ -13,9 +13,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.ui.Model;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import vn.youthmanager.ict.common.cnst.Constants;
 import vn.youthmanager.ict.common.cnst.LoggerMessage;
+import vn.youthmanager.ict.common.db.model.QltnMEducational;
 import vn.youthmanager.ict.common.db.model.QltnMUniversity;
 import vn.youthmanager.ict.common.util.Util;
 import vn.youthmanager.ict.youth.dao.Sym0018Dao;
@@ -29,13 +33,30 @@ public class Sym0018Service {
 	
 	@Autowired
 	private Sym0018Dao sym0018Dao;
+	ObjectMapper mapper = new ObjectMapper();
 	
 	// Variables definition
     PlatformTransactionManager txManager;
     @Autowired
     private ApplicationContext appContext;
     
-
+    public void initData(Model model, String educationId) {
+		List<QltnMEducational> educationData = new ArrayList<QltnMEducational>();
+		try {
+			educationData = sym0018Dao.getQltnMEducationalMapper().selectByExample(null);
+			model.addAttribute("educationData", mapper.writeValueAsString(educationData));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            educationData = new ArrayList<QltnMEducational>();
+        }
+		try {
+            model.addAttribute("educationData", mapper.writeValueAsString(educationData));
+        } catch (Exception ex) {
+        	model.addAttribute("educationData", "''");
+        }
+		// model default report Id
+		model.addAttribute("educationIdDefault", educationId);
+	}
     /**
      * Search University in DB based on search conditions received from client
      * 
@@ -82,6 +103,8 @@ public class Sym0018Service {
      */
     private HashMap<String, Object> createSearchConditionParams(Sym0018Conditions searchConditions) {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        // education Id
+        params.put("educationId", searchConditions.getEducationId().equals("") ? "" : searchConditions.getEducationId());
         // university Name
         params.put("universityName", searchConditions.getUniversityName().equals("") ? "" : "%" + searchConditions.getUniversityName() + "%");
         // university Code
@@ -180,7 +203,7 @@ public class Sym0018Service {
      * @param UniversityData : data received from client
      * @return String : insert successfully: 1/insert failed: -1
      */
-    public String insertData(QltnMUniversity criteriaData) {
+    public String insertData(QltnMUniversity universityData) {
         // variable definition
         String returnValue = Constants.INSERT_RESULT_SUCCESSFUL;
         // insert starts
@@ -192,7 +215,7 @@ public class Sym0018Service {
                 return returnValue;
             }
         	// check for University input
-            if (!checkInputBlankFields(criteriaData)) {
+            if (!checkInputBlankFields(universityData)) {
             	// blank field(s)
             	logger.error("Error message: Blank fields");
                 returnValue = Constants.VALIDATE_BLANK_FIELDS;
@@ -217,16 +240,18 @@ public class Sym0018Service {
             		QltnMUniversity universityObj = new QltnMUniversity();
             		// UniversityId 
             		universityObj.setUniversityId(universityId);
+            		// education Id
+            		universityObj.setEducationId(universityData.getEducationId());
             		// University Code
-            		universityObj.setUniversityCode(criteriaData.getUniversityCode());
+            		universityObj.setUniversityCode(universityData.getUniversityCode());
                     // University Name
-            		universityObj.setUniversityName(criteriaData.getUniversityName());
+            		universityObj.setUniversityName(universityData.getUniversityName());
                     // create University id
             		universityObj.setCreateUserId(Util.getUserInfo().getID());
                     // update User id
             		universityObj.setUpdateUserId(Util.getUserInfo().getID());
                     // delete flag
-            		universityObj.setDeleteFlag(criteriaData.getDeleteFlag());
+            		universityObj.setDeleteFlag(universityData.getDeleteFlag());
 
                     int result = sym0018Dao.getQltnMUniversityMapper().insert(universityObj);
                     if (result > 0) { // insert successfully

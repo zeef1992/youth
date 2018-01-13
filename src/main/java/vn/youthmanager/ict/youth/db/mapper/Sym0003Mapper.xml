@@ -4,7 +4,9 @@
 
 	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0003Result">
 		SELECT USERS_ID usersId,
-			USERS_NAME usersName
+			USERS_NAME usersName,
+			AUTHORIZATION_TYPE_ID authorizationTypeId, 
+			CREATE_USER_ID createUserId
 		FROM QLTN_M_USERS
 		WHERE 1 = 1
 		<if test="usersId != ''">

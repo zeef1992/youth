@@ -135,8 +135,7 @@
       This element was generated on Wed Jun 28 16:03:39 ICT 2017.
     -->
     delete from qltn_m_note_report
-    where NOTE_REPORT_ID = #{noteReportId,jdbcType=VARCHAR}
-      and REPORT_ID = #{reportId,jdbcType=VARCHAR}
+    where REPORT_ID = #{reportId,jdbcType=VARCHAR}
       and DETAIL_REPORT_ID = #{detailReportId,jdbcType=VARCHAR}
       and PERSON_ID = #{personId,jdbcType=VARCHAR}
   </delete>

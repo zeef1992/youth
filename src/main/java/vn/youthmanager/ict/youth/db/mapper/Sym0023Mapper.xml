@@ -8,7 +8,8 @@
 			1 note
 		FROM
 		qltn_m_access_authorization
-		WHERE DELETE_FLAG = '0'
+		WHERE DELETE_FLAG = '0' 
+		AND SCREEN_ID != '9999'
 	</select>
 	<select id="getAccessData" parameterType="map" resultType="vn.youthmanager.ict.common.db.model.QltnMAccessAuthorization">
 		SELECT 

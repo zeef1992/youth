@@ -221,6 +221,7 @@
 				P.STATUS_ID statusId,
 				S.STATUS_NAME statusName,
 				P.NATIVE_COUNTRY nativeCountry,
+				C.COUNTRY_ID countryId,
 				C.COUNTRY_NAME countryName,
 				P.CITY_ID cityId,
 				CI.CITY_NAME cityName,

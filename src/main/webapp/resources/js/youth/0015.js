@@ -5,7 +5,7 @@
 $(document).ready(function(){
 	//--------------- Constants definition ---------------
 	// number of items in one page in table
-	var ITEM_IN_ONE_PAGE = 20;
+	var ITEM_IN_ONE_PAGE = 10;
 	//--------------- Variables definition ---------------
 	// application path
 	var rootPath = getContextPath();
@@ -21,8 +21,8 @@ $(document).ready(function(){
 	var catesIdPopup = "";
 	// variable to store current selected mode
 	var currentMode = "";
-	// variable to check whether cate edits password in EDIT Mode
-	var isPasswordChanged = false;
+	var countStt = 0;
+
 	initComboboxData(false);
 	// Register cate click event process
 	$("#btnRegister").bind("click", function() {
@@ -33,7 +33,7 @@ $(document).ready(function(){
 			$("#txtCountryNamePopup").val($("#cbbCountry").find("option:selected").text());
 			$("#txtCountryIdPopup").val($("#cbbCountry").find("option:selected").val());
 		} else {
-			jWarning("Vui lòng chọn Quốc Gia", DIALOG_TITLE, DIALOG_OK_BUTTON);
+			$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + "Vui lòng chọn Quốc Gia");
 			return false;
 		}
 		
@@ -42,7 +42,7 @@ $(document).ready(function(){
 			$("#txtCityNamePopup").val($("#cbbCity").find("option:selected").text());
 			$("#txtCityIdPopup").val($("#cbbCity").find("option:selected").val());
 		} else {
-			jWarning("Vui lòng chọn thành phố", DIALOG_TITLE, DIALOG_OK_BUTTON);
+			$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + "Vui lòng chọn thành phố");
 			return false;
 		}
 		
@@ -51,7 +51,7 @@ $(document).ready(function(){
 			$("#txtDistrictNamePopup").val($("#cbbDistrict").find("option:selected").text());
 			$("#txtDistrictIdPopup").val($("#cbbDistrict").find("option:selected").val());
 		} else {
-			jWarning("Vui lòng chọn Quận/Huyện", DIALOG_TITLE, DIALOG_OK_BUTTON);
+			$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + "vui lòng chọn Quận/Huyện");
 			return false;
 		}
 		
@@ -60,39 +60,28 @@ $(document).ready(function(){
 			$("#txtWardsNamePopup").val($("#cbbWards").find("option:selected").text());
 			$("#txtWardsIdPopup").val($("#cbbWards").find("option:selected").val());
 		} else {
-			jWarning("Vui lòng chọn Phường/Xa", DIALOG_TITLE, DIALOG_OK_BUTTON);
+			$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + "Vui lòng chọn Phường/Xa");
 			return false;
 		}
 		setPopupControlState(MODE_NEW);
-		// display cate info popup
-		showPopup($("#popupWrapper"));
 	});
 
 	// Country name combobox change event process
 	$("#cbbCountry").bind("change", function() {
 		// load Area name combobox
-		$('#textCountryName').text($(this).find("option:selected").text());
 		loadCityDataCombobox();
 	});
 
 	// Country name combobox change event process
 	$("#cbbCity").bind("change", function() {
 		// load District name combobox
-		$('#textCityName').text($(this).find("option:selected").text());
 		loadDistrictDataByCityId();
 	});
 
 	// District name combobox change event process
 	$("#cbbDistrict").bind("change", function() {
 		// load Wards name combobox
-		$('#textDistrictName').text($(this).find("option:selected").text());
 		loadWardsDataByDistrictId();
-	});
-
-	// Wards name combobox change event process
-	$("#cbbWards").bind("change", function() {
-		// load Town name combobox
-		$('#textWardsName').text($(this).find("option:selected").text());
 	});
 
 	// Load Area name combobox data
@@ -122,7 +111,11 @@ $(document).ready(function(){
 					if (returnedJsonData != "") {
 						for (var i = 0; i < returnedJsonData.length; i++) {
 							if (cityIdDefault == "") {
-								optionStr += "<option value='" + returnedJsonData[i].cityId + "'>" + returnedJsonData[i].cityName + "</option>";
+								if (i == 0) {
+									optionStr += "<option value='" + returnedJsonData[i].cityId + "' selected = 'selected'>" + returnedJsonData[i].cityName + "</option>";
+								} else {
+									optionStr += "<option value='" + returnedJsonData[i].cityId + "'>" + returnedJsonData[i].cityName + "</option>";
+								}							
 							} else {
 								if (returnedJsonData[i].cityId == cityIdDefault) {
 									optionStr += "<option value='" + returnedJsonData[i].cityId + "' selected = 'selected'>" + returnedJsonData[i].cityName + "</option>";
@@ -149,7 +142,7 @@ $(document).ready(function(){
 				},
 				error: function(e) {
 					// display error message
-					alert(ERROR_MESSAGE);
+					$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 				}
 			});
 		} else {
@@ -202,7 +195,11 @@ $(document).ready(function(){
 					if (returnedJsonData != "") {
 						for (var i = 0; i < returnedJsonData.length; i++) {
 							if (cityIdDefault == "") {
-								optionStr += "<option value='" + returnedJsonData[i].districtId + "'>" + returnedJsonData[i].districtName + "</option>";
+								if (i == 0) {
+									optionStr += "<option value='" + returnedJsonData[i].districtId + "' selected = 'selected'>" + returnedJsonData[i].districtName + "</option>";
+								} else {
+									optionStr += "<option value='" + returnedJsonData[i].districtId + "'>" + returnedJsonData[i].districtName + "</option>";
+								}
 							} else {
 								if (returnedJsonData[i].districtId == districtIdDefault) {
 									optionStr += "<option value='" + returnedJsonData[i].districtId + "' selected = 'selected'>" + returnedJsonData[i].districtName + "</option>";
@@ -226,7 +223,7 @@ $(document).ready(function(){
 				},
 				error: function(e) {
 					// display error message
-					alert(ERROR_MESSAGE);
+					$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 				}
 			});
 		} else {
@@ -280,8 +277,12 @@ $(document).ready(function(){
 					optionStr = "<option value='"+ STATUS_NO_SELECT +"'></option>";
 					if (returnedJsonData != "") {
 						for (var i = 0; i < returnedJsonData.length; i++) {
-							if (districtIdDefault == "") {
-								optionStr += "<option value='" + returnedJsonData[i].wardsId + "'>" + returnedJsonData[i].wardsName + "</option>";
+							if (wardsIdDefault == "") {
+								if (i == 0) {
+									optionStr += "<option value='" + returnedJsonData[i].wardsId + "' selected = 'selected'>" + returnedJsonData[i].wardsName + "</option>";
+								} else {
+									optionStr += "<option value='" + returnedJsonData[i].wardsId + "'>" + returnedJsonData[i].wardsName + "</option>";
+								}
 							} else {
 								if (returnedJsonData[i].wardsId == wardsIdDefault) {
 									optionStr += "<option value='" + returnedJsonData[i].wardsId + "' selected = 'selected'>" + returnedJsonData[i].wardsName + "</option>";
@@ -306,7 +307,7 @@ $(document).ready(function(){
 				},
 				error: function(e) {
 					// display error message
-					alert(ERROR_MESSAGE);
+					$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 				}
 			});
 		} else {
@@ -346,8 +347,6 @@ $(document).ready(function(){
 		if (mode == MODE_NEW) {
 			// set current mode
 			currentMode = MODE_NEW;
-			$("#addNew").removeClass("display-none");
-			$("#update").addClass("display-none");
 			$("#txtCountryNamePopup").prop("disabled", true);
 			$("#txtCityNamePopup").prop("disabled", true);
 			$("#txtDistrictNamePopup").prop("disabled", true);
@@ -361,8 +360,6 @@ $(document).ready(function(){
 			// register button
 			$("#btnRegisterPopup").show();
 		} else if (mode == MODE_EDIT) {
-			$("#update").removeClass("display-none");
-			$("#addNew").addClass("display-none");
 			// set current mode
 			currentMode = MODE_EDIT;
 			// reset flag
@@ -379,10 +376,27 @@ $(document).ready(function(){
 			$("#txtTownCodePopup").prop("disabled", false);
 			// register button
 			$("#btnRegisterPopup").show();
+		} else if (mode == MODE_VIEW) {
+			// set current mode
+			currentMode = MODE_VIEW;
+			// reset flag
+			isPasswordChanged = false;
+			$("#txtCountryNamePopup").prop("disabled", true);
+			$("#txtCityNamePopup").prop("disabled", true);
+			$("#txtDistrictNamePopup").prop("disabled", true);
+			$("#txtWardsNamePopup").prop("disabled", true);
+			// Town Id
+			$("#txtTownIdPopup").prop("disabled", true);
+			// Town Name
+			$("#txtTownNamePopup").prop("disabled", true);
+			// Town Code
+			$("#txtTownCodePopup").prop("disabled", true);
+			// register button
+			$("#btnRegisterPopup").hide();
 		} 
 	}
 	// display current date
-	$("#txtCurrentDate").text(getCurrentDate() + " (" + DAY_OF_WEEK + ") " + getCurrentTime());
+	$("#txtCurrentDate").text(" " + getCurrentDate() + " (" + DAY_OF_WEEK + ") " + getCurrentTime());
 	// Page First button click event process
 	$("#btnFirst").bind("click", function() {
 		if (parseInt(totalResultCount) > 0) {
@@ -424,6 +438,8 @@ $(document).ready(function(){
 	});
 	// Search button event process
 	$("#btnSearch").bind("click", function() {
+		countStt = 0;
+		$(".alert").addClass("display-none");
 		setTimeout(function() {
 			// reset variables
 			resetVariables();
@@ -521,59 +537,42 @@ $(document).ready(function(){
 		$("#txtGoToPage").val("");
 		if (parseInt(totalResultCount) > 0) {
 			if (parseInt(maxPage) == 1) {
-				$("#btnFirst").addClass("page-number-first_dis");
-				$("#btnPrevious").addClass("page-number-pre_dis");
-				$("#btnNext").addClass("page-number-next_dis");
-				$("#btnLast").addClass("page-number-last_dis");
-				$("#txtGoToPage").prop("readonly", true);
+				$("#btnFirst").addClass("disabled");
+				$("#btnPrevious").addClass("disabled");
+				$("#btnNext").addClass("disabled");
+				$("#btnLast").addClass("disabled");
 			} else {
 				if (currentPage == 1) {
-					$("#btnFirst").addClass("page-number-first_dis");
-					$("#btnPrevious").addClass("page-number-pre_dis");
-					$("#btnNext").removeClass("page-number-next_dis");
-					$("#btnLast").removeClass("page-number-last_dis");
+					$("#btnFirst").addClass("disabled");
+					$("#btnPrevious").addClass("disabled");
+					$("#btnNext").removeClass("disabled");
+					$("#btnLast").removeClass("disabled");
 				}
 				if (currentPage > 1 && currentPage < maxPage) {
-					$("#btnFirst").removeClass("page-number-first_dis");
-					$("#btnPrevious").removeClass("page-number-pre_dis");
-					$("#btnNext").removeClass("page-number-next_dis");
-					$("#btnLast").removeClass("page-number-last_dis");
+					$("#btnFirst").removeClass("disabled");
+					$("#btnPrevious").removeClass("disabled");
+					$("#btnNext").removeClass("disabled");
+					$("#btnLast").removeClass("disabled");
 				}
 				if (currentPage == maxPage) {
-					$("#btnFirst").removeClass("page-number-first_dis");
-					$("#btnPrevious").removeClass("page-number-pre_dis");
-					$("#btnNext").addClass("page-number-next_dis");
-					$("#btnLast").addClass("page-number-last_dis");
+					$("#btnFirst").removeClass("disabled");
+					$("#btnPrevious").removeClass("disabled");
+					$("#btnNext").addClass("disabled");
+					$("#btnLast").addClass("disabled");
 				}
-				$("#txtGoToPage").prop("readonly", false);
 			}
 		} else {
-			$("#btnFirst").addClass("page-number-first_dis");
-			$("#btnPrevious").addClass("page-number-pre_dis");
-			$("#btnNext").addClass("page-number-next_dis");
-			$("#btnLast").addClass("page-number-last_dis");
+			$("#btnFirst").addClass("disabled");
+			$("#btnPrevious").addClass("disabled");
+			$("#btnNext").addClass("disabled");
+			$("#btnLast").addClass("disabled");
 			$("#txtGoToPage").prop("readonly", true);
 		}
-		$("#txtGoToPage").val("");
-		$("#btnGoToPage").prop("disabled", true);
-		$("#btnGoToPage").css("cursor", "default");
 	}
-
-	// Update total data count process
-	function setDataCounts() {
-		$("#txtCounts").text(totalResultCount.toString().replace(/^(-?\d+)(\d{3})/, "$1,$2"));
-	}
-
-	// Reset variables process
-	function resetVariables() {
-		totalResultCount = 0;
-		currentPage = 1;
-		from = 0;
-	}
-
 
 	// Register button in popup click event process
 	$("#btnRegisterPopup").bind("click", function() {
+		countStt = 0;
 		var dataObject = null;
 		// check current mode
 		if (currentMode == MODE_NEW) {
@@ -581,7 +580,7 @@ $(document).ready(function(){
 			if (!checkInputBlankFields()) {
 				// blank field(s)
 				// display message
-				jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 			}  else {
 				// insert new cate to DB
 				// get cate input data
@@ -600,11 +599,11 @@ $(document).ready(function(){
 							if (returnedJsonData == VALIDATE_BLANK_FIELDS) {
 								// blank field(s)
 								// display message
-								jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 							} else if (returnedJsonData == VALIDATE_WRONG_FORMAT) {
 								// id is in wrong format
 								// display message
-								jWarning(VALIDATE_WRONG_FORMAT_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 							} else if (returnedJsonData == INSERT_RESULT_SUCCESSFUL) {
 								// search data again
 								// reset variables
@@ -617,24 +616,22 @@ $(document).ready(function(){
 									// update total data count UI
 									setDataCounts();
 								}
-								// hide popup
-								hidePopup($("#popupWrapper"));
 								// display message
-								jInfo(INSERT_RESULT_SUCCESSFUL_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-info").find("span").html("").html('<i class="icon fa fa-info"></i> ' + INSERT_RESULT_SUCCESSFUL_MESSAGE);
 							} else if (returnedJsonData == INSERT_RESULT_DUPLICATED) {
 								// duplicated cate id
 								// display message
-								jWarning(INSERT_RESULT_DUPLICATED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + INSERT_RESULT_DUPLICATED_MESSAGE);
 							} else if (returnedJsonData == INSERT_RESULT_FAILED) {
 								// failed
 								// display message
-								jWarning(INSERT_RESULT_FAILED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + INSERT_RESULT_FAILED_MESSAGE);
 							}
 						}
 					},
 					error: function(e) {
 						// display error message
-						jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+						$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 					}
 				});
 			}
@@ -643,7 +640,7 @@ $(document).ready(function(){
 			if (!checkInputBlankFields()) {
 				// blank field(s)
 				// display message
-				jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 			} else {
 				// update existing cate in DB
 				// get cate input data
@@ -662,7 +659,7 @@ $(document).ready(function(){
 							if (returnedJsonData == VALIDATE_BLANK_FIELDS) {
 								// blank field(s)
 								// display message
-								jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 							} else if (returnedJsonData == UPDATE_RESULT_SUCCESSFUL) {
 								// update the corresponding cate data in search table
 								// make Ajax call to server to get data
@@ -675,28 +672,28 @@ $(document).ready(function(){
 										if (checkSessionTimeout(returnedJsonData) == 1) return;
 										if (returnedJsonData != "") {
 											// District Code
-											$("#row" + selectedRowIndex).find("td").eq(0).text(returnedJsonData.townCode);
+											$("#row" + selectedRowIndex).find("td").eq(1).text(returnedJsonData.townCode);
 											// District name
-											$("#row" + selectedRowIndex).find("td").eq(1).text(returnedJsonData.townName);
+											$("#row" + selectedRowIndex).find("td").eq(2).text(returnedJsonData.townName);
+											// Update by
+											$("#row" + selectedRowIndex).find("td").eq(4).text(returnedJsonData.updateUserId);
 										}
 									},
 									complete: function(jqXHR, textStatus) {
-										// hide popup
-										hidePopup($("#popupWrapper"));
 										// display message
-										jInfo(UPDATE_RESULT_SUCCESSFUL_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+										$(".alert").removeClass("display-none").addClass("alert-info").find("span").html("").html('<i class="icon fa fa-info"></i> ' + UPDATE_RESULT_SUCCESSFUL_MESSAGE);
 									}
 								});
 							} else if (returnedJsonData == UPDATE_RESULT_FAILED) {
 								// failed
 								// display message
-								jWarning(UPDATE_RESULT_FAILED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + UPDATE_RESULT_FAILED_MESSAGE);
 							}
 						}
 					},
 					error: function(e) {
 						// display error message
-						jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+						$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 					}
 				});
 			}
@@ -742,6 +739,7 @@ $(document).ready(function(){
 	}
 	// Draw cate data table based on search conditions
 	function drawTable() {
+		$(".alert").addClass("display-none");
 		// variables definition
 		var returnValue = "";
 		var dataObject = null;
@@ -761,7 +759,7 @@ $(document).ready(function(){
 					totalResultCount = returnedJsonData[0].searchDataTotalCounts;
 					if (parseInt(totalResultCount) == -1) {
 						// OutOfMemoryException, display error message
-						jWarning(SEARCH_RESULT_OUT_OF_MEMORY_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+						$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + SEARCH_RESULT_OUT_OF_MEMORY_MESSAGE);
 					} else {
 						// calculate max page
 						var calculatedResultOdd = parseInt(totalResultCount) % parseInt(ITEM_IN_ONE_PAGE);
@@ -771,48 +769,55 @@ $(document).ready(function(){
 						$("#lblCurrentPage").text(currentPage);
 						$("#lblMaxPage").text(maxPage);
 						// clear table
-						$("#tblBody").find("tbody").remove();
+						$("#example2").find("tbody").remove();
 						// create table starts
 						var tableStringArray = [];
 						// add tbody open tag
 						tableStringArray.push("<tbody>");
 						for (var i = 0; i < returnedJsonData.length; i++) {
+							countStt++;
 							// row open tag
 							tableStringArray.push("<tr id='row" + i + "'>");
+							// STT
+							tableStringArray.push("<td class='align-center'>" + countStt  + "</td>");
 							// district Code
-							tableStringArray.push("<td class='align-center goTo0016' id= '"+returnedJsonData[i].cityId+"' name = '"+returnedJsonData[i].countryId+"' districtId = '"+returnedJsonData[i].districtId+"' wardsId = '"+returnedJsonData[i].wardsId+"'  townId = '"+returnedJsonData[i].townId+"'>" + returnedJsonData[i].townCode + "</td>");
+							tableStringArray.push("<td class='align-center text-red goTo0016' id= '"+returnedJsonData[i].cityId+"' name = '"+returnedJsonData[i].countryId+"' districtId = '"+returnedJsonData[i].districtId+"' wardsId = '"+returnedJsonData[i].wardsId+"'  townId = '"+returnedJsonData[i].townId+"'>" + returnedJsonData[i].townCode + "</td>");
 							// district name
 							tableStringArray.push("<td class='align-center' id = '" + returnedJsonData[i].townId + "' >" + returnedJsonData[i].townName + "</td>");
-							// update icon
-							tableStringArray.push("<td><span style='color: #1cec1c;' class='glyphicon glyphicon-edit edit cursor-pointer' name='" + i + "'></span></td>");
-							// delete icon
-							tableStringArray.push("<td><span style='color: red;' class='glyphicon glyphicon-remove delete cursor-pointer' name='" + i + "'></span></td>");
+							// create By
+							tableStringArray.push("<td class='align-center'>" + returnedJsonData[i].createUserId + "</td>");
+							// update by
+							tableStringArray.push("<td class='align-center'>" + returnedJsonData[i].updateUserId + "</td>");
+							// Button
+							tableStringArray.push('<td><div class="btn-group">'+
+								'<button type="button" class="btn bg-info">Action</button>'+
+								'<button type="button"'+
+									'class="btn bg-info dropdown-toggle"'+
+									'data-toggle="dropdown">'+
+									'<span class="caret"></span> <span class="sr-only">Toggle'+
+										'Dropdown</span>'+
+								'</button>'+
+								'<ul class="dropdown-menu" role="menu">'+
+									'<li><a class = "edit" data-toggle="modal"'+
+										'data-target="#modal-default" name="' + i + '">Edit</a></li>'+
+									'<li><a class = "view"  data-toggle="modal"'+
+									'data-target="#modal-default" name="' + i + '">View</a></li>'+
+									'<li><a class = "delete" name="' + i + '">Delete</a></li>'+
+								'</ul>');
 							// row close tag
 							tableStringArray.push("</tr>");
 						}
 						// add tbody close tag
 						tableStringArray.push("</tbody>");
 						// append all created string to table
-						$("#tblBody").append(tableStringArray.join(''));
-						// show search result
-						$(".cont-box").removeClass("display-none");
-						$("#divHead").removeClass("display-none");
-
+						$("#example2").append(tableStringArray.join(''));
 						$(".pager").removeClass("display-none");
-						// fix table header and body when scrolling only the table body
-						fixTable();
-						// fix table height to fit page
-						var tableHeight = calculateTableHeight();
-						$("#divBody").height(320);
-						// update total data count UI
 						setDataCounts();
 					    setPagerStatus();
-					    // scroll to top of table
-						$("#divBody").scrollTop(0).scrollLeft(0);
 					}
 				} else {
 					// display error message
-					jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+					$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + SEARCH_RESULT_NO_DATA_MESSAGE);
 					// update pager
 					$("#lblCurrentPage").text("0");
 					$("#lblMaxPage").text("0");
@@ -820,7 +825,7 @@ $(document).ready(function(){
 
 					$(".pager").addClass("display-none");
 					// clear table
-					$("#tblBody").find("tbody").remove();
+					$("#example2").find("tbody").remove();
 					totalResultCount = 0;
 					// update total data count UI
 					setDataCounts();
@@ -832,7 +837,7 @@ $(document).ready(function(){
 				// set return value
 				returnValue = "";
 				// display error message
-				jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 			}
 		});
 		return returnValue;
@@ -853,13 +858,14 @@ $(document).ready(function(){
 
 	// Delete cate click event process
 	$(document).on("click", ".delete", function() {
+		countStt = 0;
+		// get row index
+		selectedRowIndex = $(this).attr("name");
 		// display confirmation message
-		var selection = confirm(DELETE_CONFIRM_MESSAGE);
-		if (selection) {
-			// get row index
-			selectedRowIndex = $(this).attr("name");
+		jQuestion_warning(DELETE_CONFIRM_MESSAGE, DIALOG_TITLE, DIALOG_YES_BUTTON, DIALOG_NO_BUTTON, function(val) {
+			if (val) {
 			// get id of selected cate
-			townIdPopup = $("#row" + selectedRowIndex).find("td").eq(0).attr("townId");
+			townIdPopup = $("#row" + selectedRowIndex).find("td").eq(1).attr("townId");
 			// make Ajax call to server to delete data
 			$.ajax({
 				url: "deleteData",
@@ -883,27 +889,28 @@ $(document).ready(function(){
 								setDataCounts();
 							}
 							// display message
-							jInfo(DELETE_RESULT_SUCCESSFUL_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+							$(".alert").removeClass("display-none").addClass("alert-info").find("span").html("").html('<i class="icon fa fa-info"></i> ' + DELETE_RESULT_SUCCESSFUL_MESSAGE);
 						} else if (returnedJsonData == DELETE_RESULT_FAILED) {
 							// failed
 							// display message
-							jWarning(DELETE_RESULT_FAILED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+							$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + DELETE_RESULT_FAILED_MESSAGE);
 						}
 					}
 				},
 				error: function(e) {
 					// display error message
-					jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+					$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 				}
 			});
 		}
+		});
 	});
 
 	$(document).on("click", ".edit", function() {
 		// get row index
 		selectedRowIndex = $(this).attr("name");
 		// get id of selected cate
-		townIdPopup = $("#row" + selectedRowIndex).find("td").eq(0).attr("townId");
+		townIdPopup = $("#row" + selectedRowIndex).find("td").eq(1).attr("townId");
 		// make Ajax call to server to get data
 		$.ajax({
 			url: "getSingleData",
@@ -960,11 +967,73 @@ $(document).ready(function(){
 			},
 			error: function(e) {
 				// display error message
-				jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
+			}
+		});
+	});
+
+	$(document).on("click", ".view", function() {
+		// get row index
+		selectedRowIndex = $(this).attr("name");
+		// get id of selected cate
+		townIdPopup = $("#row" + selectedRowIndex).find("td").eq(1).attr("townId");
+		// make Ajax call to server to get data
+		$.ajax({
+			url: "getSingleData",
+			data: { "townId": townIdPopup },
+			type: "POST",
+			async: false,
+			success: function(returnedJsonData) {
+				if (checkSessionTimeout(returnedJsonData) == 1) return;
+				if (returnedJsonData != "") {
+					// clear all current text of popup controls
+					clearPopupControl();
+					if (countryData != "") {
+						for (var i = 0; i < countryData.length; i++) {
+							if (countryData[i].countryId == returnedJsonData.countryId) {
+								$("#txtCountryNamePopup").val(countryData[i].countryName);
+								$("#txtCountryIdPopup").val(countryData[i].countryId);
+							}
+						}
+					}
+					if (cityData != "") {
+						for (var i = 0; i < cityData.length; i++) {
+							if (cityData[i].cityId == returnedJsonData.cityId) {
+								$("#txtCityNamePopup").val(cityData[i].cityName);
+								$("#txtCityIdPopup").val(cityData[i].cityId);
+							}
+						}
+					}
+					if (districtData != "") {
+						for (var i = 0; i < districtData.length; i++) {
+							if (districtData[i].districtId == returnedJsonData.districtId) {
+								$("#txtDistrictNamePopup").val(districtData[i].districtName);
+								$("#txtDistrictIdPopup").val(districtData[i].districtId);
+							}
+						}
+					}
+					if (wardsData != "") {
+						for (var i = 0; i < wardsData.length; i++) {
+							if (wardsData[i].wardsId == returnedJsonData.wardsId) {
+								$("#txtWardsNamePopup").val(wardsData[i].wardsName);
+								$("#txtWardsIdPopup").val(wardsData[i].wardsId);
+							}
+						}
+					}
+					// Town id
+					$("#txtTownCodePopup").val(returnedJsonData.townCode);
+					// Town id
+					$("#txtTownIdPopup").val(returnedJsonData.townId);
+					// Town name
+					$("#txtTownNamePopup").val(returnedJsonData.townName);
+					 
+					// change state of controls in popup based on mode
+					setPopupControlState(MODE_VIEW);
+				}
 			},
-			complete: function(jqXHR, textStatus) {
-				// display cate info popup
-				showPopup($("#popupWrapper"));
+			error: function(e) {
+				// display error message
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 			}
 		});
 	});

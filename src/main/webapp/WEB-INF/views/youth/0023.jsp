@@ -11,24 +11,19 @@
 			if (accessData[i].accessAuthorityId = "1") {
 				accessManager = "System Admin"
 			} else if (accessData[i].accessAuthorityId = "2") {
-				accessManager = "System "
+				accessManager = "User"
 			}
-			optionStr += "<option value='" + accessData[i].accessAuthorityId + "'>" + accessManager + "</option>";
+			optionStr += "<option value='" + accessData[i].accessAuthorityId + "'>"
+					+ accessManager + "</option>";
 		}
 		$("#cbbAccess").empty()
 		$("#cbbAccess").append(optionStr);
 	}
 </script>
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<spring:message code="decentralization_manager" />
-		<div class="cancel cursor-pointer"></div>
-	</div>
-	<div class="panel-body">
-		<div class="col-sm-12">
-			 <div class="col-sm-4">
-			 	<select class="form-control" id="cbbAccess"></select>
-			 </div>
+<div class="box box-info">
+	<div class="box-body">
+		<div class="col-sm-4">
+			<select class="form-control" id="cbbAccess"></select>
 		</div>
 		<div class="col-sm-12">
 			<c:forEach var="entry" items="${screenList}">
@@ -41,8 +36,8 @@
 		<div class="clear height20"></div>
 		<div class="col-sm-12 mt-10">
 			<div class="row">
-				<button id="btn_access" class="btn btn-success">Xác Nhận
-					Chọn Màn Hình</button>
+				<button id="btn_access" class="btn btn-info btn-block btn-flat" data-toggle="modal" data-target="#modal-success" data-dismiss="modal">Xác
+					Nhận Chọn Màn Hình</button>
 			</div>
 		</div>
 		<input type="hidden" value="${usersId}" id="usersIdPopup" />

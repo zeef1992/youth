@@ -10,6 +10,8 @@ public class Constants {
 	// Upload path
 	public static final String UPLOAD_PATH = "C:/Banana Data/images/";
 
+	public static final String DOWNLOAD_PATH = "D:/NGHIANL/Project/youth/src/main/webapp/resources/download";
+	public static final String FILE_PATH = "http://localhost:8080/youth/";
 	// Role type value
 	public static final String ROLE_TYPE_SYSTEM_MANAGER = "1";
 	public static final String ROLE_TYPE_BUSINESS_MANAGER = "2";

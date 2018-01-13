@@ -1,5 +1,26 @@
 @CHARSET "UTF-8";
-img {
-	margin-top: 5px;
-	margin-left: -20px;
+
+.height34 {
+	height: 34px!important;
+}
+#report_popup {
+	height: 370px;
+}
+#divBodyReport {
+	width: 354px;
+}
+.height300 {
+	height: 300px;
+}
+.overflow-y {
+	overflow-y: scroll;
+}
+.overflow-x {
+	overflow-x: scroll;
+}
+.bg_00c0ef {
+		background: rgba(0, 0, 0, 0.3);
+}
+.mt-20 {
+	margin-top: -20px;
 }

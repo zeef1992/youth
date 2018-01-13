@@ -3,30 +3,41 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <!-- HTML code -->
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<spring:message code="title_report_information_search" />
-			<div title="Quay Lại" class="cancel cursor-pointer"></div>
+<div class='col-sm-12'>
+	<div class='col-sm-4'>
+		<table class="table table-bordered table-hover" id="divHeadReport">
+			<thead>
+			<tr>
+				<th><b><spring:message code="report_name" /></b></th>
+			</tr>
+			</thead>
+		</table>
+		<div id="divBodyReport" class="height300 overflow-y mt-20">
+			<table id="tblBodyReport" class="table table-bordered table-hover">
+				<tr>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		<div class="clear height10"></div>
+	</div>
+	<div class = "col-sm-4" id = "noteReport_popup"></div>
+	<div class="col-sm-4 display-none" id="criteriaReport_popup">
+		<table class="table table-bordered table-hover" id="divHeadCriteria">
+			<thead>
+			<tr>
+				<th style="width: 10%"><input type = "checkbox" id = "chkAll"></th>
+				<th class="align-center colr_53BBF4"><b><spring:message code="criteria_name" /></b></th>
+			</tr>
+			</thead>
+		</table>
+		<div id="divBodyCriteria" class="height300 mt-20">
+			<table id="tblBodyCriteria" class="table table-bordered table-hover">
+				<tr>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
 		</div>
 	</div>
-	<div class="panel-body">
-			<table class="table table-striped" id="divHeadReport">
-				<thead>
-				<col width="100%">
-				<tr>
-					<th class="align-center colr_53BBF4"><b><spring:message code="report_name" /></b></th>
-				</tr>
-				</thead>
-			</table>
-			<div id="divBodyReport" class = "height150 overflow-y">
-				<table id="tblBodyReport" class="table table-striped">
-					<col width="100%">
-					<tr>
-						<td></td>
-					</tr>
-				</table>
-			</div>
-			<div class ="clear height10"></div>
-			<button id="btnDetailReport" class="btn btn-success" type="button">Chọn Chi Tiết Mẫu</button>
-	</div>
-
+</div>

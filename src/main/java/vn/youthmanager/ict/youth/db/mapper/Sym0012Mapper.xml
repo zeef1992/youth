@@ -8,7 +8,9 @@
 				CI.CITY_NAME cityName,
 				CO.COUNTRY_ID countryId,
 				CO.COUNTRY_CODE countryCode,
-		        CO.COUNTRY_NAME countryName
+		        CO.COUNTRY_NAME countryName,
+		        (Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = CI.CREATE_USER_ID ) as createUserId,
+				(Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = CI.UPDATE_USER_ID ) as updateUserId
 		FROM QLTN_M_CITY CI
 		LEFT JOIN QLTN_M_COUNTRY CO ON CI.COUNTRY_ID = CO.COUNTRY_ID
 		WHERE 1= 1

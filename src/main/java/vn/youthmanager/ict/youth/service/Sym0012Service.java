@@ -21,6 +21,7 @@ import vn.youthmanager.ict.common.cnst.Constants;
 import vn.youthmanager.ict.common.cnst.LoggerMessage;
 import vn.youthmanager.ict.common.db.model.QltnMCity;
 import vn.youthmanager.ict.common.db.model.QltnMCountry;
+import vn.youthmanager.ict.common.db.model.QltnMCountryExample;
 import vn.youthmanager.ict.common.util.Util;
 import vn.youthmanager.ict.youth.dao.Sym0012Dao;
 import vn.youthmanager.ict.youth.db.model.Sym0012Conditions;
@@ -46,7 +47,10 @@ public class Sym0012Service {
 	public void initData(Model model, String countryId) {
 		List<QltnMCountry> cityData = new ArrayList<QltnMCountry>();
 		try {
-			cityData = Sym0012Dao.getQltnMCountryMapper().selectByExample(null);
+			QltnMCountryExample qltnMCountryExample = new QltnMCountryExample();
+			QltnMCountryExample.Criteria countryCriteria = qltnMCountryExample.createCriteria();
+			countryCriteria.andDeleteFlagEqualTo(Constants.DELETE_FLAG_OFF);
+			cityData = Sym0012Dao.getQltnMCountryMapper().selectByExample(qltnMCountryExample);
 			model.addAttribute("cityData", mapper.writeValueAsString(cityData));
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -205,6 +205,11 @@ public class QltnMUniversityExample {
             return (Criteria) this;
         }
 
+        public Criteria andEducationIdEqualTo(String value) {
+            addCriterion("EDUCATION_ID =", value, "educationId");
+            return (Criteria) this;
+        }
+
         public Criteria andUniversityIdEqualTo(String value) {
             addCriterion("UNIVERSITY_ID =", value, "universityId");
             return (Criteria) this;

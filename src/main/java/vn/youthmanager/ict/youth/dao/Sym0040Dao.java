@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import vn.youthmanager.ict.common.db.mapper.QltnMCategoryMapper;
 import vn.youthmanager.ict.common.db.mapper.QltnMCityMapper;
 import vn.youthmanager.ict.common.db.mapper.QltnMCountryMapper;
+import vn.youthmanager.ict.common.db.mapper.QltnMDetailReportMapper;
 import vn.youthmanager.ict.common.db.mapper.QltnMDistrictMapper;
 import vn.youthmanager.ict.common.db.mapper.QltnMEducationalMapper;
 import vn.youthmanager.ict.common.db.mapper.QltnMGroupsMapper;
@@ -71,6 +72,9 @@ public class Sym0040Dao {
 
 	@Autowired
 	private QltnMUniversityMapper qltnMUniversityMapper;
+
+	@Autowired
+	private QltnMDetailReportMapper qltnMDetailReportMapper;
 	
 	public Sym0016Mapper getSym0016Mapper() {
 		return sym0016Mapper;
@@ -130,5 +134,9 @@ public class Sym0040Dao {
 
 	public Sym0041Mapper getSym0041Mapper() {
 		return sym0041Mapper;
+	}
+
+	public QltnMDetailReportMapper getQltnMDetailReportMapper() {
+		return qltnMDetailReportMapper;
 	}
 }

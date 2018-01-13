@@ -5,7 +5,6 @@
 
 <!-- Constants -->
 <script type="text/javascript">
-
 	var DIALOG_TITLE = '<spring:message code="dialog_title" />';
 	var DIALOG_OK_BUTTON = '<spring:message code="dialog_ok_button" />';
 	var DIALOG_YES_BUTTON = '<spring:message code="dialog_yes_button" />';
@@ -73,60 +72,141 @@
 	var GROUPS_NAME = '<spring:message code="groups_name" />';
 	var FROM_YEAR_IS_MUST_SMALL_TO_YEAR = '<spring:message code="from_year_is_must_small_to_year" />'
 </script>
-<script>
-function openCity(evt, cityName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-</script>
-<div id = "wrapper">
-	<div id= "menu">
-		<div id = "logo">
-			<div class = "text"><img width = "24px" style="margin-left: 2px;"alt="User" src="../resources/img/logo.png"></div>	
-		</div>
-		<div id = "title">
-			<div class = "text">Youth Manager System</div>	
-		</div>
-		<div class = "user_info" style = "float: right; margin-right: 10px; margin-top: 5px;">
-			<div class="dropdown">
-				<button class="btn btn-primary dropdown-toggle" type="button"
-					data-toggle="dropdown">
-					<security:authentication property="principal.USERFULLNAME" />
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<li><a
-						href="${pageContext.request.contextPath}/changePassword/"><spring:message
-								code="menu_change_password" /></a></li>
-					<li><a href="#"><spring:message code="menu_display_guide" /></a></li>
-					<li><a href="${pageContext.request.contextPath}/login"
-						onclick="javascript:return confirm('<spring:message code="message_log_out_confirm" />');">
-							<spring:message code="menu_log_out" />
-					</a></li>
+<div class="wrapper">
+
+	<header class="main-header">
+		<!-- Logo -->
+		<a href="index2.html" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+			<span class="logo-mini"><b>S</b>YM</span> <!-- logo for regular state and mobile devices -->
+			<span class="logo-lg"><b>Youth</b>SYM</span>
+		</a>
+		<!-- Header Navbar: style can be found in header.less -->
+		<nav class="navbar navbar-static-top">
+			<!-- Sidebar toggle button-->
+			<a href="#" class="sidebar-toggle" data-toggle="push-menu"
+				role="button"> <span class="sr-only">Toggle navigation</span>
+			</a>
+
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<!-- User Account: style can be found in dropdown.less -->
+					<li class="dropdown user user-menu"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"> <img
+							src="${pageContext.request.contextPath}/resources/dist/img/user2-160x160.jpg" class="user-image"
+							alt="User Image"> <span class="hidden-xs"><security:authentication property="principal.USERFULLNAME" /></span>
+					</a>
+						<ul class="dropdown-menu">
+							<!-- User image -->
+							<li class="user-header"><img
+								src="${pageContext.request.contextPath}/resources/dist/img/user2-160x160.jpg" class="img-circle"
+								alt="User Image">
+
+								<p>
+									<security:authentication property="principal.USERFULLNAME" /> - Web Developer <small>Member since
+										Nov. 2012</small>
+								</p></li>
+							<!-- Menu Footer-->
+							<li class="user-footer">
+								<div class="pull-right">
+									<a class="btn btn-default btn-flat pull-left" href="${pageContext.request.contextPath}/changePassword/"><spring:message code="menu_change_password" /></a>
+									<a class="btn btn-default btn-flat" href="${pageContext.request.contextPath}/login"
+						onclick="javascript:return confirm('<spring:message code="message_log_out_confirm" />');"><spring:message code="menu_log_out" /></a>
+								</div>
+							</li>
+						</ul></li>
+					<!-- Control Sidebar Toggle Button -->
+					<li><a href="#"><i
+							class="fa fa-fw fa-calendar" id = "txtCurrentDate"></i></a></li>
+					<li><a href="#" data-toggle="control-sidebar"><i
+							class="fa fa-gears"></i></a></li>
 				</ul>
 			</div>
-		</div>
-	</div>
-	<div id = "content">
-		<div id = "left">
-			<div class = "header"></div>
-			<div class = "content"  ng-app="System" ng-controller="Manager">
-				<ul>
-					<li ng-repeat = "manager in Manager.Manager">
-						&#43; <a href="{{ manager.link }}">
-							<img width = "12px" style="margin-left: 2px;"alt="User" src="{{ manager.image }}">
-							{{ manager.kind }}
-						</a>
+		</nav>
+	</header>
+	<!-- Left side column. contains the logo and sidebar -->
+	<aside class="main-sidebar">
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			<!-- Sidebar user panel -->
+			<div class="user-panel">
+				<div class="pull-left image">
+					<img src="${pageContext.request.contextPath}/resources/dist/img/user2-160x160.jpg" class="img-circle"
+						alt="User Image">
+				</div>
+				<div class="pull-left info">
+					<p><security:authentication property="principal.USERFULLNAME" /></p>
+					<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+				</div>
+			</div>
+			<!-- search form -->
+			<!-- <form action="#" method="get" class="sidebar-form">
+				<div class="input-group">
+					<input type="text" name="q" class="form-control"
+						placeholder="Search..."> <span class="input-group-btn">
+						<button type="submit" name="search" id="search-btn"
+							class="btn btn-flat">
+							<i class="fa fa-search"></i>
+						</button>
+					</span>
+				</div>
+			</form> -->
+			<!-- /.search form -->
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="sidebar-menu" data-widget="tree">
+				<li class="header">MAIN NAVIGATION</li>
+				<li class="active treeview"><a href="${pageContext.request.contextPath}/0003/"> <i
+						class="fa fa-dashboard"></i> <span>Home</span> <span
+						class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a></li>
+				<li class="treeview"><a href="#"> <i class="fa fa-table"></i>
+						<span>Administrator</span> <span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+					<ul class="treeview-menu">
+						<li><a href="${pageContext.request.contextPath}/0003/ "><i class="fa fa-circle-o"></i>Quản Lý</a></li>
+						<li class="treeview"><a href="#"><i
+								class="fa fa-circle-o"></i>Thanh Niên <span
+								class="pull-right-container"> <i
+									class="fa fa-angle-left pull-right"></i>
+							</span> </a>
+							<ul class="treeview-menu">
+								<li><a href="${pageContext.request.contextPath}/0040/"><i class="fa fa-share"></i>Thanh Niên</a></li>
+								<li><a href="${pageContext.request.contextPath}/0009/"><i class="fa fa-share"></i>Loại Thanh
+										Niên</a></li>
+								<li><a href="${pageContext.request.contextPath}/0047/"><i class="fa fa-share"></i>Người Thân</a></li>
+								<li><a href="${pageContext.request.contextPath}/0045/"><i class="fa fa-share"></i>Quá Trình Bản Thân</a></li>
+								<li><a href="${pageContext.request.contextPath}/0007/"><i class="fa fa-share"></i>Tình Trạng</a></li>
+								<li><a href="${pageContext.request.contextPath}/0008/"><i class="fa fa-share"></i>Công Việc</a></li>
+								<li><a href="${pageContext.request.contextPath}/0002/"><i class="fa fa-share"></i>Vùng Sinh
+										Sống</a></li>
+							</ul></li>
+						<li class="treeview"><a href="#"><i
+								class="fa fa-circle-o"></i>Báo Cáo <span
+								class="pull-right-container"> <i
+									class="fa fa-angle-left pull-right"></i>
+							</span> </a>
+							<ul class="treeview-menu">
+								<li><a href="${pageContext.request.contextPath}/0005/"><i class="fa fa-share"></i>Mẫu Báo Cáo</a></li>
+								<li><a href="${pageContext.request.contextPath}/0006/"><i class="fa fa-share"></i>Chi Tiết Báo
+										Cáo</a></li>
+								<li><a href="${pageContext.request.contextPath}/0025/"><i class="fa fa-share"></i>Tiêu Chí Báo
+										Cáo</a></li>
+								<li><a href="${pageContext.request.contextPath}/0010/"><i class="fa fa-share"></i>Chữ Ký</a></li>
+							</ul></li>
+					</ul></li>
+					<li class="treeview"><a href="#"> <i class="fa fa-table"></i>
+						<span>Report</span> <span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+					<ul class="treeview-menu">
+						<li><a href="${pageContext.request.contextPath}/0043/ "><i class="fa fa-circle-o"></i>Report List</a></li>
+						</ul>
 					</li>
-				</ul>
-			</div>
-		</div>
+			</ul>
+		</section>
+		<!-- /.sidebar -->
+	</aside>

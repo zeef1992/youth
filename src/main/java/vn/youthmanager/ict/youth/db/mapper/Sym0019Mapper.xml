@@ -8,7 +8,9 @@
 		        S.SPECIALIZED_NAME specializedName,
 				S.UNIVERSITY_ID universityId,
 		        U.UNIVERSITY_NAME universityName,
-		        U.UNIVERSITY_CODE universityCode
+		        U.UNIVERSITY_CODE universityCode,
+		        (Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = S.CREATE_USER_ID ) as createUserId,
+				(Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = S.UPDATE_USER_ID ) as updateUserId
 		FROM QLTN_M_SPECIALIZED S
 		LEFT JOIN QLTN_M_UNIVERSITY U ON S.UNIVERSITY_ID = U.UNIVERSITY_ID
 		WHERE 1=1

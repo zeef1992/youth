@@ -3,6 +3,7 @@ package vn.youthmanager.ict.youth.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import vn.youthmanager.ict.common.db.mapper.QltnMEducationalMapper;
 import vn.youthmanager.ict.common.db.mapper.QltnMUniversityMapper;
 import vn.youthmanager.ict.youth.db.mapper.Sym0018Mapper;
 
@@ -18,6 +19,9 @@ public class Sym0018Dao {
 	private Sym0018Mapper sym0018Mapper;
 
 	@Autowired
+	private QltnMEducationalMapper qltnMEducationalMapper;
+	
+	@Autowired
 	private QltnMUniversityMapper qltnMUniversityMapper;
 	
 	public Sym0018Mapper getSym0018Mapper() {
@@ -26,5 +30,9 @@ public class Sym0018Dao {
 
 	public QltnMUniversityMapper getQltnMUniversityMapper() {
 		return qltnMUniversityMapper;
+	}
+
+	public QltnMEducationalMapper getQltnMEducationalMapper() {
+		return qltnMEducationalMapper;
 	}
 }

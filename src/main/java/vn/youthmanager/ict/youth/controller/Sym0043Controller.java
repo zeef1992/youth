@@ -4,27 +4,21 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import vn.youthmanager.ict.common.db.model.QltnMCity;
+import vn.youthmanager.ict.common.db.model.QltnMDetailReport;
 import vn.youthmanager.ict.common.db.model.QltnMDistrict;
-import vn.youthmanager.ict.common.db.model.QltnMFamilyRelatives;
 import vn.youthmanager.ict.common.db.model.QltnMGroups;
-import vn.youthmanager.ict.common.db.model.QltnMPerson;
-import vn.youthmanager.ict.common.db.model.QltnMProcessPerson;
 import vn.youthmanager.ict.common.db.model.QltnMSpecialized;
 import vn.youthmanager.ict.common.db.model.QltnMTown;
+import vn.youthmanager.ict.common.db.model.QltnMUniversity;
 import vn.youthmanager.ict.common.db.model.QltnMWards;
-import vn.youthmanager.ict.youth.db.model.Sym0040Contions;
-import vn.youthmanager.ict.youth.db.model.Sym0041Result;
 import vn.youthmanager.ict.youth.service.Sym0040Service;
 import vn.youthmanager.ict.youth.service.Sym0043Service;
 
@@ -33,27 +27,21 @@ import vn.youthmanager.ict.youth.service.Sym0043Service;
 public class Sym0043Controller {
 
 	@Autowired
-	private Sym0040Service sym0040Service;
+	private Sym0043Service sym0043Service;
 
 	@Autowired
-	private Sym0043Service sym0043Service;
-	
-	@RequestMapping(value= "/", method = RequestMethod.POST)
-	public String topPost (Locale locale, Model model, @ModelAttribute("sym0041Data") Sym0040Contions sym0040Contions) {
-		model.addAttribute("modeScreen", "modeNew");
-		model.addAttribute("personId", "");
-		sym0040Service.initData(model);
-		return "youth/0043";
-	}
+	private Sym0040Service sym0040Service;
 
 	@RequestMapping(value= "/", method = RequestMethod.GET)
-	public String topGet (Locale locale, Model model, @ModelAttribute("Sym041PersonData") String personId) {
-		model.addAttribute("modeScreen", "modeEdit");
-		model.addAttribute("personId", personId);
-		sym0040Service.initData(model);
+	public String topGet (Locale locale, Model model) {
+		sym0043Service.initData(model);
 		return "youth/0043";
 	}
 
+	@RequestMapping(value= "/getDetailReport", method = RequestMethod.POST)
+	public @ResponseBody List<QltnMDetailReport> getDetailReport(@RequestParam(value = "reportId") String reportId) {
+		return sym0043Service.getDetailReport(reportId);
+	}
 	/**
 	 * Get data for City combobox by Country id
 	 * 
@@ -122,50 +110,21 @@ public class Sym0043Controller {
 	public @ResponseBody List<QltnMGroups> getGroupsDataByTownId(@RequestParam(value = "countryId") String countryId,
 			@RequestParam(value = "cityId") String cityId, @RequestParam(value = "districtId") String districtId,
 			@RequestParam(value = "wardsId") String wardsId, @RequestParam(value = "townId") String townId) {
-		return sym0040Service.getGroupsDataByTownId(countryId, cityId, districtId, wardsId, townId);
+		return sym0043Service.getGroupsDataByTownId(countryId, cityId, districtId, wardsId, townId);
 	}
 
 	/**
 	 * Get data for Specialized combobox by University id
 	 * 
 	 * @param countryId : data received from client
-	 * @return Town data
+	 * @return Town data 
 	 */
 	@RequestMapping(value = "/getSpecializedDataByUniversityId", method = RequestMethod.POST)
 	public @ResponseBody List<QltnMSpecialized> getSpecializedDataByUniversityId(@RequestParam(value = "universityId") String universityId) {
 		return sym0040Service.getSpecializedDataByUniversityId(universityId);
 	}
-	
-	/**
-	 * insertData.
-	 * 
-	 * @param personData
-	 * @return String value
-	 */
-	@RequestMapping(value = "/insertData", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String insertData(@RequestBody QltnMPerson personData) {
-		return sym0043Service.insertData(personData);
-	}
-
-	@RequestMapping(value = "/insertNoteReport", method = RequestMethod.POST)
-	public @ResponseBody String insertNoteReport(@RequestParam(value = "noteReportStr") String noteReportStr,
-												 @RequestParam(value = "processYoursellStr") String processYoursellStr,
-												 @RequestParam(value = "relationStr") String relationStr) {
-		return sym0043Service.insertNoteReport(noteReportStr, processYoursellStr, relationStr);
-	}
-
-	@RequestMapping(value = "/searchData", method = RequestMethod.POST)
-    public @ResponseBody List<Sym0041Result> searchData(@RequestParam (value = "PersonId") String PersonId) {
-        return sym0040Service.getPersonDetail(PersonId);
-    }
-
-	@RequestMapping(value = "/getProcessEdit", method = RequestMethod.POST)
-	public @ResponseBody List<QltnMProcessPerson> getProcessEdit(@RequestParam(value = "PersonId") String PersonId) {
-		return sym0043Service.getProcessEdit(PersonId);
-	}
-
-	@RequestMapping(value = "/getRelationShipOfPersonEdit", method = RequestMethod.POST)
-	public @ResponseBody List<QltnMFamilyRelatives> getRelationShipOfPersonEdit(@RequestParam(value = "PersonId") String PersonId) {
-		return sym0043Service.getRelationShipOfPersonEdit(PersonId);
+	@RequestMapping(value = "/getUniversityDataByEducationId", method = RequestMethod.POST)
+	public @ResponseBody List<QltnMUniversity> getUniversityDataByEducationId(@RequestParam(value = "educationId") String educationId) {
+		return sym0040Service.getUniversityDataByEducationId(educationId);
 	}
 }

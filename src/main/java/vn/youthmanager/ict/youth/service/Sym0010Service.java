@@ -136,15 +136,17 @@ private static Logger logger = Logger.getLogger(Sym0003Service.class);
             txManager = (PlatformTransactionManager) appContext.getBean("transactionManager");
             TransactionStatus status = txManager.getTransaction(def);
             try {
-            	QltnMSignature educationObj = new QltnMSignature();
+            	QltnMSignature signatureObj = new QltnMSignature();
             	// signature Id
-            	educationObj.setSignatureId(signatureData.getSignatureId());
+            	signatureObj.setSignatureId(signatureData.getSignatureId());
                 // signature Name
-            	educationObj.setSignatureName(signatureData.getSignatureName());
+            	signatureObj.setSignatureName(signatureData.getSignatureName());
                 // delete flag
-                educationObj.setDeleteFlag(signatureData.getDeleteFlag());
+            	signatureObj.setDeleteFlag(signatureData.getDeleteFlag());
+                // update user id
+            	signatureObj.setUpdateUserId(Util.getUserInfo().getID());
 
-                int result = Sym0010Dao.getQltnMSignatureMapper().updateByPrimaryKeySelective(educationObj);
+                int result = Sym0010Dao.getQltnMSignatureMapper().updateByPrimaryKeySelective(signatureObj);
                 if (result > 0) { // update successfully
                     // register to DB
                     txManager.commit(status);
@@ -202,19 +204,19 @@ private static Logger logger = Logger.getLogger(Sym0003Service.class);
             	if (idNumber < Constants.DEFAULT_ID) {
             		idNumber = idNumber + 1;
             		String signatureId = Constants.SIGNATURE_CHARATER + String.format("%0" + Constants.MAX_LENGHT_ID + "d", idNumber);
-            		QltnMSignature educationObj = new QltnMSignature();
-            		// Education Id 
-            		educationObj.setSignatureId(signatureId);
+            		QltnMSignature signatureObj = new QltnMSignature();
+            		// signature Id 
+            		signatureObj.setSignatureId(signatureId);
                     // singatureName
-                    educationObj.setSignatureName(signatureData.getSignatureName());
+            		signatureObj.setSignatureName(signatureData.getSignatureName());
                     // create user id
-                    educationObj.setCreateUserId(Util.getUserInfo().getID());
+            		signatureObj.setCreateUserId(Util.getUserInfo().getID());
                     // update user id
-                    educationObj.setUpdateUserId(Util.getUserInfo().getID());
+            		signatureObj.setUpdateUserId(Util.getUserInfo().getID());
                     // delete flag
-                    educationObj.setDeleteFlag(Constants.DELETE_FLAG_OFF);
+            		signatureObj.setDeleteFlag(Constants.DELETE_FLAG_OFF);
 
-                    int result = Sym0010Dao.getQltnMSignatureMapper().insert(educationObj);
+                    int result = Sym0010Dao.getQltnMSignatureMapper().insert(signatureObj);
                     if (result > 0) { // insert successfully
                         // register to DB
                         txManager.commit(status);

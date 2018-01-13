@@ -6,7 +6,9 @@
 		SELECT 	D.REPORT_ID reportId,
 				R.REPORT_NAME reportName,
 				D.DETAIL_REPORT_ID detailReportId,
-		        D.DETAIL_REPORT_NAME detailReportName
+		        D.DETAIL_REPORT_NAME detailReportName,
+		        D.CREATE_USER_ID createUserId,
+				D.UPDATE_USER_ID updateUserId
 		FROM QLTN_M_DETAIL_REPORT D
 		LEFT JOIN QLTN_M_REPORT R
 		ON D.REPORT_ID = R.REPORT_ID
@@ -16,7 +18,7 @@
 			AND D.REPORT_ID = #{reportId}
 		</if>
 		<if test="detailReportName != ''">
-			AND D.DETAIL_REPORT_ID LIKE #{detailReportName}
+			AND D.DETAIL_REPORT_NAME LIKE #{detailReportName}
 		</if>
 		ORDER BY D.DETAIL_REPORT_ID
 		LIMIT #{fromRow},#{itemCount}

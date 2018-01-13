@@ -4,11 +4,16 @@
 
 	<select id="searchData" parameterType="map" resultType="vn.youthmanager.ict.youth.db.model.Sym0005Result">
 		SELECT 	REPORT_ID reportId,
-				REPORT_NAME reportName
+				REPORT_NAME reportName,
+				CREATE_USER_ID createUserId,
+				CREATE_DATE createDate
 		FROM QLTN_M_REPORT
 		WHERE 1 = 1
 		<if test="reportName != ''">
 			AND REPORT_NAME LIKE #{reportName}
+		</if>
+		<if test="reportId != ''">
+			AND REPORT_ID LIKE #{reportId}
 		</if>
 		AND DELETE_FLAG = '0'
 		ORDER BY REPORT_ID

@@ -9,6 +9,8 @@ import vn.youthmanager.ict.common.db.model.QltnMPerson;
  */
 public class Sym0041Result extends QltnMPerson {
 
+	private String countryId;
+
 	private String countryName;
 
 	private String cityName;
@@ -127,5 +129,13 @@ public class Sym0041Result extends QltnMPerson {
 
 	public void setSearchDataTotalCounts(String searchDataTotalCounts) {
 		this.searchDataTotalCounts = searchDataTotalCounts;
+	}
+
+	public String getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(String countryId) {
+		this.countryId = countryId;
 	}
 }

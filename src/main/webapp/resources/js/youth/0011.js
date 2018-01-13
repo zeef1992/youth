@@ -5,7 +5,7 @@
 $(document).ready(function(){
 	//--------------- Constants definition ---------------
 	// number of items in one page in table
-	var ITEM_IN_ONE_PAGE = 20;
+	var ITEM_IN_ONE_PAGE = 10;
 	//--------------- Variables definition ---------------
 	// application path
 	var rootPath = getContextPath();
@@ -21,8 +21,7 @@ $(document).ready(function(){
 	var catesIdPopup = "";
 	// variable to store current selected mode
 	var currentMode = "";
-	// variable to check whether cate edits password in EDIT Mode
-	var isPasswordChanged = false;
+	var countStt = 0;
 
 	// Register cate click event process
 	$("#btnRegister").bind("click", function() {
@@ -30,8 +29,6 @@ $(document).ready(function(){
 		clearPopupControl(); 
 		// change state of controls in popup based on mode
 		setPopupControlState(MODE_NEW);
-		// display cate info popup
-		showPopup($("#popupWrapper"));
 	});
 	// Clear all current text of popup controls
 	function clearPopupControl() {
@@ -45,17 +42,18 @@ $(document).ready(function(){
 
 	// Change state of controls in popup based on mode
 	function setPopupControlState(mode) {
+		$(".alert").addClass("display-none");
 		if (mode == MODE_NEW) {
 			// set current mode
 			currentMode = MODE_NEW;
 			$("#addNew").removeClass("display-none");
 			$("#update").addClass("display-none");
-			// cates id
+			// Country Code
+			$("#txtCountryCodePopup").prop("disabled", false);
+			// Country id
 			$("#txtCountryIdPopup").prop("disabled", false);
-			// cates name
+			// Country name
 			$("#txtCountryNamePopup").prop("disabled", false);
-			// status
-			$("#chbDeletePopup").prop("disabled", false);
 			// register button
 			$("#btnRegisterPopup").show();
 		} else if (mode == MODE_EDIT) {
@@ -63,20 +61,31 @@ $(document).ready(function(){
 			$("#addNew").addClass("display-none");
 			// set current mode
 			currentMode = MODE_EDIT;
-			// reset flag
-			isPasswordChanged = false;
+			// Country Code
+			$("#txtCountryCodePopup").prop("disabled", false);
 			// cates id
 			$("#txtCountryIdPopup").prop("disabled", true);
 			// cates name
 			$("#txtCountryNamePopup").prop("disabled", false);
-			// status
-			$("#chbDeletePopup").prop("disabled", false);
 			// register button
 			$("#btnRegisterPopup").show();
+		} else if (mode == MODE_VIEW) {
+			$("#update").removeClass("display-none");
+			$("#addNew").addClass("display-none");
+			// set current mode
+			currentMode = MODE_VIEW;
+			// Country Code
+			$("#txtCountryCodePopup").prop("disabled", true);
+			// cates id
+			$("#txtCountryIdPopup").prop("disabled", true);
+			// cates name
+			$("#txtCountryNamePopup").prop("disabled", true);
+			// register button
+			$("#btnRegisterPopup").hide();
 		} 
 	}
 	// display current date
-	$("#txtCurrentDate").text(getCurrentDate() + " (" + DAY_OF_WEEK + ") " + getCurrentTime());
+	$("#txtCurrentDate").text(" " + getCurrentDate() + " (" + DAY_OF_WEEK + ") " + getCurrentTime());
 	// Page First button click event process
 	$("#btnFirst").bind("click", function() {
 		if (parseInt(totalResultCount) > 0) {
@@ -118,6 +127,8 @@ $(document).ready(function(){
 	});
 	// Search button event process
 	$("#btnSearch").bind("click", function() {
+		countStt = 0;
+		$(".alert").addClass("display-none");
 		setTimeout(function() {
 			// reset variables
 			resetVariables();
@@ -129,18 +140,6 @@ $(document).ready(function(){
 			}
 		}, 10);
 	});
-
-	// Update total data count process
-	function setDataCounts() {
-		$("#txtCounts").text(totalResultCount.toString().replace(/^(-?\d+)(\d{3})/, "$1,$2"));
-	}
-
-	// Reset variables process
-	function resetVariables() {
-		totalResultCount = 0;
-		currentPage = 1;
-		from = 0;
-	}
 	
 	// Check Page input
 	$("#txtGoToPage").bind("keyup", function() {
@@ -215,42 +214,37 @@ $(document).ready(function(){
 		$("#txtGoToPage").val("");
 		if (parseInt(totalResultCount) > 0) {
 			if (parseInt(maxPage) == 1) {
-				$("#btnFirst").addClass("page-number-first_dis");
-				$("#btnPrevious").addClass("page-number-pre_dis");
-				$("#btnNext").addClass("page-number-next_dis");
-				$("#btnLast").addClass("page-number-last_dis");
-				$("#txtGoToPage").prop("readonly", true);
+				$("#btnFirst").addClass("disabled");
+				$("#btnPrevious").addClass("disabled");
+				$("#btnNext").addClass("disabled");
+				$("#btnLast").addClass("disabled");
 			} else {
 				if (currentPage == 1) {
-					$("#btnFirst").addClass("page-number-first_dis");
-					$("#btnPrevious").addClass("page-number-pre_dis");
-					$("#btnNext").removeClass("page-number-next_dis");
-					$("#btnLast").removeClass("page-number-last_dis");
+					$("#btnFirst").addClass("disabled");
+					$("#btnPrevious").addClass("disabled");
+					$("#btnNext").removeClass("disabled");
+					$("#btnLast").removeClass("disabled");
 				}
 				if (currentPage > 1 && currentPage < maxPage) {
-					$("#btnFirst").removeClass("page-number-first_dis");
-					$("#btnPrevious").removeClass("page-number-pre_dis");
-					$("#btnNext").removeClass("page-number-next_dis");
-					$("#btnLast").removeClass("page-number-last_dis");
+					$("#btnFirst").removeClass("disabled");
+					$("#btnPrevious").removeClass("disabled");
+					$("#btnNext").removeClass("disabled");
+					$("#btnLast").removeClass("disabled");
 				}
 				if (currentPage == maxPage) {
-					$("#btnFirst").removeClass("page-number-first_dis");
-					$("#btnPrevious").removeClass("page-number-pre_dis");
-					$("#btnNext").addClass("page-number-next_dis");
-					$("#btnLast").addClass("page-number-last_dis");
+					$("#btnFirst").removeClass("disabled");
+					$("#btnPrevious").removeClass("disabled");
+					$("#btnNext").addClass("disabled");
+					$("#btnLast").addClass("disabled");
 				}
-				$("#txtGoToPage").prop("readonly", false);
 			}
 		} else {
-			$("#btnFirst").addClass("page-number-first_dis");
-			$("#btnPrevious").addClass("page-number-pre_dis");
-			$("#btnNext").addClass("page-number-next_dis");
-			$("#btnLast").addClass("page-number-last_dis");
+			$("#btnFirst").addClass("disabled");
+			$("#btnPrevious").addClass("disabled");
+			$("#btnNext").addClass("disabled");
+			$("#btnLast").addClass("disabled");
 			$("#txtGoToPage").prop("readonly", true);
 		}
-		$("#txtGoToPage").val("");
-		$("#btnGoToPage").prop("disabled", true);
-		$("#btnGoToPage").css("cursor", "default");
 	}
 
 	// Update total data count process
@@ -268,6 +262,7 @@ $(document).ready(function(){
 
 	// Register button in popup click event process
 	$("#btnRegisterPopup").bind("click", function() {
+		countStt = 0;
 		var dataObject = null;
 		// check current mode
 		if (currentMode == MODE_NEW) {
@@ -275,7 +270,7 @@ $(document).ready(function(){
 			if (!checkInputBlankFields()) {
 				// blank field(s)
 				// display message
-				jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 			}  else {
 				// insert new cate to DB
 				// get cate input data
@@ -294,11 +289,11 @@ $(document).ready(function(){
 							if (returnedJsonData == VALIDATE_BLANK_FIELDS) {
 								// blank field(s)
 								// display message
-								jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 							} else if (returnedJsonData == VALIDATE_WRONG_FORMAT) {
 								// id is in wrong format
 								// display message
-								jWarning(VALIDATE_WRONG_FORMAT_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 							} else if (returnedJsonData == INSERT_RESULT_SUCCESSFUL) {
 								// search data again
 								// reset variables
@@ -311,24 +306,22 @@ $(document).ready(function(){
 									// update total data count UI
 									setDataCounts();
 								}
-								// hide popup
-								hidePopup($("#popupWrapper"));
 								// display message
-								jInfo(INSERT_RESULT_SUCCESSFUL_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-info").find("span").html("").html('<i class="icon fa fa-info"></i> ' + INSERT_RESULT_SUCCESSFUL_MESSAGE);
 							} else if (returnedJsonData == INSERT_RESULT_DUPLICATED) {
 								// duplicated cate id
 								// display message
-								jWarning(INSERT_RESULT_DUPLICATED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + INSERT_RESULT_DUPLICATED_MESSAGE);
 							} else if (returnedJsonData == INSERT_RESULT_FAILED) {
 								// failed
 								// display message
-								jWarning(INSERT_RESULT_FAILED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + INSERT_RESULT_FAILED_MESSAGE);
 							}
 						}
 					},
 					error: function(e) {
 						// display error message
-						jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+						$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 					}
 				});
 			}
@@ -337,7 +330,7 @@ $(document).ready(function(){
 			if (!checkInputBlankFields()) {
 				// blank field(s)
 				// display message
-				jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 			} else {
 				// update existing cate in DB
 				// get cate input data
@@ -356,7 +349,7 @@ $(document).ready(function(){
 							if (returnedJsonData == VALIDATE_BLANK_FIELDS) {
 								// blank field(s)
 								// display message
-								jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 							} else if (returnedJsonData == UPDATE_RESULT_SUCCESSFUL) {
 								// update the corresponding cate data in search table
 								// make Ajax call to server to get data
@@ -369,28 +362,28 @@ $(document).ready(function(){
 										if (checkSessionTimeout(returnedJsonData) == 1) return;
 										if (returnedJsonData != "") {
 											// University Code
-											$("#row" + selectedRowIndex).find("td").eq(0).text(returnedJsonData.countryCode);
+											$("#row" + selectedRowIndex).find("td").eq(1).text(returnedJsonData.countryCode);
 											// University name
-											$("#row" + selectedRowIndex).find("td").eq(1).text(returnedJsonData.countryName);
+											$("#row" + selectedRowIndex).find("td").eq(2).text(returnedJsonData.countryName);
+											// Update by
+											$("#row" + selectedRowIndex).find("td").eq(4).text(returnedJsonData.updateUserId);
 										}
 									},
 									complete: function(jqXHR, textStatus) {
-										// hide popup
-										hidePopup($("#popupWrapper"));
 										// display message
-										jInfo(UPDATE_RESULT_SUCCESSFUL_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+										$(".alert").removeClass("display-none").addClass("alert-info").find("span").html("").html('<i class="icon fa fa-info"></i> ' + UPDATE_RESULT_SUCCESSFUL_MESSAGE);
 									}
 								});
 							} else if (returnedJsonData == UPDATE_RESULT_FAILED) {
 								// failed
 								// display message
-								jWarning(UPDATE_RESULT_FAILED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + UPDATE_RESULT_FAILED_MESSAGE);
 							}
 						}
 					},
 					error: function(e) {
 						// display error message
-						jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+						$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 					}
 				});
 			}
@@ -427,7 +420,7 @@ $(document).ready(function(){
 					totalResultCount = returnedJsonData[0].searchDataTotalCounts;
 					if (parseInt(totalResultCount) == -1) {
 						// OutOfMemoryException, display error message
-						jWarning(SEARCH_RESULT_OUT_OF_MEMORY_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+						$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + SEARCH_RESULT_OUT_OF_MEMORY_MESSAGE);
 					} else {
 						// calculate max page
 						var calculatedResultOdd = parseInt(totalResultCount) % parseInt(ITEM_IN_ONE_PAGE);
@@ -437,56 +430,60 @@ $(document).ready(function(){
 						$("#lblCurrentPage").text(currentPage);
 						$("#lblMaxPage").text(maxPage);
 						// clear table
-						$("#tblBody").find("tbody").remove();
+						$("#example2").find("tbody").remove();
 						// create table starts
 						var tableStringArray = [];
 						// add tbody open tag
 						tableStringArray.push("<tbody>");
 						for (var i = 0; i < returnedJsonData.length; i++) {
+							countStt++;
 							// row open tag
 							tableStringArray.push("<tr id='row" + i + "'>");
+							// STT
+							tableStringArray.push("<td class='align-center'>" + countStt  + "</td>");
 							// cates id
-							tableStringArray.push("<td class='align-center goTo0012' id= '"+returnedJsonData[i].countryId+"'>" + returnedJsonData[i].countryCode + "</td>");
+							tableStringArray.push("<td class='align-center'>" + returnedJsonData[i].countryId + "</td>");
 							// cates name
-							tableStringArray.push("<td class='align-center' id = '" + returnedJsonData[i].countryId + "' >" + returnedJsonData[i].countryName + "</td>");
-							// update icon
-							tableStringArray.push("<td><span style='color: #1cec1c;' class='glyphicon glyphicon-edit edit cursor-pointer' name='" + i + "'></span></td>");
-							// delete icon
-							tableStringArray.push("<td><span style='color: red;' class='glyphicon glyphicon-remove delete cursor-pointer' name='" + i + "'></span></td>");
+							tableStringArray.push("<td class='align-center goTo0006' id = '" + returnedJsonData[i].countryId + "' >" + returnedJsonData[i].countryName + "</td>");
+							// create By
+							tableStringArray.push("<td class='align-center'>" + returnedJsonData[i].createUserId + "</td>");
+							// update by
+							tableStringArray.push("<td class='align-center'>" + returnedJsonData[i].updateUserId + "</td>");
+							// Button
+							tableStringArray.push('<td><div class="btn-group">'+
+								'<button type="button" class="btn bg-info">Action</button>'+
+								'<button type="button"'+
+									'class="btn bg-info dropdown-toggle"'+
+									'data-toggle="dropdown">'+
+									'<span class="caret"></span> <span class="sr-only">Toggle'+
+										'Dropdown</span>'+
+								'</button>'+
+								'<ul class="dropdown-menu" role="menu">'+
+									'<li><a class = "edit" data-toggle="modal"'+
+										'data-target="#modal-default" name="' + i + '">Edit</a></li>'+
+									'<li><a class = "view"  data-toggle="modal"'+
+									'data-target="#modal-default" name="' + i + '">View</a></li>'+
+									'<li><a class = "delete" name="' + i + '">Delete</a></li>'+
+								'</ul>');
 							// row close tag
 							tableStringArray.push("</tr>");
 						}
 						// add tbody close tag
 						tableStringArray.push("</tbody>");
 						// append all created string to table
-						$("#tblBody").append(tableStringArray.join(''));
-						// show search result
-						$(".cont-box").removeClass("display-none");
-						$("#divHead").removeClass("display-none");
-
+						$("#example2").append(tableStringArray.join(''));
 						$(".pager").removeClass("display-none");
-						// fix table header and body when scrolling only the table body
-						fixTable();
-						// fix table height to fit page
-						var tableHeight = calculateTableHeight();
-						$("#divBody").height(350);
-						// update total data count UI
 						setDataCounts();
 					    setPagerStatus();
-					    // scroll to top of table
-						$("#divBody").scrollTop(0).scrollLeft(0);
 					}
 				} else {
 					// display error message
-					jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+					$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + SEARCH_RESULT_NO_DATA_MESSAGE);
 					// update pager
 					$("#lblCurrentPage").text("0");
 					$("#lblMaxPage").text("0");
 					// clear table
-					$("#tblBody").find("tbody").remove();
-					$("#divHead").addClass("display-none");
-
-					$(".pager").addClass("display-none");
+					$("#example2").find("tbody").remove();
 					totalResultCount = 0;
 					// update total data count UI
 					setDataCounts();
@@ -498,7 +495,7 @@ $(document).ready(function(){
 				// set return value
 				returnValue = "";
 				// display error message
-				jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 			}
 		});
 		return returnValue;
@@ -515,13 +512,14 @@ $(document).ready(function(){
 
 	// Delete cate click event process
 	$(document).on("click", ".delete", function() {
+		countStt = 0;
+		// get row index
+		selectedRowIndex = $(this).attr("name");
 		// display confirmation message
-		var selection = confirm(DELETE_CONFIRM_MESSAGE);
-		if (selection) {
-			// get row index
-			selectedRowIndex = $(this).attr("name");
+		jQuestion_warning(DELETE_CONFIRM_MESSAGE, DIALOG_TITLE, DIALOG_YES_BUTTON, DIALOG_NO_BUTTON, function(val) {
+			if (val) {
 			// get id of selected cate
-			countryIdPopup = $("#row" + selectedRowIndex).find("td").eq(1).attr("id");
+			countryIdPopup = $("#row" + selectedRowIndex).find("td").eq(2).attr("id");
 			// make Ajax call to server to delete data
 			$.ajax({
 				url: "deleteData",
@@ -545,27 +543,28 @@ $(document).ready(function(){
 								setDataCounts();
 							}
 							// display message
-							jInfo(DELETE_RESULT_SUCCESSFUL_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+							$(".alert").removeClass("display-none").addClass("alert-info").find("span").html("").html('<i class="icon fa fa-info"></i> ' + DELETE_RESULT_SUCCESSFUL_MESSAGE);
 						} else if (returnedJsonData == DELETE_RESULT_FAILED) {
 							// failed
 							// display message
-							jWarning(DELETE_RESULT_FAILED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+							$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + DELETE_RESULT_FAILED_MESSAGE);
 						}
 					}
 				},
 				error: function(e) {
 					// display error message
-					jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+					$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 				}
 			});
 		}
+		});
 	});
 
 	$(document).on("click", ".edit", function() {
 		// get row index
 		selectedRowIndex = $(this).attr("name");
 		// get id of selected cate
-		countryIdPopup = $("#row" + selectedRowIndex).find("td").eq(1).attr('id');
+		countryIdPopup = $("#row" + selectedRowIndex).find("td").eq(2).attr('id');
 		// make Ajax call to server to get data
 		$.ajax({
 			url: "getSingleData",
@@ -590,11 +589,41 @@ $(document).ready(function(){
 			},
 			error: function(e) {
 				// display error message
-				jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
+			}
+		});
+	});
+
+	$(document).on("click", ".view", function() {
+		// get row index
+		selectedRowIndex = $(this).attr("name");
+		// get id of selected cate
+		countryIdPopup = $("#row" + selectedRowIndex).find("td").eq(2).attr('id');
+		// make Ajax call to server to get data
+		$.ajax({
+			url: "getSingleData",
+			data: { "countryId": countryIdPopup },
+			type: "POST",
+			async: false,
+			success: function(returnedJsonData) {
+				if (checkSessionTimeout(returnedJsonData) == 1) return;
+				if (returnedJsonData != "") {
+					// clear all current text of popup controls
+					clearPopupControl();
+
+					// university id
+					$("#txtCountryCodePopup").val(returnedJsonData.countryCode);
+					// university id
+					$("#txtCountryIdPopup").val(returnedJsonData.countryId);
+					// university name
+					$("#txtCountryNamePopup").val(returnedJsonData.countryName);
+					// change state of controls in popup based on mode
+					setPopupControlState(MODE_VIEW);
+				}
 			},
-			complete: function(jqXHR, textStatus) {
-				// display cate info popup
-				showPopup($("#popupWrapper"));
+			error: function(e) {
+				// display error message
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 			}
 		});
 	});

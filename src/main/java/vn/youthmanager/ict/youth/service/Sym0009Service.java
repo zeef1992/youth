@@ -136,15 +136,16 @@ private static Logger logger = Logger.getLogger(Sym0003Service.class);
             txManager = (PlatformTransactionManager) appContext.getBean("transactionManager");
             TransactionStatus status = txManager.getTransaction(def);
             try {
-            	QltnMCategory reportObj = new QltnMCategory();
-            	// Report Id
-            	reportObj.setCateId(reportData.getCateId());
-                // Report Name
-            	reportObj.setCateName(reportData.getCateName());
+            	QltnMCategory cateObj = new QltnMCategory();
+            	// category Id
+            	cateObj.setCateId(reportData.getCateId());
+                // category Name
+            	cateObj.setCateName(reportData.getCateName());
                 // delete flag
-                reportObj.setDeleteFlag(reportData.getDeleteFlag());
-
-                int result = sym0009Dao.getQltnMCategoryMapper().updateByPrimaryKeySelective(reportObj);
+            	cateObj.setDeleteFlag(reportData.getDeleteFlag());
+                // update user id
+            	cateObj.setUpdateUserId(Util.getUserInfo().getID());
+                int result = sym0009Dao.getQltnMCategoryMapper().updateByPrimaryKeySelective(cateObj);
                 if (result > 0) { // update successfully
                     // register to DB
                     txManager.commit(status);
@@ -202,19 +203,19 @@ private static Logger logger = Logger.getLogger(Sym0003Service.class);
             	if (idNumber < Constants.REPORT_DEFAULT) {
             		idNumber = idNumber + 1;
             		String reportId = Constants.CATE_CHARATER + String.format("%0" + Constants.MAX_LENGHT_ID + "d", idNumber);
-            		QltnMCategory reportObj = new QltnMCategory();
-            		// Report Id 
-            		reportObj.setCateId(reportId);
-                    // Report Name
-                    reportObj.setCateName(reportData.getCateName());
+            		QltnMCategory cateObj = new QltnMCategory();
+            		// category Id 
+            		cateObj.setCateId(reportId);
+                    // category Name
+            		cateObj.setCateName(reportData.getCateName());
                     // create user id
-                    reportObj.setCreateUserId(Util.getUserInfo().getID());
+            		cateObj.setCreateUserId(Util.getUserInfo().getID());
                     // update user id
-                    reportObj.setUpdateUserId(Util.getUserInfo().getID());
+            		cateObj.setUpdateUserId(Util.getUserInfo().getID());
                     // delete flag
-                    reportObj.setDeleteFlag(reportData.getDeleteFlag());
+            		cateObj.setDeleteFlag(reportData.getDeleteFlag());
 
-                    int result = sym0009Dao.getQltnMCategoryMapper().insert(reportObj);
+                    int result = sym0009Dao.getQltnMCategoryMapper().insert(cateObj);
                     if (result > 0) { // insert successfully
                         // register to DB
                         txManager.commit(status);

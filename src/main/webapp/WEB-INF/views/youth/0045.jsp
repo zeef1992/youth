@@ -4,51 +4,33 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 		<!-- HTML code -->
 		<div id="wrapper">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<spring:message code="title_create_relationship_of_person" />
-					<div title="Quay Lại" id = "addNewRelation" class="add_new_relation cursor-pointer"></div>
-				</div>
-			</div>
-			<div class="panel-body">
 				<form class="form-horizontal">
 					<div><label class="control-label">Ghi rõ họ tên, năm sinh, nghề nghiệp, nơi công tác của bố mẹ đẻ, anh chị em ruột, vợ (hoặc chồng), con</label></div>
-					<table class="table table-striped table-bordered table-hover table-condensed" id="divHead">
+					<table class="table table-bordered table-hover" id="divHeadRelation">
 						<thead>
-								<col width="15%">
-								<col width="20%">
-								<col width="10%">
-								<col width="20%">
-								<col width="25%">
 							<tr>
-								<th class="align-center"><b><spring:message code="relation" /></b></th>
-								<th class="align-center"><b><spring:message code="firstAndLastName" /></b></th>
-								<th class="align-center"><b><spring:message code="yearOfBirth" /></b></th>
-								<th class="align-center"><b><spring:message code="job" /></b></th>
-								<th class="align-center"><b><spring:message code="work_place" /></b></th>
+								<th style="width: 20%" class="align-center"><b><spring:message code="relation" /></b></th>
+								<th style="width: 20%" class="align-center"><b><spring:message code="firstAndLastName" /></b></th>
+								<th style="width: 20%" class="align-center"><b><spring:message code="yearOfBirth" /></b></th>
+								<th style="width: 20%" class="align-center"><b><spring:message code="job" /></b></th>
+								<th style="width: 20%" class="align-center"><b><spring:message code="work_place" /></b></th>
 							</tr>
 						</thead>
 					</table>
-					<div id="divBody">
-						<table id="tblBody" class="table table-striped table-bordered table-hover table-condensed">
-							<col width="15%">
-							<col width="20%">
-							<col width="10%">
-							<col width="20%">
-							<col width="25%">
+					<div id="divBodyRelation">
+						<table id="tblBodyRelation" class="table table-bordered table-hover" style="margin-top: -22px;">
 							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td style="width: 20%"></td>
+								<td style="width: 20%"></td>
+								<td style="width: 20%"></td>
+								<td style="width: 20%"></td>
+								<td style="width: 20%"></td>
 							</tr>
 						</table>
 					</div>
-					<button id="btnComfirmRelation" class="btn btn-success" type="button"><spring:message code="dialog_ok_button" /></button>
-					<button id="btnEditRelation" class="btn btn-success" type="button">Chĩnh Sữa</button>
+					<%-- <button id="btnComfirmRelation" class="btn btn-success" type="button"><spring:message code="dialog_ok_button" /></button>
+					<button id="btnEditRelation" class="btn btn-success" type="button">Chĩnh Sữa</button> --%>
 					<input type = "hidden" id= "numberOfRelation" value = "${numberOfRelation}" /> 
 					<input type = "hidden" id= "personId" value = "${personId}" /> 
 				</form>
-			</div>
 		</div>

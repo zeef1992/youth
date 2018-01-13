@@ -8,7 +8,9 @@
 				D.DETAIL_REPORT_ID detailReportId,
 				D.DETAIL_REPORT_NAME detailReportName,
 				C.CRITERA_ID criteraId,
-				C.CRITERA_NAME criteraName
+				C.CRITERA_NAME criteraName,
+		        (Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = C.CREATE_USER_ID ) as createUserId,
+				(Select U.USERS_NAME from QLTN_M_USERS U where U.USERS_ID = C.UPDATE_USER_ID ) as updateUserId
 		FROM qltn_m_critera C
 		LEFT JOIN qltn_m_report R ON C.REPORT_ID = R.REPORT_ID
 		LEFT JOIN qltn_m_detail_report D ON D.DETAIL_REPORT_ID = C.DETAIL_REPORT_ID

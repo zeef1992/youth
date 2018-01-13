@@ -1,8 +1,7 @@
 @CHARSET "ISO-8859-1";
 .userinfo-popup {
-	width: 650px;
 	z-index: 999;
-	display: none;
+	display: block;
 	position:fixed;
 	background-color: #ffffff;
 }
@@ -14,10 +13,21 @@
 	background-color: #ffffff;
 }
 .accessAuthorizationinfo-popup {
-	width: 650px;
-	height: 390px;
+	width: 100%;
 	z-index: 999;
-	display: none;
+	display: block;
 	position:fixed;
 	background-color: #ffffff;
+}
+.mt-10 {
+	margin-top: 10px;
+}
+.height20{
+	height: 20px;
+}
+.color3c8dbc {
+	color: #3c8dbc!important;
+}
+.color_ac2925 {
+	color: #ac2925!important;
 }

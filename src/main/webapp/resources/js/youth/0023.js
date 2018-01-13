@@ -27,52 +27,52 @@ $(document).ready(function(){
 	});
 	// add Enable && disable for displable
 	$(document).on("click", ".displable", function() {
-		if ($(this).hasClass("disabled")) {
-			$(this).removeClass("disabled");
-			$(this).addClass("enabled");
-		} else {
-			$(this).removeClass("enabled");
-			$(this).addClass("disabled");
+		if ($(this).hasClass("fa-close")) {
+			$(this).removeClass("fa-close color_ac2925");
+			$(this).addClass("fa-check color3c8dbc");
+		} else  {
+			$(this).removeClass("fa-check color3c8dbc");
+			$(this).addClass("fa-close color_ac2925");
 		}
 	});
 	// add Enable && disable for addable
 	$(document).on("click", ".addable", function() {
-		if ($(this).hasClass("disabled")) {
-			$(this).removeClass("disabled");
-			$(this).addClass("enabled");
-		} else {
-			$(this).removeClass("enabled");
-			$(this).addClass("disabled");
+		if ($(this).hasClass("fa-close")) {
+			$(this).removeClass("fa-close color_ac2925");
+			$(this).addClass("fa-check color3c8dbc");
+		} else  {
+			$(this).removeClass("fa-check color3c8dbc");
+			$(this).addClass("fa-close color_ac2925");
 		}
 	});
 	// add Enable && disable for updatable
 	$(document).on("click", ".updatable", function() {
-		if ($(this).hasClass("disabled")) {
-			$(this).removeClass("disabled");
-			$(this).addClass("enabled");
-		} else {
-			$(this).removeClass("enabled");
-			$(this).addClass("disabled");
+		if ($(this).hasClass("fa-close")) {
+			$(this).removeClass("fa-close color_ac2925");
+			$(this).addClass("fa-check color3c8dbc");
+		} else  {
+			$(this).removeClass("fa-check color3c8dbc");
+			$(this).addClass("fa-close color_ac2925");
 		}
 	});
 	// add Enable && disable for deletable
 	$(document).on("click", ".deletable", function() {
-		if ($(this).hasClass("disabled")) {
-			$(this).removeClass("disabled");
-			$(this).addClass("enabled");
-		} else {
-			$(this).removeClass("enabled");
-			$(this).addClass("disabled");
+		if ($(this).hasClass("fa-close")) {
+			$(this).removeClass("fa-close color_ac2925");
+			$(this).addClass("fa-check color3c8dbc");
+		} else  {
+			$(this).removeClass("fa-check color3c8dbc");
+			$(this).addClass("fa-close color_ac2925");
 		}
 	});
 	// add Enable && disable for referencable
 	$(document).on("click", ".referencable", function() {
-		if ($(this).hasClass("disabled")) {
-			$(this).removeClass("disabled");
-			$(this).addClass("enabled");
+		if ($(this).hasClass("fa-close")) {
+			$(this).removeClass("fa-close color_ac2925");
+			$(this).addClass("fa-check color3c8dbc");
 		} else  {
-			$(this).removeClass("enabled");
-			$(this).addClass("disabled");
+			$(this).removeClass("fa-check color3c8dbc");
+			$(this).addClass("fa-close color_ac2925");
 		}
 	});
 	// Update Data
@@ -81,42 +81,44 @@ $(document).ready(function(){
 			var screenId = $(this).find("td").eq(0).text();
 			// Display_Enable_Flag
 			var display_flag = false;
-			if ($($(this).find("td").eq(1)).find(".displable").hasClass("enabled")) {
+			if ($($(this).find("td").eq(1)).find(".displable").hasClass("fa-check")) {
 				display_flag = false;
-			} else if ($($(this).find("td").eq(1)).find(".displable").hasClass("disabled")) {
+			} else if ($($(this).find("td").eq(1)).find(".displable").hasClass("fa-close")) {
 				display_flag = true;
 			}
 			// Addable_Flag
 			var add_flag = false;
-			if ($($(this).find("td").eq(2)).find(".addable").hasClass("enabled")) {
+			if ($($(this).find("td").eq(2)).find(".addable").hasClass("fa-check")) {
 				add_flag = false;
-			} else if ($($(this).find("td").eq(2)).find(".addable").hasClass("disabled")) {
+			} else if ($($(this).find("td").eq(2)).find(".addable").hasClass("fa-close")) {
 				add_flag = true;
 			}
 			// Updatable_Flag
 			var edit_flag = false;
-			if ($($(this).find("td").eq(3)).find(".updatable").hasClass("enabled")) {
+			if ($($(this).find("td").eq(3)).find(".updatable").hasClass("fa-check")) {
 				edit_flag = false;
-			} else if ($($(this).find("td").eq(3)).find(".updatable").hasClass("disabled")) {
+			} else if ($($(this).find("td").eq(3)).find(".updatable").hasClass("fa-close")) {
 				edit_flag = true;
 			}
 			// Addable_Flag
 			var delete_flag = false;
-			if ($($(this).find("td").eq(4)).find(".deletable").hasClass("enabled")) {
+			if ($($(this).find("td").eq(4)).find(".deletable").hasClass("fa-check")) {
 				delete_flag = false;
-			} else if ($($(this).find("td").eq(4)).find(".deletable").hasClass("disabled")) {
+			} else if ($($(this).find("td").eq(4)).find(".deletable").hasClass("fa-close")) {
 				delete_flag = true;
 			}
 			// Addable_Flag
 			var reference_flag = false;
-			if ($($(this).find("td").eq(5)).find(".referencable").hasClass("enabled")) {
+			if ($($(this).find("td").eq(5)).find(".referencable").hasClass("fa-check")) {
 				reference_flag = false;
-			} else if ($($(this).find("td").eq(5)).find(".referencable").hasClass("disabled")) {
+			} else if ($($(this).find("td").eq(5)).find(".referencable").hasClass("fa-close")) {
 				reference_flag = true;
 			}
 			// Create Data
 			var dataAccessObject = createAccessAuthorizationConditions(screenId,display_flag,
 					add_flag, edit_flag, delete_flag, reference_flag);
+			// khai báo biến success
+			var success = false;
 			$.ajax({
 				url: rootPath + "/0033/updateData",
 				type: "POST",
@@ -124,16 +126,21 @@ $(document).ready(function(){
 				data: JSON.stringify(dataAccessObject),
 				async: false,
 				success: function(returnData) {
-					alert(UPDATE_RESULT_SUCCESSFUL_MESSAGE);
-					hidePopupMain($("#popupWrapper2"));
-					hidePopup($("#popupWrapper"));
+					success = true;
 					screenStr = '';
 				}, 
 				error: function(e) {
 					// set return value
 					returnValue = "";
-					// display error message
-					alert(ERROR_MESSAGE);
+					success = false;
+				},
+				complete: function(jqXHR, textStatus) {
+					// display message
+					if (success) {
+						jInfo(UPDATE_RESULT_SUCCESSFUL_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+					} else {
+						alert(ERROR_MESSAGE);
+					}
 				}
 			})
 		});
@@ -173,7 +180,9 @@ $(document).ready(function(){
 			alert("Vui Lòng Chọn Màn Hình")
 		}
 	}); 
-	
+	$("#cbbAccess").change(function(){
+		alert("");
+	});
 	// Get data for combobox process
 	function initFarmNameComboboxData() {
 		// accessData

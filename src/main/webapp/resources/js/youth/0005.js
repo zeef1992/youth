@@ -5,7 +5,7 @@
 $(document).ready(function(){
 	//--------------- Constants definition ---------------
 	// number of items in one page in table
-	var ITEM_IN_ONE_PAGE = 20;
+	var ITEM_IN_ONE_PAGE = 10;
 	//--------------- Variables definition ---------------
 	// application path
 	var rootPath = getContextPath();
@@ -21,8 +21,6 @@ $(document).ready(function(){
 	var usersIdPopup = "";
 	// variable to store current selected mode
 	var currentMode = "";
-	// variable to check whether user edits password in EDIT Mode
-	var isPasswordChanged = false;
 
 	// Register user click event process
 	$("#btnRegister").bind("click", function() {
@@ -35,27 +33,24 @@ $(document).ready(function(){
 	});
 	// Clear all current text of popup controls
 	function clearPopupControl() {
-		// users id
-		$("#txtUsersIdPopup").val("");
-		// users name
-		$("#txtUsersNamePopup").val("");
-		// password
-		$("#txtPasswordPopup").val("");
+		//  id
+		$("#txtReportIdPopup").val("");
+		// Report name
+		$("#txtReportNamePopup").val("");
 		// status
 		$("#chbDeletePopup").prop("checked", false);
 	}
 
 	// Change state of controls in popup based on mode
 	function setPopupControlState(mode) {
+		$(".alert").addClass("display-none");
 		if (mode == MODE_NEW) {
 			// set current mode
 			currentMode = MODE_NEW;
-			// users id
-			$("#txtUsersIdPopup").prop("disabled", false);
-			// users name
-			$("#txtUsersNamePopup").prop("disabled", false);
-			// password
-			$("#txtPasswordPopup").prop("disabled", false);
+			// Report id
+			$("#txtReportIdPopup").prop("disabled", false);
+			// Report name
+			$("#txtReportNamePopup").prop("disabled", false);
 			// status
 			$("#chbDeletePopup").prop("disabled", false);
 			// register button
@@ -63,14 +58,10 @@ $(document).ready(function(){
 		} else if (mode == MODE_EDIT) {
 			// set current mode
 			currentMode = MODE_EDIT;
-			// reset flag
-			isPasswordChanged = false;
-			// users id
-			$("#txtUsersIdPopup").prop("disabled", true);
-			// users name
-			$("#txtUsersNamePopup").prop("disabled", false);
-			// password
-			$("#txtPasswordPopup").prop("disabled", false);
+			// Report id
+			$("#txtReportIdPopup").prop("disabled", true);
+			// Report name
+			$("#txtReportNamePopup").prop("disabled", false);
 			// status
 			$("#chbDeletePopup").prop("disabled", false);
 			// register button
@@ -79,11 +70,9 @@ $(document).ready(function(){
 			// set current mode
 			currentMode = MODE_VIEW;
 			// users id
-			$("#txtUsersIdPopup").prop("disabled", true);
+			$("#txtReportIdPopup").prop("disabled", true);
 			// users name
-			$("#txtUsersNamePopup").prop("disabled", true);
-			// password
-			$("#txtPasswordPopup").prop("disabled", true);
+			$("#txtReportNamePopup").prop("disabled", true);
 			// status
 			$("#chbDeletePopup").prop("disabled", true);
 			// register button
@@ -91,7 +80,7 @@ $(document).ready(function(){
 		}
 	}
 	// display current date
-	$("#txtCurrentDate").text(getCurrentDate() + " (" + DAY_OF_WEEK + ") " + getCurrentTime());
+	$("#txtCurrentDate").text(" " + getCurrentDate() + " (" + DAY_OF_WEEK + ") " + getCurrentTime());
 	// Page First button click event process
 	$("#btnFirst").bind("click", function() {
 		if (parseInt(totalResultCount) > 0) {
@@ -133,6 +122,9 @@ $(document).ready(function(){
 	});
 	// Search button event process
 	$("#btnSearch").bind("click", function() {
+
+		countStt = 0;
+		$(".alert").addClass("display-none");
 		setTimeout(function() {
 			// reset variables
 			resetVariables();
@@ -144,25 +136,6 @@ $(document).ready(function(){
 			}
 		}, 10);
 	});
-	// Edit user info click event process
-	$(document).on("click", "#btnSearchAccess", function() {
-		// get row index
-		selectedRowIndex = $(this).attr("name");
-		$(".userinfo-popup").load(rootPath + "/0023/?users_id="+"A0001");
-		showPopup($("#popupWrapper"));
-	});
-
-	// Update total data count process
-	function setDataCounts() {
-		$("#txtCounts").text(totalResultCount.toString().replace(/^(-?\d+)(\d{3})/, "$1,$2"));
-	}
-
-	// Reset variables process
-	function resetVariables() {
-		totalResultCount = 0;
-		currentPage = 1;
-		from = 0;
-	}
 	
 	// Check Page input
 	$("#txtGoToPage").bind("keyup", function() {
@@ -237,42 +210,37 @@ $(document).ready(function(){
 		$("#txtGoToPage").val("");
 		if (parseInt(totalResultCount) > 0) {
 			if (parseInt(maxPage) == 1) {
-				$("#btnFirst").addClass("page-number-first_dis");
-				$("#btnPrevious").addClass("page-number-pre_dis");
-				$("#btnNext").addClass("page-number-next_dis");
-				$("#btnLast").addClass("page-number-last_dis");
-				$("#txtGoToPage").prop("readonly", true);
+				$("#btnFirst").addClass("disabled");
+				$("#btnPrevious").addClass("disabled");
+				$("#btnNext").addClass("disabled");
+				$("#btnLast").addClass("disabled");
 			} else {
 				if (currentPage == 1) {
-					$("#btnFirst").addClass("page-number-first_dis");
-					$("#btnPrevious").addClass("page-number-pre_dis");
-					$("#btnNext").removeClass("page-number-next_dis");
-					$("#btnLast").removeClass("page-number-last_dis");
+					$("#btnFirst").addClass("disabled");
+					$("#btnPrevious").addClass("disabled");
+					$("#btnNext").removeClass("disabled");
+					$("#btnLast").removeClass("disabled");
 				}
 				if (currentPage > 1 && currentPage < maxPage) {
-					$("#btnFirst").removeClass("page-number-first_dis");
-					$("#btnPrevious").removeClass("page-number-pre_dis");
-					$("#btnNext").removeClass("page-number-next_dis");
-					$("#btnLast").removeClass("page-number-last_dis");
+					$("#btnFirst").removeClass("disabled");
+					$("#btnPrevious").removeClass("disabled");
+					$("#btnNext").removeClass("disabled");
+					$("#btnLast").removeClass("disabled");
 				}
 				if (currentPage == maxPage) {
-					$("#btnFirst").removeClass("page-number-first_dis");
-					$("#btnPrevious").removeClass("page-number-pre_dis");
-					$("#btnNext").addClass("page-number-next_dis");
-					$("#btnLast").addClass("page-number-last_dis");
+					$("#btnFirst").removeClass("disabled");
+					$("#btnPrevious").removeClass("disabled");
+					$("#btnNext").addClass("disabled");
+					$("#btnLast").addClass("disabled");
 				}
-				$("#txtGoToPage").prop("readonly", false);
 			}
 		} else {
-			$("#btnFirst").addClass("page-number-first_dis");
-			$("#btnPrevious").addClass("page-number-pre_dis");
-			$("#btnNext").addClass("page-number-next_dis");
-			$("#btnLast").addClass("page-number-last_dis");
+			$("#btnFirst").addClass("disabled");
+			$("#btnPrevious").addClass("disabled");
+			$("#btnNext").addClass("disabled");
+			$("#btnLast").addClass("disabled");
 			$("#txtGoToPage").prop("readonly", true);
 		}
-		$("#txtGoToPage").val("");
-		$("#btnGoToPage").prop("disabled", true);
-		$("#btnGoToPage").css("cursor", "default");
 	}
 
 	// Update total data count process
@@ -292,12 +260,13 @@ $(document).ready(function(){
 	$("#btnRegisterPopup").bind("click", function() {
 		var dataObject = null;
 		// check current mode
+		countStt = 0;
 		if (currentMode == MODE_NEW) {
 			// check for Report Name input
 			if (!checkInputBlankFields()) {
 				// blank field(s)
 				// display message
-				jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE)
 			}  else {
 				// insert new user to DB
 				// get user input data
@@ -316,11 +285,11 @@ $(document).ready(function(){
 							if (returnedJsonData == VALIDATE_BLANK_FIELDS) {
 								// blank field(s)
 								// display message
-								jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 							} else if (returnedJsonData == VALIDATE_WRONG_FORMAT) {
 								// id is in wrong format
 								// display message
-								jWarning(VALIDATE_WRONG_FORMAT_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 							} else if (returnedJsonData == INSERT_RESULT_SUCCESSFUL) {
 								// search data again
 								// reset variables
@@ -333,24 +302,22 @@ $(document).ready(function(){
 									// update total data count UI
 									setDataCounts();
 								}
-								// hide popup
-								hidePopup($("#popupWrapper"));
 								// display message
-								jInfo(INSERT_RESULT_SUCCESSFUL_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-info").find("span").html("").html('<i class="icon fa fa-info"></i> ' + INSERT_RESULT_SUCCESSFUL_MESSAGE);
 							} else if (returnedJsonData == INSERT_RESULT_DUPLICATED) {
 								// duplicated user id
 								// display message
-								jWarning(INSERT_RESULT_DUPLICATED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + INSERT_RESULT_DUPLICATED_MESSAGE);
 							} else if (returnedJsonData == INSERT_RESULT_FAILED) {
 								// failed
 								// display message
-								jWarning(INSERT_RESULT_FAILED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + INSERT_RESULT_FAILED_MESSAGE);
 							}
 						}
 					},
 					error: function(e) {
 						// display error message
-						jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+						$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 					}
 				});
 			}
@@ -359,7 +326,7 @@ $(document).ready(function(){
 			if (!checkInputBlankFields()) {
 				// blank field(s)
 				// display message
-				jWarning(VALIDATE_BLANK_FIELDS_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + VALIDATE_BLANK_FIELDS_MESSAGE);
 			} else {
 				// update existing user in DB
 				// get user input data
@@ -391,29 +358,25 @@ $(document).ready(function(){
 										if (checkSessionTimeout(returnedJsonData) == 1) return;
 										if (returnedJsonData != "") {
 											// users name
-											$("#row" + selectedRowIndex).find("td").eq(1).text(returnedJsonData.usersName);
-											// enable/Disable status
-											var status = (returnedJsonData.deleteFlag == DELETE_FLAG_OFF) ? STATUS_ENABLED : STATUS_DISABLED;
-											$("#row" + selectedRowIndex).find("td").eq(3).text(status);
+											$("#row" + selectedRowIndex).find("td").eq(1).text(returnedJsonData.reportName);
+											$("#row" + selectedRowIndex).find("td").eq(3).text(returnedJsonData.updateUserId);
 										}
 									},
 									complete: function(jqXHR, textStatus) {
-										// hide popup
-										hidePopup($("#popupWrapper"));
 										// display message
-										jInfo(UPDATE_RESULT_SUCCESSFUL_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+										$(".alert").removeClass("display-none").addClass("alert-info").find("span").html("").html('<i class="icon fa fa-info"></i> ' + UPDATE_RESULT_SUCCESSFUL_MESSAGE);
 									}
 								});
 							} else if (returnedJsonData == UPDATE_RESULT_FAILED) {
 								// failed
 								// display message
-								jWarning(UPDATE_RESULT_FAILED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+								$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + UPDATE_RESULT_FAILED_MESSAGE);
 							}
 						}
 					},
 					error: function(e) {
 						// display error message
-						jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+						$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 					}
 				});
 			}
@@ -423,11 +386,13 @@ $(document).ready(function(){
 	// Search conditions object creation process
 	function createSearchConditions() {
 		return {
+			reportId: $("#reportId").val(),
 			reportName: $("#reportName").val(),
 			fromRow: from,
 			itemCount: ITEM_IN_ONE_PAGE
 		};
 	}
+	var countStt = 0;
 	// Draw user data table based on search conditions
 	function drawTable() {
 		// variables definition
@@ -449,7 +414,7 @@ $(document).ready(function(){
 					totalResultCount = returnedJsonData[0].searchDataTotalCounts;
 					if (parseInt(totalResultCount) == -1) {
 						// OutOfMemoryException, display error message
-						jWarning(SEARCH_RESULT_OUT_OF_MEMORY_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+						$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + SEARCH_RESULT_OUT_OF_MEMORY_MESSAGE);
 					} else {
 						// calculate max page
 						var calculatedResultOdd = parseInt(totalResultCount) % parseInt(ITEM_IN_ONE_PAGE);
@@ -459,53 +424,62 @@ $(document).ready(function(){
 						$("#lblCurrentPage").text(currentPage);
 						$("#lblMaxPage").text(maxPage);
 						// clear table
-						$("#tblBody").find("tbody").remove();
+						$("#example2").find("tbody").remove();
 						// create table starts
 						var tableStringArray = [];
 						// add tbody open tag
 						tableStringArray.push("<tbody>");
 						for (var i = 0; i < returnedJsonData.length; i++) {
+							countStt++;
 							// row open tag
 							tableStringArray.push("<tr id='row" + i + "'>");
+							// STT
+							tableStringArray.push("<td class='align-center'>" + countStt  + "</td>");
 							// users id
 							tableStringArray.push("<td class='align-center'>" + returnedJsonData[i].reportId + "</td>");
 							// users name
-							tableStringArray.push("<td class='align-center goTo0006' id = '" + returnedJsonData[i].reportId + "' >" + returnedJsonData[i].reportName + "</td>");
-							tableStringArray.push("<td><span style='color: #1cec1c;' class='glyphicon glyphicon-edit edit cursor-pointer' name='" + i + "'></span></td>");
-							// reference icon
-							tableStringArray.push("<td><span style='color: #0fa1e6;' class='glyphicon glyphicon-folder-open view cursor-pointer' name='" + i + "'></span></td>");
-							// delete icon
-							tableStringArray.push("<td><span style='color: red;' class='glyphicon glyphicon-remove delete cursor-pointer' name='" + i + "'></span></td>");
-							// row close tag
+							tableStringArray.push("<td class='align-center goTo0006 text-red' id = '" + returnedJsonData[i].reportId + "' >" + returnedJsonData[i].reportName + "</td>");
+							// create By
+							tableStringArray.push("<td class='align-center'>" + returnedJsonData[i].createUserId + "</td>");
+							// update by
+							tableStringArray.push("<td class='align-center'>" + returnedJsonData[i].updateUserId + "</td>");
+							// Button
+							tableStringArray.push('<td><div class="btn-group">'+
+								'<button type="button" class="btn bg-info">Action</button>'+
+								'<button type="button"'+
+									'class="btn bg-info dropdown-toggle"'+
+									'data-toggle="dropdown">'+
+									'<span class="caret"></span> <span class="sr-only">Toggle'+
+										'Dropdown</span>'+
+								'</button>'+
+								'<ul class="dropdown-menu" role="menu">'+
+									'<li><a class = "edit" href="#" data-toggle="modal"'+
+										'data-target="#modal-default" name="' + i + '">Edit</a></li>'+
+									'<li><a class = "view" href="#"  data-toggle="modal"'+
+									'data-target="#modal-default" name="' + i + '">View</a></li>'+
+									'<li><a class = "delete" href="#" name="' + i + '">Delete</a></li>'+
+								'</ul>');// row close tag
 							tableStringArray.push("</tr>");
 						}
 						// add tbody close tag
 						tableStringArray.push("</tbody>");
 						// append all created string to table
-						$("#tblBody").append(tableStringArray.join(''));
-						// show search result
-						$(".cont-box").removeClass("display-none");
-						$("#divHead").removeClass("display-none");
+						$("#example2").append(tableStringArray.join(''));
 						$(".pager").removeClass("display-none");
-						// fix table header and body when scrolling only the table body
-						fixTable();
-						// fix table height to fit page
-						var tableHeight = calculateTableHeight();
-						$("#divBody").height(350);
 						// update total data count UI
 						setDataCounts();
 					    setPagerStatus();
 					    // scroll to top of table
-						$("#divBody").scrollTop(0).scrollLeft(0);
+					    
 					}
 				} else {
 					// display error message
-					jWarning(SEARCH_RESULT_NO_DATA_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+					$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + SEARCH_RESULT_NO_DATA_MESSAGE);
 					// update pager
 					$("#lblCurrentPage").text("0");
 					$("#lblMaxPage").text("0");
 					// clear table
-					$("#tblBody").find("tbody").remove();
+					$("#example2").find("tbody").remove();
 					totalResultCount = 0;
 					// update total data count UI
 					setDataCounts();
@@ -517,7 +491,7 @@ $(document).ready(function(){
 				// set return value
 				returnValue = "";
 				// display error message
-				jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 			}
 		});
 		return returnValue;
@@ -534,13 +508,13 @@ $(document).ready(function(){
 
 	// Delete user click event process
 	$(document).on("click", ".delete", function() {
+		// get row index
+		selectedRowIndex = $(this).attr("name");
 		// display confirmation message
-		var selection = confirm(DELETE_CONFIRM_MESSAGE);
-		if (selection) {
-			// get row index
-			selectedRowIndex = $(this).attr("name");
+		jQuestion_warning(DELETE_CONFIRM_MESSAGE, DIALOG_TITLE, DIALOG_YES_BUTTON, DIALOG_NO_BUTTON, function(val) {
+			if (val) {
 			// get id of selected user
-			reportIdPopup = $("#row" + selectedRowIndex).find("td").eq(0).text();
+			reportIdPopup = $("#row" + selectedRowIndex).find("td").eq(1).text();
 			// make Ajax call to server to delete data
 			$.ajax({
 				url: "deleteData",
@@ -564,27 +538,28 @@ $(document).ready(function(){
 								setDataCounts();
 							}
 							// display message
-							jInfo(DELETE_RESULT_SUCCESSFUL_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+							$(".alert").removeClass("display-none").addClass("alert-info").find("span").html("").html('<i class="icon fa fa-info"></i> ' + DELETE_RESULT_SUCCESSFUL_MESSAGE);
 						} else if (returnedJsonData == DELETE_RESULT_FAILED) {
 							// failed
 							// display message
-							jWarning(DELETE_RESULT_FAILED_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+							$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + DELETE_RESULT_FAILED_MESSAGE);
 						}
 					}
 				},
 				error: function(e) {
 					// display error message
-					jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
+					$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 				}
 			});
 		}
+		});
 	});
 
 	$(document).on("click", ".edit", function() {
 		// get row index
 		selectedRowIndex = $(this).attr("name");
 		// get id of selected user
-		reportIdPopup = $("#row" + selectedRowIndex).find("td").eq(0).text();
+		reportIdPopup = $("#row" + selectedRowIndex).find("td").eq(1).text();
 		// make Ajax call to server to get data
 		$.ajax({
 			url: "getSingleData",
@@ -614,15 +589,49 @@ $(document).ready(function(){
 			},
 			error: function(e) {
 				// display error message
-				jWarning(ERROR_MESSAGE, DIALOG_TITLE, DIALOG_OK_BUTTON);
-			},
-			complete: function(jqXHR, textStatus) {
-				// display user info popup
-				showPopup($("#popupWrapper"));
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
 			}
 		});
 	});
 
+	$(document).on("click", ".view", function() {
+		// get row index
+		selectedRowIndex = $(this).attr("name");
+		// get id of selected user
+		reportIdPopup = $("#row" + selectedRowIndex).find("td").eq(1).text();
+		// make Ajax call to server to get data
+		$.ajax({
+			url: "getSingleData",
+			data: { "reportId": reportIdPopup },
+			type: "POST",
+			async: false,
+			success: function(returnedJsonData) {
+				if (checkSessionTimeout(returnedJsonData) == 1) return;
+				if (returnedJsonData != "") {
+					// clear all current text of popup controls
+					clearPopupControl();
+
+					// users id
+					$("#txtReportIdPopup").val(returnedJsonData.reportId);
+					// users name
+					$("#txtReportNamePopup").val(returnedJsonData.reportName);
+					// status
+					if (returnedJsonData.deleteFlag == DELETE_FLAG_OFF) {
+						$("#chbDeletePopup").prop("checked", false);
+					} else if (returnedJsonData.deleteFlag == DELETE_FLAG_ON) {
+						$("#chbDeletePopup").prop("checked", true);
+					}
+
+					// change state of controls in popup based on mode
+					setPopupControlState(MODE_VIEW);
+				}
+			},
+			error: function(e) {
+				// display error message
+				$(".alert").removeClass("display-none").addClass("alert-warning").find("span").html("").html('<i class="icon fa fa-warning"></i> ' + ERROR_MESSAGE);
+			}
+		});
+	});
 	// Reset search conditions process
 	function resetSearchConditions() {
 		$("#txtReportIdPopup").val("");
